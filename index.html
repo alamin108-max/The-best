@@ -1,2711 +1,1967 @@
+/*
+========================================================
+ MY EDUCATION
+ Learn. Build. Grow.
+ ONE-FILE WEBSITE + PAYMENT SERVER
+========================================================
+
+ REQUIREMENTS:
+ - Node.js 18+
+ - Paystack account
+ - PAYSTACK_SECRET_KEY environment variable
+
+ RUN:
+   node server.js
+
+ WEBSITE:
+   http://localhost:3000
+========================================================
+*/
+
+const http = require("http");
+const crypto = require("crypto");
+const { URL } = require("url");
+
+/* ======================================================
+   SETTINGS
+====================================================== */
+
+const PORT = process.env.PORT || 3000;
+
+const PAYSTACK_SECRET_KEY =
+  process.env.PAYSTACK_SECRET_KEY || "";
+
+const PREMIUM_PRICE_USD = 2;
+const PREMIUM_AMOUNT = 200; // $2.00 in cents
+const CURRENCY = "USD";
+
+/*
+  When deployed, change this to your real domain.
+
+  Example:
+  https://myeducation.example.com
+*/
+const FRONTEND_URL =
+  process.env.FRONTEND_URL ||
+  `http://localhost:${PORT}`;
+
+
+/* ======================================================
+   HTML WEBSITE
+====================================================== */
+
+const HTML = `
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="My Education - Learn. Build. Grow.">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
 <title>My Education | Learn. Build. Grow.</title>
 
+<meta
+  name="description"
+  content="My Education - Learn, build and grow with free educational resources."
+>
+
 <style>
-:root{
-  --primary:#2563eb;
-  --primary-dark:#1d4ed8;
-  --dark:#0f172a;
-  --dark2:#172554;
-  --light:#f5f7fb;
-  --card:#ffffff;
-  --text:#172033;
-  --muted:#64748b;
-  --green:#16a34a;
-  --red:#dc2626;
-  --gold:#f59e0b;
-  --border:#e2e8f0;
-}
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+/* =====================================================
+   RESET
+===================================================== */
 
-html{
-  scroll-behavior:smooth;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--light);
-  color:var(--text);
-  line-height:1.6;
+html {
+  scroll-behavior: smooth;
 }
 
-button{
-  font:inherit;
-  cursor:pointer;
-}
+body {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-.header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:white;
-  border-bottom:1px solid var(--border);
-  padding:15px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
+  background: #f7f9fc;
+  color: #172033;
+  line-height: 1.6;
 }
 
-.logo{
-  font-size:21px;
-  font-weight:800;
-  color:var(--primary);
-  white-space:nowrap;
-}
 
-.nav{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
+/* =====================================================
+   HEADER
+===================================================== */
 
-.nav button{
-  border:0;
-  background:transparent;
-  color:var(--text);
-  padding:9px 13px;
-  border-radius:9px;
-  font-weight:600;
-}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
 
-.nav button:hover{
-  background:#eff6ff;
-  color:var(--primary);
-}
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(15px);
 
-.nav .premium-nav{
-  background:#fff7ed;
-  color:#b45309;
+  border-bottom: 1px solid #e5e9f2;
 }
 
-.hero{
-  background:linear-gradient(135deg,var(--dark),var(--dark2));
-  color:white;
-  padding:85px 5%;
-  text-align:center;
-}
+.navbar {
+  max-width: 1200px;
+  margin: auto;
 
-.hero h1{
-  font-size:clamp(42px,7vw,72px);
-  line-height:1.05;
-  margin-bottom:20px;
-}
+  padding: 16px 20px;
 
-.hero p{
-  max-width:700px;
-  margin:0 auto 30px;
-  color:#dbeafe;
-  font-size:18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:13px 20px;
-  background:var(--primary);
-  color:white;
-  font-weight:700;
-  transition:.2s;
-}
+.logo {
+  font-size: 23px;
+  font-weight: 800;
 
-.btn:hover{
-  transform:translateY(-2px);
-  background:var(--primary-dark);
+  color: #2563eb;
 }
 
-.btn.gold{
-  background:var(--gold);
-  color:#451a03;
+.logo span {
+  color: #111827;
 }
 
-.btn.green{
-  background:var(--green);
+nav {
+  display: flex;
+  gap: 22px;
+  align-items: center;
 }
 
-.btn.secondary{
-  background:#e2e8f0;
-  color:var(--text);
+nav a {
+  text-decoration: none;
+  color: #475569;
+  font-weight: 600;
 }
 
-.section{
-  max-width:1150px;
-  margin:auto;
-  padding:70px 5%;
+nav a:hover {
+  color: #2563eb;
 }
 
-.section-title{
-  text-align:center;
-  margin-bottom:40px;
-}
 
-.section-title h2{
-  font-size:36px;
-  margin-bottom:10px;
-}
+/* =====================================================
+   BUTTONS
+===================================================== */
 
-.section-title p{
-  color:var(--muted);
-}
+button {
+  border: none;
+  cursor: pointer;
 
-.features,
-.courses{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:22px;
+  font: inherit;
 }
 
-.courses{
-  grid-template-columns:repeat(2,1fr);
-}
+.btn {
+  display: inline-block;
 
-.card,
-.course-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:27px;
-  box-shadow:0 8px 25px rgba(15,23,42,.05);
-}
+  padding: 12px 20px;
 
-.card-icon,
-.course-icon{
-  font-size:40px;
-  margin-bottom:15px;
-}
+  border-radius: 10px;
 
-.card h3,
-.course-card h3{
-  margin-bottom:9px;
-}
+  background: #2563eb;
+  color: white;
 
-.card p,
-.course-card p{
-  color:var(--muted);
-}
+  font-weight: 700;
 
-.course-card{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
+  transition: .2s;
 }
 
-.course-card .btn{
-  margin-top:auto;
-  width:100%;
+.btn:hover {
+  transform: translateY(-2px);
+  opacity: .92;
 }
 
-.premium-card{
-  border:2px solid var(--gold);
-  background:linear-gradient(145deg,#fff,#fffbeb);
-  position:relative;
-  overflow:hidden;
+.btn-dark {
+  background: #111827;
 }
 
-.premium-card::before{
-  content:"PREMIUM";
-  position:absolute;
-  top:15px;
-  right:-34px;
-  transform:rotate(35deg);
-  background:var(--gold);
-  color:#451a03;
-  font-size:11px;
-  font-weight:900;
-  padding:5px 40px;
+.btn-premium {
+  background: #7c3aed;
 }
 
-.premium-price{
-  font-size:30px;
-  font-weight:900;
-  color:#b45309;
-  margin:8px 0;
-}
 
-.premium-price small{
-  font-size:13px;
-  font-weight:600;
-  color:var(--muted);
-}
+/* =====================================================
+   HERO
+===================================================== */
 
-.premium-features{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin:10px 0 15px;
-}
+.hero {
+  max-width: 1200px;
+  margin: auto;
 
-.premium-feature{
-  background:#fff7ed;
-  border-radius:9px;
-  padding:8px;
-  font-size:13px;
-  font-weight:600;
-}
+  padding: 90px 20px;
 
-.page{
-  display:none;
-}
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
 
-.page.active{
-  display:block;
-}
+  gap: 50px;
 
-.course-header{
-  background:linear-gradient(135deg,var(--dark),var(--dark2));
-  color:white;
-  padding:50px 5%;
+  align-items: center;
 }
 
-.course-header-inner{
-  max-width:1150px;
-  margin:auto;
-}
+.hero h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: 1.05;
 
-.course-header h1{
-  font-size:40px;
-  margin-bottom:8px;
+  margin-bottom: 22px;
 }
 
-.course-header p{
-  color:#cbd5e1;
+.hero h1 span {
+  color: #2563eb;
 }
 
-.course-layout{
-  max-width:1150px;
-  margin:35px auto;
-  padding:0 5%;
-  display:grid;
-  grid-template-columns:280px 1fr;
-  gap:25px;
-}
+.hero p {
+  font-size: 19px;
+  color: #64748b;
 
-.lesson-sidebar{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:15px;
-  height:max-content;
-}
+  max-width: 650px;
 
-.lesson-sidebar h3{
-  margin-bottom:12px;
+  margin-bottom: 30px;
 }
 
-.lesson-btn{
-  display:block;
-  width:100%;
-  text-align:left;
-  padding:12px;
-  margin-bottom:7px;
-  border:0;
-  border-radius:9px;
-  background:#f8fafc;
-  color:var(--text);
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.lesson-btn.active{
-  background:#dbeafe;
-  color:var(--primary);
-  font-weight:700;
-}
+.hero-card {
+  background: white;
 
-.lesson-btn.completed{
-  border-left:4px solid var(--green);
-}
+  padding: 35px;
 
-.lesson-content{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:30px;
-}
+  border-radius: 24px;
 
-.lesson-content h2{
-  font-size:30px;
-  margin-bottom:20px;
-}
+  box-shadow:
+    0 20px 60px rgba(15,23,42,.1);
 
-.lesson-content h3{
-  margin-top:25px;
-  margin-bottom:8px;
+  border: 1px solid #e5e7eb;
 }
 
-.definition{
-  background:#eff6ff;
-  border-left:5px solid var(--primary);
-  padding:15px;
-  border-radius:8px;
+.hero-card h3 {
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
-.visual{
-  background:#0f172a;
-  color:#e2e8f0;
-  border-radius:12px;
-  padding:20px;
-  margin:15px 0;
-  white-space:pre-wrap;
-  font-family:monospace;
+.hero-card li {
+  list-style: none;
+  margin: 12px 0;
 }
 
-.code{
-  background:#111827;
-  color:#d1fae5;
-  padding:20px;
-  border-radius:12px;
-  overflow:auto;
-  white-space:pre-wrap;
-  font-family:monospace;
-}
 
-.quiz{
-  margin-top:30px;
-  padding:20px;
-  background:#f8fafc;
-  border-radius:12px;
-  border:1px solid var(--border);
-}
+/* =====================================================
+   SECTIONS
+===================================================== */
 
-.quiz-question{
-  margin-bottom:25px;
+section {
+  max-width: 1200px;
+  margin: auto;
+
+  padding: 75px 20px;
 }
+
+.section-title {
+  text-align: center;
 
-.option{
-  display:block;
-  width:100%;
-  text-align:left;
-  margin:8px 0;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  background:white;
+  font-size: 38px;
+
+  margin-bottom: 12px;
 }
+
+.section-description {
+  text-align: center;
+
+  color: #64748b;
 
-.option:hover{
-  border-color:var(--primary);
+  max-width: 650px;
+
+  margin: 0 auto 40px;
 }
+
+
+/* =====================================================
+   COURSE CARDS
+===================================================== */
+
+.course-grid {
+  display: grid;
 
-.option.selected{
-  background:#dbeafe;
-  border-color:var(--primary);
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 22px;
 }
+
+.course {
+  background: white;
+
+  padding: 28px;
 
-.quiz-result{
-  margin-top:10px;
-  font-weight:700;
+  border-radius: 18px;
+
+  border: 1px solid #e5e7eb;
+
+  transition: .25s;
 }
 
-.lesson-actions{
-  display:flex;
-  gap:10px;
-  justify-content:space-between;
-  margin-top:30px;
-  flex-wrap:wrap;
+.course:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 15px 35px rgba(15,23,42,.08);
 }
 
-.progress-box{
-  margin-top:20px;
-  background:rgba(255,255,255,.12);
-  border-radius:12px;
-  padding:15px;
-  max-width:600px;
+.course-icon {
+  font-size: 38px;
+  margin-bottom: 15px;
 }
 
-.progress-bar{
-  height:10px;
-  background:#334155;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:8px;
+.course h3 {
+  margin-bottom: 10px;
 }
+
+.course p {
+  color: #64748b;
 
-.progress-fill{
-  height:100%;
-  background:#60a5fa;
-  width:0%;
-  transition:.3s;
+  margin-bottom: 18px;
 }
 
-.about-box{
-  max-width:800px;
-  margin:auto;
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:35px;
+.course button {
+  width: 100%;
 }
 
-.premium-dashboard{
-  background:#fff;
-  border-top:1px solid var(--border);
+
+/* =====================================================
+   FEATURES
+===================================================== */
+
+.features {
+  background: #111827;
+  color: white;
+
+  max-width: none;
 }
 
-.premium-banner{
-  background:linear-gradient(135deg,#451a03,#92400e);
-  color:white;
-  border-radius:18px;
-  padding:30px;
-  margin-bottom:25px;
+.feature-inner {
+  max-width: 1200px;
+  margin: auto;
+  padding: 75px 20px;
 }
 
-.premium-banner h2{
-  margin-bottom:7px;
+.feature-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(230px, 1fr));
+
+  gap: 22px;
 }
+
+.feature {
+  padding: 25px;
+
+  border-radius: 16px;
 
-.premium-status{
-  display:inline-block;
-  margin-top:12px;
-  padding:6px 11px;
-  background:#f59e0b;
-  color:#451a03;
-  border-radius:20px;
-  font-weight:800;
-  font-size:13px;
+  background: rgba(255,255,255,.07);
 }
 
-.xp-box{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:25px;
+.feature p {
+  color: #cbd5e1;
 }
 
-.xp-stat{
-  background:#f8fafc;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
-  text-align:center;
+
+/* =====================================================
+   PREMIUM
+===================================================== */
+
+.premium {
+  max-width: 850px;
+
+  margin: 70px auto;
+
+  padding: 45px 25px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6d28d9,
+      #2563eb
+    );
+
+  color: white;
+
+  border-radius: 25px;
+
+  box-shadow:
+    0 25px 60px rgba(37,99,235,.25);
 }
+
+.premium h2 {
+  font-size: 42px;
 
-.xp-stat strong{
-  display:block;
-  font-size:30px;
-  color:var(--primary);
+  margin-bottom: 12px;
 }
 
-.premium-tools{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:20px;
+.premium p {
+  opacity: .9;
+
+  margin-bottom: 25px;
 }
+
+.price {
+  font-size: 52px;
 
-.premium-tool{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:25px;
+  font-weight: 900;
+
+  margin: 15px 0;
 }
+
 
-.premium-tool h3{
-  margin-bottom:8px;
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+#premiumDashboard {
+  display: none;
+
+  max-width: 1200px;
+
+  margin: 30px auto;
+
+  padding: 30px 20px;
 }
+
+.dashboard {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
 
-.premium-tool p{
-  color:var(--muted);
-  margin-bottom:15px;
+  border: 1px solid #e5e7eb;
 }
 
-.notes{
-  width:100%;
-  min-height:180px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:13px;
-  resize:vertical;
-  font:inherit;
+.dashboard h2 {
+  margin-bottom: 10px;
 }
 
-.premium-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:3000;
-  padding:20px;
+.premium-badge {
+  display: inline-block;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  background: #dcfce7;
+
+  color: #166534;
+
+  font-weight: 700;
 }
+
+
+/* =====================================================
+   MODAL
+===================================================== */
 
-.premium-modal.show{
-  display:flex;
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0,0,0,.65);
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
 }
 
-.premium-modal-box{
-  width:min(550px,100%);
-  background:white;
-  border-radius:20px;
-  padding:30px;
-  max-height:90vh;
-  overflow:auto;
+.modal.active {
+  display: flex;
 }
+
+.modal-box {
+  width: min(450px, 92%);
+
+  background: white;
 
-.premium-modal-box h2{
-  font-size:30px;
-  margin-bottom:10px;
+  border-radius: 20px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.25);
 }
 
-.premium-list{
-  list-style:none;
-  margin:20px 0;
+.modal-box h2 {
+  margin-bottom: 8px;
 }
+
+.modal-box p {
+  color: #64748b;
 
-.premium-list li{
-  padding:9px 0;
-  border-bottom:1px solid var(--border);
+  margin-bottom: 20px;
 }
+
+input {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
 
-.premium-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+  font-size: 16px;
+
+  margin-bottom: 14px;
 }
+
+.close {
+  float: right;
+
+  font-size: 25px;
 
-.toast{
-  position:fixed;
-  bottom:25px;
-  left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:#0f172a;
-  color:white;
-  padding:12px 18px;
-  border-radius:10px;
-  opacity:0;
-  transition:.3s;
-  z-index:5000;
+  background: none;
+
+  color: #64748b;
 }
+
+.payment-price {
+  font-size: 32px;
 
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+  font-weight: 900;
+
+  margin: 10px 0 20px;
 }
+
+.status {
+  margin-top: 15px;
 
-footer{
-  background:var(--dark);
-  color:#cbd5e1;
-  text-align:center;
-  padding:35px 5%;
-  margin-top:30px;
+  font-weight: 600;
 }
 
-footer strong{
-  color:white;
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  background: #020617;
+
+  color: #94a3b8;
+
+  text-align: center;
+
+  padding: 35px 20px;
 }
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 800px) {
 
-@media(max-width:800px){
-  .header{
-    align-items:flex-start;
-    flex-direction:column;
+  nav {
+    display: none;
   }
 
-  .nav{
-    width:100%;
+  .hero {
+    grid-template-columns: 1fr;
+
+    padding-top: 60px;
   }
 
-  .nav button{
-    flex:1;
+  .hero-card {
+    order: -1;
   }
 
-  .features,
-  .courses,
-  .premium-tools{
-    grid-template-columns:1fr;
-  }
-
-  .course-layout{
-    grid-template-columns:1fr;
-  }
-
-  .xp-box{
-    grid-template-columns:1fr;
-  }
-
-  .hero{
-    padding:65px 5%;
-  }
-
-  .premium-features{
-    grid-template-columns:1fr;
-  }
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<header class="header">
-  <div class="logo">📚 My Education</div>
 
-  <nav class="nav">
-    <button onclick="showHome()">Home</button>
-    <button onclick="scrollToCourses()">Courses</button>
-    <button onclick="showAbout()">About</button>
-    <button class="premium-nav" onclick="openPremium()">👑 Premium</button>
-  </nav>
+<!-- ====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+<div class="navbar">
+
+<div class="logo">
+My Education <span>📚</span>
+</div>
+
+<nav>
+
+<a href="#home">Home</a>
+
+<a href="#courses">Courses</a>
+
+<a href="#features">Features</a>
+
+<a href="#premium">Premium</a>
+
+</nav>
+
+<button
+  class="btn btn-premium"
+  onclick="openPayment()"
+>
+Go Premium
+</button>
+
+</div>
+
 </header>
 
 
-<!-- HOME -->
-<main id="homePage" class="page active">
-
-<section class="hero">
-  <h1>Learn. Build. Grow.</h1>
-  <p>
-    A simple learning platform designed to help you understand technology,
-    develop useful skills and turn knowledge into real-world projects.
-  </p>
-
-  <button class="btn" onclick="scrollToCourses()">
-    🚀 Start Learning
-  </button>
-</section>
-
-
-<section class="section">
-  <div class="section-title">
-    <h2>Why My Education?</h2>
-    <p>Learn by understanding, practicing and challenging yourself.</p>
-  </div>
-
-  <div class="features">
-
-    <div class="card">
-      <div class="card-icon">🧠</div>
-      <h3>Understand</h3>
-      <p>
-        Learn important concepts in a simple way instead of memorizing
-        complicated definitions.
-      </p>
-    </div>
-
-    <div class="card">
-      <div class="card-icon">🛠️</div>
-      <h3>Practice</h3>
-      <p>
-        Apply what you learn using examples, activities and practical
-        exercises.
-      </p>
-    </div>
-
-    <div class="card">
-      <div class="card-icon">🔥</div>
-      <h3>Challenge Yourself</h3>
-      <p>
-        Test your knowledge with quizzes and keep improving your skills.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-
-<section id="coursesSection" class="section">
-
-  <div class="section-title">
-    <h2>Courses</h2>
-    <p>Choose a subject and start learning.</p>
-  </div>
-
-  <div class="courses">
-
-    <div class="course-card">
-      <div class="course-icon">💻</div>
-      <h3>Web Development</h3>
-      <p>Learn HTML, CSS and JavaScript and understand how websites work.</p>
-      <button class="btn" onclick="openCourse('web')">
-        Start Course
-      </button>
-    </div>
-
-    <div class="course-card">
-      <div class="course-icon">🤖</div>
-      <h3>Artificial Intelligence</h3>
-      <p>Understand AI, machine learning and responsible AI usage.</p>
-      <button class="btn" onclick="openCourse('ai')">
-        Start Course
-      </button>
-    </div>
-
-    <div class="course-card">
-      <div class="course-icon">🌐</div>
-      <h3>Digital Skills</h3>
-      <p>Learn about the internet, online safety and digital productivity.</p>
-      <button class="btn" onclick="openCourse('digital')">
-        Start Course
-      </button>
-    </div>
-
-    <div class="course-card">
-      <div class="course-icon">💼</div>
-      <h3>Business Basics</h3>
-      <p>Understand businesses, problems, ideas and starting small.</p>
-      <button class="btn" onclick="openCourse('business')">
-        Start Course
-      </button>
-    </div>
-
-
-    <!-- PREMIUM -->
-    <div class="course-card premium-card">
-      <div class="course-icon">👑</div>
-
-      <h3>My Education Premium</h3>
-
-      <p>
-        Unlock advanced challenges, certificates, study tools,
-        XP levels and exclusive learning features.
-      </p>
-
-      <div class="premium-price">
-        $0.50 <small>one-time</small>
-      </div>
-
-      <div class="premium-features">
-        <div class="premium-feature">🏆 Certificates</div>
-        <div class="premium-feature">⚡ XP & Levels</div>
-        <div class="premium-feature">🧠 Exam Mode</div>
-        <div class="premium-feature">📊 Progress Stats</div>
-        <div class="premium-feature">📝 Study Notes</div>
-        <div class="premium-feature">🚀 Premium Challenges</div>
-      </div>
-
-      <button class="btn gold" onclick="openPremium()">
-        👑 Unlock Premium
-      </button>
-    </div>
-
-  </div>
-</section>
-
-</main>
-
-
-<!-- ABOUT -->
-<section id="aboutPage" class="page">
-
-  <div class="section">
-
-    <div class="section-title">
-      <h2>About My Education</h2>
-      <p>Learn. Build. Grow.</p>
-    </div>
-
-    <div class="about-box">
-
-      <h2>Education should be accessible.</h2>
-
-      <br>
-
-      <p>
-        My Education is a learning platform focused on making useful
-        technology and business concepts easier to understand.
-      </p>
-
-      <br>
-
-      <p>
-        Students can learn at their own pace, complete lessons,
-        answer quizzes and track their progress.
-      </p>
-
-      <br>
-
-      <p>
-        The Premium version adds additional tools designed to make
-        studying more interactive.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- COURSE PAGE -->
-<section id="coursePage" class="page">
-
-  <div class="course-header">
-    <div class="course-header-inner">
-
-      <button class="btn secondary" onclick="showHome()">
-        ← Back
-      </button>
-
-      <h1 id="courseTitle"></h1>
-      <p id="courseDescription"></p>
-
-      <div class="progress-box">
-        <strong id="progressText">0% Complete</strong>
-
-        <div class="progress-bar">
-          <div id="progressFill" class="progress-fill"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <div class="course-layout">
-
-    <aside class="lesson-sidebar">
-      <h3>📚 Lessons</h3>
-      <div id="lessonList"></div>
-    </aside>
-
-    <article class="lesson-content">
-
-      <div id="lessonContent"></div>
-
-      <div class="lesson-actions">
-        <button class="btn secondary" onclick="previousLesson()">
-          ← Previous
-        </button>
-
-        <button class="btn green" onclick="completeLesson()">
-          ✓ Complete Lesson
-        </button>
-
-        <button class="btn" onclick="nextLesson()">
-          Next →
-        </button>
-      </div>
-
-    </article>
-
-  </div>
-
-</section>
-
-
-<!-- PREMIUM DASHBOARD -->
-<section id="premiumDashboard" class="premium-dashboard" style="display:none;">
-
-  <div class="section">
-
-    <div class="premium-banner">
-
-      <h2>👑 My Education Premium</h2>
-
-      <p>
-        You have Premium access. Keep learning and build your XP.
-      </p>
-
-      <span class="premium-status">
-        ✓ PREMIUM ACTIVE
-      </span>
-
-    </div>
-
-
-    <div class="xp-box">
-
-      <div class="xp-stat">
-        <strong id="xpValue">0</strong>
-        XP
-      </div>
-
-      <div class="xp-stat">
-        <strong id="levelValue">1</strong>
-        Level
-      </div>
-
-      <div class="xp-stat">
-        <strong id="premiumLessonsValue">0</strong>
-        Lessons
-      </div>
-
-    </div>
-
-
-    <div class="premium-tools">
-
-      <div class="premium-tool">
-
-        <h3>🧠 Exam Mode</h3>
-
-        <p>
-          Take a mixed exam using questions from your courses.
-        </p>
-
-        <button class="btn gold" onclick="startExamMode()">
-          Start Exam
-        </button>
-
-      </div>
-
-
-      <div class="premium-tool">
-
-        <h3>🏆 Certificate</h3>
-
-        <p>
-          Generate a printable My Education completion certificate.
-        </p>
-
-        <button class="btn gold" onclick="generateCertificate()">
-          Generate Certificate
-        </button>
-
-      </div>
-
-
-      <div class="premium-tool">
-
-        <h3>📝 Study Notes</h3>
-
-        <p>
-          Save personal study notes directly in your browser.
-        </p>
-
-        <textarea
-          id="studyNotes"
-          class="notes"
-          placeholder="Write your study notes here..."
-        ></textarea>
-
-        <br><br>
-
-        <button class="btn" onclick="saveNotes()">
-          Save Notes
-        </button>
-
-      </div>
-
-
-      <div class="premium-tool">
-
-        <h3>🚀 Premium Challenge</h3>
-
-        <p>
-          Complete lessons, earn XP and reach higher levels.
-        </p>
-
-        <button class="btn gold" onclick="premiumChallenge()">
-          Take Challenge
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- PREMIUM MODAL -->
-<div id="premiumModal" class="premium-modal">
-
-  <div class="premium-modal-box">
-
-    <h2>👑 Unlock Premium</h2>
-
-    <p>
-      Get additional tools for only <strong>$0.50 one-time</strong>.
-    </p>
-
-    <ul class="premium-list">
-
-      <li>🏆 Generate learning certificates</li>
-      <li>⚡ Earn XP and level up</li>
-      <li>🧠 Premium Exam Mode</li>
-      <li>📊 Learning statistics</li>
-      <li>📝 Personal study notes</li>
-      <li>🚀 Premium challenges</li>
-
-    </ul>
-
-    <div class="premium-actions">
-
-      <button class="btn gold" onclick="activatePremiumDemo()">
-        🧪 Try Premium Demo
-      </button>
-
-      <button class="btn secondary" onclick="closePremium()">
-        Maybe Later
-      </button>
-
-    </div>
-
-    <br>
-
-    <small style="color:#64748b;">
-      Demo mode unlocks Premium locally on this device.
-      A real payment system must be connected before charging customers.
-    </small>
-
-  </div>
+<!-- ====================================================
+     HERO
+===================================================== -->
+
+<main id="home">
+
+<div class="hero">
+
+<div>
+
+<h1>
+Learn.<br>
+<span>Build.</span><br>
+Grow.
+</h1>
+
+<p>
+A modern education platform designed to
+help students learn useful skills, explore
+technology and build their future.
+</p>
+
+<div class="hero-buttons">
+
+<a
+  class="btn"
+  href="#courses"
+>
+Start Learning
+</a>
+
+<button
+  class="btn btn-premium"
+  onclick="openPayment()"
+>
+Unlock Premium — $2
+</button>
+
+</div>
 
 </div>
 
 
+<div class="hero-card">
+
+<h3>🚀 What's inside?</h3>
+
+<ul>
+
+<li>✅ Free educational resources</li>
+
+<li>✅ Programming lessons</li>
+
+<li>✅ Digital skills</li>
+
+<li>✅ Study resources</li>
+
+<li>✅ Premium learning tools</li>
+
+<li>✅ Future updates</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<!-- ====================================================
+     COURSES
+===================================================== -->
+
+<section id="courses">
+
+<h2 class="section-title">
+Popular Learning Paths
+</h2>
+
+<p class="section-description">
+Start with the free courses and upgrade when
+you want access to Premium resources.
+</p>
+
+
+<div class="course-grid">
+
+
+<div class="course">
+
+<div class="course-icon">💻</div>
+
+<h3>Web Development</h3>
+
+<p>
+Learn HTML, CSS and JavaScript and
+start building websites.
+</p>
+
+<button
+  class="btn"
+  onclick="showLesson('Web Development')"
+>
+Start Course
+</button>
+
+</div>
+
+
+<div class="course">
+
+<div class="course-icon">🤖</div>
+
+<h3>Artificial Intelligence</h3>
+
+<p>
+Understand AI concepts and discover
+how modern AI tools work.
+</p>
+
+<button
+  class="btn"
+  onclick="showLesson('Artificial Intelligence')"
+>
+Start Course
+</button>
+
+</div>
+
+
+<div class="course">
+
+<div class="course-icon">📱</div>
+
+<h3>Digital Skills</h3>
+
+<p>
+Learn useful digital skills for school,
+work and online projects.
+</p>
+
+<button
+  class="btn"
+  onclick="showLesson('Digital Skills')"
+>
+Start Course
+</button>
+
+</div>
+
+
+<div class="course">
+
+<div class="course-icon">💰</div>
+
+<h3>Entrepreneurship</h3>
+
+<p>
+Learn the basics of creating useful
+products and services.
+</p>
+
+<button
+  class="btn"
+  onclick="showLesson('Entrepreneurship')"
+>
+Start Course
+</button>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- ====================================================
+     FEATURES
+===================================================== -->
+
+<div
+  class="features"
+  id="features"
+>
+
+<div class="feature-inner">
+
+<h2 class="section-title">
+Why My Education?
+</h2>
+
+<p class="section-description">
+Everything is designed to make learning
+simple, practical and enjoyable.
+</p>
+
+
+<div class="feature-grid">
+
+
+<div class="feature">
+
+<h3>📚 Learn</h3>
+
+<p>
+Simple educational resources that
+you can understand step by step.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>🛠️ Build</h3>
+
+<p>
+Turn what you learn into websites,
+projects and useful skills.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>🌍 Grow</h3>
+
+<p>
+Develop skills that can help you
+in school and future work.
+</p>
+
+</div>
+
+
+<div class="feature">
+
+<h3>⚡ Fast Learning</h3>
+
+<p>
+Short lessons and practical
+activities keep learning engaging.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ====================================================
+     PREMIUM
+===================================================== -->
+
+<section id="premium">
+
+<div class="premium">
+
+<h2>⭐ My Education Premium</h2>
+
+<p>
+Unlock the premium learning experience.
+</p>
+
+<div class="price">
+$2
+</div>
+
+<p>
+One simple payment to unlock Premium
+features on this device.
+</p>
+
+<button
+  class="btn"
+  onclick="openPayment()"
+>
+Unlock Premium
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ====================================================
+     PREMIUM DASHBOARD
+===================================================== -->
+
+<div id="premiumDashboard">
+
+<div class="dashboard">
+
+<span class="premium-badge">
+⭐ PREMIUM ACTIVE
+</span>
+
+<h2>
+Welcome to Premium!
+</h2>
+
+<p>
+You now have access to the Premium area.
+</p>
+
+<br>
+
+<h3>Premium Resources</h3>
+
+<br>
+
+<p>📘 Advanced learning materials</p>
+
+<p>🧠 AI study tools</p>
+
+<p>💻 Advanced coding projects</p>
+
+<p>📊 Learning progress tools</p>
+
+<p>🏆 Premium challenges</p>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+<!-- ====================================================
+     PAYMENT MODAL
+===================================================== -->
+
+<div
+  class="modal"
+  id="paymentModal"
+>
+
+<div class="modal-box">
+
+<button
+  class="close"
+  onclick="closePayment()"
+>
+×
+</button>
+
+<h2>
+⭐ Upgrade to Premium
+</h2>
+
+<p>
+Unlock My Education Premium.
+</p>
+
+<div class="payment-price">
+$2.00 USD
+</div>
+
+<input
+  id="email"
+  type="email"
+  placeholder="Enter your email"
+  autocomplete="email"
+>
+
+<button
+  id="payButton"
+  class="btn btn-premium"
+  style="width:100%"
+  onclick="startPayment()"
+>
+Pay $2
+</button>
+
+<div
+  class="status"
+  id="paymentStatus"
+></div>
+
+</div>
+
+</div>
+
+
+<!-- ====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
-  <strong>📚 My Education</strong>
-  <br>
-  Learn. Build. Grow.
-  <br><br>
-  © 2026 My Education
+
+<p>
+© 2026 My Education
+</p>
+
+<p>
+Learn. Build. Grow.
+</p>
+
 </footer>
-
-
-<div id="toast" class="toast"></div>
 
 
 <script>
 
-/* =========================
-   COURSE DATA
-========================= */
-
-const courses = {
-
-  web: {
-    title:"Web Development",
-    description:"Learn how websites are structured, styled and made interactive.",
-    lessons:[
-
-      {
-        title:"HTML — The Structure of a Website",
-
-        definition:"HTML stands for HyperText Markup Language. It is used to structure content on a webpage.",
-
-        explanation:
-        "HTML tells the browser what different pieces of content are. For example, headings, paragraphs, buttons, images and links can all be represented using HTML elements.",
-
-        visual:
-`┌─────────────────────────┐
-│        Website          │
-├─────────────────────────┤
-│ Heading                 │
-│ Paragraph               │
-│ Image                   │
-│ Button                  │
-└─────────────────────────┘`,
-
-        code:
-`<!DOCTYPE html>
-<html>
-<head>
-  <title>My Website</title>
-</head>
-
-<body>
-  <h1>Hello World</h1>
-  <p>Welcome to my website.</p>
-</body>
-</html>`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What does HTML mainly do?",
-            options:[
-              "Structure webpage content",
-              "Create internet connections",
-              "Edit videos",
-              "Store electricity"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"HTML stands for ______ Markup Language.",
-            answer:"hypertext"
-          }
-        ]
-      },
-
-
-      {
-        title:"CSS — Make Websites Beautiful",
-
-        definition:"CSS stands for Cascading Style Sheets. It controls how HTML content looks.",
-
-        explanation:
-        "CSS can change colors, spacing, fonts, layouts, borders and many other visual properties of a website.",
-
-        visual:
-`HTML
- ↓
-CSS
- ↓
-Colors + Layout + Fonts
- ↓
-Beautiful Website`,
-
-        code:
-`body {
-  background: #f5f7fb;
-  font-family: Arial;
-}
-
-h1 {
-  color: blue;
-}`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What is CSS mainly used for?",
-            options:[
-              "Styling webpages",
-              "Charging a phone",
-              "Sending SMS",
-              "Creating electricity"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"CSS stands for Cascading Style ______.",
-            answer:"sheets"
-          }
-        ]
-      },
-
-
-      {
-        title:"JavaScript — Make Websites Interactive",
-
-        definition:"JavaScript is a programming language commonly used to make webpages interactive.",
-
-        explanation:
-        "JavaScript can respond to button clicks, change content, calculate values, create interactive applications and much more.",
-
-        visual:
-`User
- ↓
-Clicks Button
- ↓
-JavaScript
- ↓
-Website Changes`,
-
-        code:
-`function sayHello() {
-  alert("Hello!");
-}`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What can JavaScript do?",
-            options:[
-              "Make websites interactive",
-              "Only change paper",
-              "Only create images",
-              "Only play music"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"JavaScript is a programming ______.",
-            answer:"language"
-          }
-        ]
-      }
-
-    ]
-  },
-
-
-  ai: {
-    title:"Artificial Intelligence",
-    description:"Understand AI, machine learning and responsible AI usage.",
-    lessons:[
-
-      {
-        title:"What Is Artificial Intelligence?",
-
-        definition:"Artificial Intelligence is technology that enables computers to perform tasks that normally require human-like intelligence.",
-
-        explanation:
-        "AI can be used for tasks such as recognizing patterns, understanding language, making predictions and generating content.",
-
-        visual:
-`Data
- ↓
-AI System
- ↓
-Pattern Recognition
- ↓
-Prediction / Output`,
-
-        code:
-`Example:
-
-Input → AI → Output
-
-"Translate Hello"
-       ↓
-      AI
-       ↓
-"Bonjour"`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What is AI?",
-            options:[
-              "Technology that can perform intelligent tasks",
-              "A type of battery",
-              "A keyboard",
-              "A web browser"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"AI can recognize ______ in data.",
-            answer:"patterns"
-          }
-        ]
-      },
-
-
-      {
-        title:"How Machine Learning Works",
-
-        definition:"Machine learning is a way for computers to learn patterns from data.",
-
-        explanation:
-        "Instead of explicitly programming every possible answer, a machine-learning system can learn from examples and use those patterns to make predictions.",
-
-        visual:
-`Training Data
-      ↓
-Machine Learning
-      ↓
-Learn Patterns
-      ↓
-New Data
-      ↓
-Prediction`,
-
-        code:
-`Examples:
-
-Training:
-Cat → Cat
-Cat → Cat
-Dog → Dog
-Dog → Dog
-
-New image → Model → Prediction`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What does machine learning learn from?",
-            options:[
-              "Data",
-              "Water",
-              "Electricity only",
-              "Paper"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Machine learning learns ______ from data.",
-            answer:"patterns"
-          }
-        ]
-      },
-
-
-      {
-        title:"Using AI Responsibly",
-
-        definition:"Responsible AI means using AI carefully, safely and ethically.",
-
-        explanation:
-        "AI systems can make mistakes or reflect problems in their training data. Important information should therefore be checked instead of blindly trusting an AI output.",
-
-        visual:
-`AI Output
-   ↓
-Check
-   ↓
-Think
-   ↓
-Verify
-   ↓
-Use Responsibly`,
-
-        code:
-`Good AI workflow:
-
-Ask
- ↓
-Review
- ↓
-Verify
- ↓
-Improve
- ↓
-Use`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What should you do with important AI-generated information?",
-            options:[
-              "Verify it",
-              "Always assume it is correct",
-              "Ignore it",
-              "Delete the internet"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Responsible AI use includes checking information before ______ it.",
-            answer:"using"
-          }
-        ]
-      }
-
-    ]
-  },
-
-
-  digital: {
-    title:"Digital Skills",
-    description:"Learn about the internet, online safety and digital productivity.",
-    lessons:[
-
-      {
-        title:"Understanding the Internet",
-
-        definition:"The internet is a global network of connected computers and devices.",
-
-        explanation:
-        "Devices communicate using networking technologies and protocols. Websites are accessed through browsers that communicate with servers.",
-
-        visual:
-`Your Phone
-    ↓
-Wi-Fi / Mobile Network
-    ↓
-Internet
-    ↓
-Server
-    ↓
-Website`,
-
-        code:
-`Browser
-   ↓
-Request
-   ↓
-Server
-   ↓
-Response
-   ↓
-Webpage`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What is the internet?",
-            options:[
-              "A global network of connected devices",
-              "A single computer",
-              "A keyboard",
-              "A battery"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Web browsers communicate with web ______.",
-            answer:"servers"
-          }
-        ]
-      },
-
-
-      {
-        title:"Online Safety",
-
-        definition:"Online safety means protecting your accounts, information and devices while using the internet.",
-
-        explanation:
-        "Strong passwords, careful sharing, software updates and recognizing suspicious messages are important parts of online safety.",
-
-        visual:
-`Strong Password
-       +
-Privacy
-       +
-Updates
-       +
-Careful Clicking
-       ↓
-Better Online Safety`,
-
-        code:
-`Before clicking:
-
-Is this expected?
-Is the sender trustworthy?
-Does the website look correct?
-Should I ask an adult or teacher?`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"Which is a good online safety habit?",
-            options:[
-              "Use strong passwords",
-              "Share passwords publicly",
-              "Click every link",
-              "Give strangers private information"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Keep your account ______ private.",
-            answer:"information"
-          }
-        ]
-      },
-
-
-      {
-        title:"Digital Productivity",
-
-        definition:"Digital productivity means using digital tools effectively to complete tasks.",
-
-        explanation:
-        "Calendars, notes, documents, reminders and task-management tools can help organize work and learning.",
-
-        visual:
-`Plan
- ↓
-Organize
- ↓
-Work
- ↓
-Review
- ↓
-Improve`,
-
-        code:
-`Simple study system:
-
-1. Choose a goal
-2. Break it into tasks
-3. Work on one task
-4. Review your progress`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What can improve digital productivity?",
-            options:[
-              "Planning tasks",
-              "Ignoring deadlines",
-              "Doing everything randomly",
-              "Deleting your notes"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"A good productivity system starts with a clear ______.",
-            answer:"goal"
-          }
-        ]
-      }
-
-    ]
-  },
-
-
-  business: {
-    title:"Business Basics",
-    description:"Understand businesses, problems, ideas and starting small.",
-    lessons:[
-
-      {
-        title:"What Is a Business?",
-
-        definition:"A business provides products or services that solve problems or satisfy needs, usually in exchange for money.",
-
-        explanation:
-        "Businesses can be large or small. A successful business generally creates something people find useful enough to pay for.",
-
-        visual:
-`Problem
-   ↓
-Solution
-   ↓
-Customer
-   ↓
-Value
-   ↓
-Business`,
-
-        code:
-`Problem + Useful Solution
-          ↓
-       Customers
-          ↓
-        Revenue`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What does a business generally provide?",
-            options:[
-              "Products or services",
-              "Only homework",
-              "Electricity only",
-              "Nothing useful"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Businesses often solve customer ______.",
-            answer:"problems"
-          }
-        ]
-      },
-
-
-      {
-        title:"Finding Problems Worth Solving",
-
-        definition:"A business opportunity can begin with identifying a real problem that people want solved.",
-
-        explanation:
-        "Look for repeated frustrations, expensive processes, inconvenient services or unmet needs. Then investigate whether people actually want a solution.",
-
-        visual:
-`Observe
- ↓
-Find Problem
- ↓
-Talk to People
- ↓
-Test Idea
- ↓
-Improve Solution`,
-
-        code:
-`Idea:
-
-Problem:
-Students struggle to organize revision.
-
-Possible solution:
-A simple study planner.`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"What can be a good starting point for a business idea?",
-            options:[
-              "A real problem",
-              "Copying everything blindly",
-              "Ignoring customers",
-              "Making something nobody needs"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"A business idea can begin with finding a real ______.",
-            answer:"problem"
-          }
-        ]
-      },
-
-
-      {
-        title:"Start Small and Improve",
-
-        definition:"Starting small means testing an idea with limited resources before trying to scale it.",
-
-        explanation:
-        "You can create a basic version, get feedback and improve it based on what users actually need.",
-
-        visual:
-`Idea
- ↓
-Small Version
- ↓
-Users
- ↓
-Feedback
- ↓
-Improve
- ↓
-Grow`,
-
-        code:
-`Build → Test → Learn → Improve
-
-Repeat.`,
-
-        quiz:[
-          {
-            type:"mcq",
-            question:"Why can starting small be useful?",
-            options:[
-              "It allows you to test and improve an idea",
-              "It guarantees instant success",
-              "It removes the need for customers",
-              "It means never improving"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"After testing, use customer ______ to improve.",
-            answer:"feedback"
-          }
-        ]
-      }
-
-    ]
-  }
-
-};
-
-
-/* =========================
-   COURSE STATE
-========================= */
-
-let currentCourse = null;
-let currentLesson = 0;
-let selectedAnswers = {};
-
-const completedLessons =
-  JSON.parse(localStorage.getItem("myEducationProgress") || "{}");
-
-
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-function hideAllPages(){
-
-  document.getElementById("homePage").classList.remove("active");
-  document.getElementById("aboutPage").classList.remove("active");
-  document.getElementById("coursePage").classList.remove("active");
+/* ======================================================
+   PREMIUM STORAGE
+====================================================== */
+
+function isPremium() {
+
+  return localStorage.getItem(
+    "myEducationPremium"
+  ) === "true";
 
 }
 
 
-function showHome(){
-
-  hideAllPages();
-
-  document.getElementById("homePage").classList.add("active");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function showAbout(){
-
-  hideAllPages();
-
-  document.getElementById("aboutPage").classList.add("active");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function scrollToCourses(){
-
-  showHome();
-
-  setTimeout(()=>{
-    document.getElementById("coursesSection").scrollIntoView({
-      behavior:"smooth"
-    });
-  },50);
-
-}
-
-
-/* =========================
-   COURSE FUNCTIONS
-========================= */
-
-function openCourse(courseName){
-
-  if(!courses[courseName]) return;
-
-  currentCourse = courseName;
-  currentLesson = 0;
-  selectedAnswers = {};
-
-  hideAllPages();
-
-  document.getElementById("coursePage").classList.add("active");
-
-  renderCourse();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function renderCourse(){
-
-  const course = courses[currentCourse];
-
-  document.getElementById("courseTitle").textContent =
-    course.title;
-
-  document.getElementById("courseDescription").textContent =
-    course.description;
-
-  displayLessons();
-  displayLesson();
-  updateProgress();
-
-}
-
-
-function displayLessons(){
-
-  const course = courses[currentCourse];
-
-  const list = document.getElementById("lessonList");
-
-  list.innerHTML = "";
-
-  course.lessons.forEach((lesson,index)=>{
-
-    const button = document.createElement("button");
-
-    button.className = "lesson-btn";
-
-    if(index === currentLesson){
-      button.classList.add("active");
-    }
-
-    if(isLessonCompleted(currentCourse,index)){
-      button.classList.add("completed");
-    }
-
-    button.innerHTML =
-      `${isLessonCompleted(currentCourse,index) ? "✓ " : ""}${index+1}. ${escapeHtml(lesson.title)}`;
-
-    button.onclick = ()=>{
-      currentLesson = index;
-      selectedAnswers = {};
-      displayLessons();
-      displayLesson();
-      window.scrollTo({top:0,behavior:"smooth"});
-    };
-
-    list.appendChild(button);
-
-  });
-
-}
-
-
-function displayLesson(){
-
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
-
-  const container =
-    document.getElementById("lessonContent");
-
-  container.innerHTML = `
-
-    <h2>${escapeHtml(lesson.title)}</h2>
-
-    <h3>📖 Definition</h3>
-
-    <div class="definition">
-      ${escapeHtml(lesson.definition)}
-    </div>
-
-    <h3>💡 Explanation</h3>
-
-    <p>
-      ${escapeHtml(lesson.explanation)}
-    </p>
-
-    <h3>👀 Visual</h3>
-
-    <div class="visual">
-${escapeHtml(lesson.visual)}
-    </div>
-
-    <h3>💻 Example</h3>
-
-    <div class="code">
-${escapeHtml(lesson.code)}
-    </div>
-
-    <div id="quizContainer"></div>
-  `;
-
-  renderQuiz();
-
-}
-
-
-function renderQuiz(){
-
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
-
-  const container =
-    document.getElementById("quizContainer");
-
-  let html = `
-    <div class="quiz">
-      <h3>🧠 Quick Quiz</h3>
-  `;
-
-  lesson.quiz.forEach((question,index)=>{
-
-    html += `
-      <div class="quiz-question">
-
-        <strong>
-          ${index+1}. ${escapeHtml(question.question)}
-        </strong>
-    `;
-
-    if(question.type === "mcq"){
-
-      question.options.forEach((option,optionIndex)=>{
-
-        const selected =
-          selectedAnswers[index] === optionIndex;
-
-        html += `
-          <button
-            class="option ${selected ? "selected" : ""}"
-            onclick="chooseOption(${index},${optionIndex})"
-          >
-            ${escapeHtml(option)}
-          </button>
-        `;
-
-      });
-
-      html += `
-        <button class="btn" onclick="checkMCQ(${index})">
-          Check Answer
-        </button>
-        <div id="result-${index}" class="quiz-result"></div>
-      `;
-
-    }else{
-
-      html += `
-        <input
-          id="fill-${index}"
-          type="text"
-          placeholder="Type your answer"
-          style="
-            width:100%;
-            padding:12px;
-            border:1px solid #e2e8f0;
-            border-radius:9px;
-            margin:10px 0;
-          "
-        >
-
-        <button class="btn" onclick="checkFill(${index})">
-          Check Answer
-        </button>
-
-        <div id="result-${index}" class="quiz-result"></div>
-      `;
-
-    }
-
-    html += `</div>`;
-
-  });
-
-  html += `</div>`;
-
-  container.innerHTML = html;
-
-}
-
-
-function chooseOption(questionIndex,optionIndex){
-
-  selectedAnswers[questionIndex] = optionIndex;
-
-  renderQuiz();
-
-}
-
-
-function checkMCQ(questionIndex){
-
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
-
-  const question = lesson.quiz[questionIndex];
-
-  const result =
-    document.getElementById(`result-${questionIndex}`);
-
-  if(selectedAnswers[questionIndex] === undefined){
-
-    result.textContent = "Choose an answer first.";
-    result.style.color = "var(--red)";
-    return;
-
-  }
-
-  if(selectedAnswers[questionIndex] === question.answer){
-
-    result.textContent = "✓ Correct!";
-    result.style.color = "var(--green)";
-
-    addXPIfPremium(10);
-
-  }else{
-
-    result.textContent = "✗ Not quite. Try again.";
-    result.style.color = "var(--red)";
-
-  }
-
-}
-
-
-function checkFill(questionIndex){
-
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
-
-  const question = lesson.quiz[questionIndex];
-
-  const input =
-    document.getElementById(`fill-${questionIndex}`);
-
-  const result =
-    document.getElementById(`result-${questionIndex}`);
-
-  const answer =
-    input.value.trim().toLowerCase();
-
-  if(!answer){
-
-    result.textContent = "Enter an answer first.";
-    result.style.color = "var(--red)";
-    return;
-
-  }
-
-  if(answer === question.answer.toLowerCase()){
-
-    result.textContent = "✓ Correct!";
-    result.style.color = "var(--green)";
-
-    addXPIfPremium(10);
-
-  }else{
-
-    result.textContent = "✗ Not quite. Try again.";
-    result.style.color = "var(--red)";
-
-  }
-
-}
-
-
-function completeLesson(){
-
-  const key =
-    `${currentCourse}-${currentLesson}`;
-
-  if(!completedLessons[key]){
-
-    completedLessons[key] = true;
-
-    localStorage.setItem(
-      "myEducationProgress",
-      JSON.stringify(completedLessons)
-    );
-
-    showToast("✓ Lesson completed!");
-
-    if(isPremium()){
-      addXP(25);
-    }
-
-  }else{
-
-    showToast("You already completed this lesson.");
-
-  }
-
-  displayLessons();
-  updateProgress();
-
-}
-
-
-function isLessonCompleted(course,lesson){
-
-  return !!completedLessons[`${course}-${lesson}`];
-
-}
-
-
-function updateProgress(){
-
-  if(!currentCourse) return;
-
-  const lessons =
-    courses[currentCourse].lessons;
-
-  let completed = 0;
-
-  lessons.forEach((_,index)=>{
-
-    if(isLessonCompleted(currentCourse,index)){
-      completed++;
-    }
-
-  });
-
-  const percentage =
-    Math.round((completed / lessons.length) * 100);
-
-  document.getElementById("progressText").textContent =
-    `${percentage}% Complete`;
-
-  document.getElementById("progressFill").style.width =
-    `${percentage}%`;
-
-}
-
-
-function nextLesson(){
-
-  if(currentLesson < courses[currentCourse].lessons.length - 1){
-
-    currentLesson++;
-
-    selectedAnswers = {};
-
-    displayLessons();
-    displayLesson();
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
-  }else{
-
-    showToast("🎉 You reached the end of this course!");
-
-  }
-
-}
-
-
-function previousLesson(){
-
-  if(currentLesson > 0){
-
-    currentLesson--;
-
-    selectedAnswers = {};
-
-    displayLessons();
-    displayLesson();
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
-  }else{
-
-    showToast("This is the first lesson.");
-
-  }
-
-}
-
-
-/* =========================
-   PREMIUM SYSTEM
-========================= */
-
-const PREMIUM_KEY =
-  "myEducationPremium";
-
-const XP_KEY =
-  "myEducationXP";
-
-const NOTES_KEY =
-  "myEducationNotes";
-
-
-function isPremium(){
-
-  return localStorage.getItem(PREMIUM_KEY) === "true";
-
-}
-
-
-function openPremium(){
-
-  if(isPremium()){
-
-    showPremiumDashboard();
-
-    return;
-
-  }
-
-  document
-    .getElementById("premiumModal")
-    .classList.add("show");
-
-}
-
-
-function closePremium(){
-
-  document
-    .getElementById("premiumModal")
-    .classList.remove("show");
-
-}
-
-
-function activatePremiumDemo(){
+function unlockPremium() {
 
   localStorage.setItem(
-    PREMIUM_KEY,
+    "myEducationPremium",
     "true"
   );
 
-  closePremium();
-
-  showPremiumDashboard();
-
-  updatePremiumStats();
-
-  loadNotes();
-
-  showToast("👑 Premium Demo activated!");
+  document.getElementById(
+    "premiumDashboard"
+  ).style.display = "block";
 
 }
 
 
-function showPremiumDashboard(){
+/* ======================================================
+   CHECK PREMIUM
+====================================================== */
 
-  document.getElementById("premiumDashboard").style.display =
-    "block";
+if (isPremium()) {
+
+  unlockPremium();
+
+}
+
+
+/* ======================================================
+   COURSE FUNCTION
+====================================================== */
+
+function showLesson(course) {
+
+  alert(
+    course +
+    " course is available! More lessons are being added."
+  );
+
+}
+
+
+/* ======================================================
+   PAYMENT MODAL
+====================================================== */
+
+function openPayment() {
 
   document
-    .getElementById("premiumDashboard")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-  updatePremiumStats();
-
-  loadNotes();
+    .getElementById("paymentModal")
+    .classList
+    .add("active");
 
 }
 
 
-function getXP(){
+function closePayment() {
 
-  return parseInt(
-    localStorage.getItem(XP_KEY) || "0",
-    10
-  );
-
-}
-
-
-function addXP(amount){
-
-  if(!isPremium()) return;
-
-  const oldXP = getXP();
-
-  const newXP = oldXP + amount;
-
-  localStorage.setItem(
-    XP_KEY,
-    newXP
-  );
-
-  updatePremiumStats();
+  document
+    .getElementById("paymentModal")
+    .classList
+    .remove("active");
 
 }
 
 
-function addXPIfPremium(amount){
+/* ======================================================
+   START PAYMENT
+====================================================== */
 
-  if(isPremium()){
-    addXP(amount);
-  }
+async function startPayment() {
 
-}
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
+  const button =
+    document.getElementById("payButton");
 
-function updatePremiumStats(){
-
-  if(!isPremium()) return;
-
-  const xp = getXP();
-
-  const level =
-    Math.floor(xp / 100) + 1;
-
-  let lessonCount = 0;
-
-  Object.keys(completedLessons).forEach(key=>{
-
-    if(completedLessons[key]){
-      lessonCount++;
-    }
-
-  });
-
-  document.getElementById("xpValue").textContent =
-    xp;
-
-  document.getElementById("levelValue").textContent =
-    level;
-
-  document.getElementById("premiumLessonsValue").textContent =
-    lessonCount;
-
-}
+  const status =
+    document.getElementById("paymentStatus");
 
 
-/* =========================
-   NOTES
-========================= */
+  if (!email) {
 
-function saveNotes(){
+    status.textContent =
+      "Please enter your email.";
 
-  const notes =
-    document.getElementById("studyNotes").value;
-
-  localStorage.setItem(
-    NOTES_KEY,
-    notes
-  );
-
-  showToast("📝 Notes saved!");
-
-}
-
-
-function loadNotes(){
-
-  const notes =
-    localStorage.getItem(NOTES_KEY) || "";
-
-  const element =
-    document.getElementById("studyNotes");
-
-  if(element){
-    element.value = notes;
-  }
-
-}
-
-
-/* =========================
-   PREMIUM EXAM
-========================= */
-
-function startExamMode(){
-
-  if(!isPremium()){
-
-    openPremium();
     return;
 
   }
 
-  const allQuestions = [];
 
-  Object.values(courses).forEach(course=>{
+  if (!email.includes("@")) {
 
-    course.lessons.forEach(lesson=>{
+    status.textContent =
+      "Please enter a valid email.";
 
-      lesson.quiz.forEach(question=>{
+    return;
 
-        if(question.type === "mcq"){
+  }
 
-          allQuestions.push({
-            question:question.question,
-            options:question.options,
-            answer:question.answer
-          });
 
+  button.disabled = true;
+
+  button.textContent =
+    "Starting payment...";
+
+  status.textContent = "";
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/payment/initialize",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            email: email
+          })
         }
-
-      });
-
-    });
-
-  });
-
-
-  const shuffled =
-    [...allQuestions].sort(
-      ()=>Math.random() - .5
-    );
-
-  const examQuestions =
-    shuffled.slice(0,10);
-
-  let score = 0;
-
-  examQuestions.forEach((question,index)=>{
-
-    const answer =
-      prompt(
-        `Question ${index+1}/${examQuestions.length}\n\n${question.question}\n\n` +
-        question.options
-          .map((option,i)=>`${i+1}. ${option}`)
-          .join("\n") +
-        "\n\nEnter the number of your answer:"
       );
 
-    const selected =
-      parseInt(answer,10) - 1;
 
-    if(selected === question.answer){
+    const data =
+      await response.json();
 
-      score++;
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.message ||
+        "Unable to start payment."
+      );
 
     }
 
-  });
+
+    /*
+      Paystack sends the customer
+      to its secure checkout page.
+    */
+
+    window.location.href =
+      data.authorization_url;
 
 
-  const earnedXP =
-    score * 10;
+  } catch (error) {
 
-  addXP(earnedXP);
+    status.textContent =
+      error.message;
 
-  alert(
-    `Exam complete!\n\nScore: ${score}/${examQuestions.length}\nXP earned: ${earnedXP}`
-  );
+    button.disabled = false;
+
+    button.textContent =
+      "Pay $2";
+
+  }
 
 }
 
 
-/* =========================
-   CERTIFICATE
-========================= */
+/* ======================================================
+   PAYMENT RESULT
+====================================================== */
 
-function generateCertificate(){
+async function checkPaymentResult() {
 
-  if(!isPremium()){
-
-    openPremium();
-    return;
-
-  }
-
-  const name =
-    prompt("Enter your name for the certificate:");
-
-  if(!name || !name.trim()){
-
-    showToast("Certificate cancelled.");
-    return;
-
-  }
-
-  const safeName =
-    escapeHtml(name.trim());
-
-  const certificateWindow =
-    window.open(
-      "",
-      "_blank",
-      "width=900,height=700"
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
-  if(!certificateWindow){
+  const reference =
+    params.get("reference");
 
-    showToast("Please allow pop-ups to generate your certificate.");
+  const payment =
+    params.get("payment");
+
+
+  if (
+    payment !== "complete" ||
+    !reference
+  ) {
+
     return;
 
   }
 
 
-  certificateWindow.document.write(`
+  try {
 
-    <!DOCTYPE html>
+    const response =
+      await fetch(
+        "/api/payment/verify?reference=" +
+        encodeURIComponent(reference)
+      );
 
-    <html>
 
-    <head>
+    const data =
+      await response.json();
 
-      <title>My Education Certificate</title>
 
-      <style>
+    if (
+      response.ok &&
+      data.success
+    ) {
 
-        body{
-          font-family:Arial,sans-serif;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          min-height:100vh;
-          background:#f8fafc;
-          margin:0;
-        }
+      unlockPremium();
 
-        .certificate{
-          width:800px;
-          min-height:550px;
-          background:white;
-          border:12px solid #f59e0b;
-          padding:50px;
-          text-align:center;
-          box-sizing:border-box;
-        }
+      alert(
+        "🎉 Payment successful! Premium is now unlocked."
+      );
 
-        h1{
-          font-size:48px;
-          margin:20px 0;
-        }
+      window.history.replaceState(
+        {},
+        document.title,
+        "/"
+      );
 
-        h2{
-          font-size:32px;
-          color:#2563eb;
-        }
+    } else {
 
-        .name{
-          font-size:38px;
-          font-weight:900;
-          margin:30px 0;
-        }
+      alert(
+        "Payment could not be verified."
+      );
 
-        .small{
-          color:#64748b;
-        }
-
-        @media print{
-          body{
-            background:white;
-          }
-
-          .certificate{
-            border:12px solid #f59e0b;
-          }
-        }
-
-      </style>
-
-    </head>
-
-    <body>
-
-      <div class="certificate">
-
-        <h2>📚 MY EDUCATION</h2>
-
-        <h1>Certificate of Achievement</h1>
-
-        <p>This certificate is proudly presented to</p>
-
-        <div class="name">${safeName}</div>
-
-        <p>
-          for demonstrating commitment to learning
-          and completing learning activities on
-          My Education.
-        </p>
-
-        <br>
-
-        <p class="small">
-          Learn. Build. Grow.
-        </p>
-
-        <br>
-
-        <p class="small">
-          ${new Date().toLocaleDateString()}
-        </p>
-
-      </div>
-
-    </body>
-
-    </html>
-
-  `);
-
-  certificateWindow.document.close();
-
-  setTimeout(()=>{
-    certificateWindow.print();
-  },500);
-
-}
-
-
-/* =========================
-   PREMIUM CHALLENGE
-========================= */
-
-function premiumChallenge(){
-
-  if(!isPremium()){
-
-    openPremium();
-    return;
-
-  }
-
-  const challenges = [
-
-    "💻 Build a simple webpage using HTML.",
-    "🎨 Design a webpage using CSS.",
-    "🤖 Explain one real-world use of AI.",
-    "🌐 Explain how a browser reaches a website.",
-    "💼 Identify one problem that a business could solve."
-
-  ];
-
-  const challenge =
-    challenges[
-      Math.floor(Math.random()*challenges.length)
-    ];
-
-  alert(
-    "🚀 PREMIUM CHALLENGE\n\n" +
-    challenge +
-    "\n\nComplete it and keep improving!"
-  );
-
-  addXP(15);
-
-  showToast("⚡ Challenge XP added!");
-
-}
-
-
-/* =========================
-   UTILITIES
-========================= */
-
-function escapeHtml(text){
-
-  return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-function showToast(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer =
-    setTimeout(()=>{
-      toast.classList.remove("show");
-    },2500);
-
-}
-
-
-/* =========================
-   PREMIUM MODAL EVENTS
-========================= */
-
-document
-  .getElementById("premiumModal")
-  .addEventListener("click",function(event){
-
-    if(event.target === this){
-      closePremium();
     }
 
-  });
 
+  } catch (error) {
 
-/* =========================
-   STARTUP
-========================= */
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-  if(isPremium()){
-
-    document.getElementById("premiumDashboard").style.display =
-      "block";
-
-    updatePremiumStats();
-
-    loadNotes();
+    alert(
+      "We couldn't verify the payment yet."
+    );
 
   }
 
-});
+}
+
+
+checkPaymentResult();
 
 </script>
 
 </body>
 </html>
+`;
+
+
+/* ======================================================
+   HELPERS
+====================================================== */
+
+function sendJSON(res, status, data) {
+
+  const body =
+    JSON.stringify(data);
+
+  res.writeHead(
+    status,
+    {
+      "Content-Type":
+        "application/json",
+
+      "Access-Control-Allow-Origin":
+        FRONTEND_URL,
+
+      "Access-Control-Allow-Headers":
+        "Content-Type",
+
+      "Access-Control-Allow-Methods":
+        "GET,POST,OPTIONS"
+    }
+  );
+
+  res.end(body);
+}
+
+
+function readBody(req) {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      let body = "";
+
+      req.on(
+        "data",
+        chunk => {
+          body += chunk;
+        }
+      );
+
+      req.on(
+        "end",
+        () => {
+
+          try {
+
+            resolve(
+              body
+                ? JSON.parse(body)
+                : {}
+            );
+
+          } catch {
+
+            reject(
+              new Error(
+                "Invalid JSON"
+              )
+            );
+
+          }
+
+        }
+      );
+
+      req.on(
+        "error",
+        reject
+      );
+
+    }
+  );
+
+}
+
+
+/* ======================================================
+   PAYSTACK API
+====================================================== */
+
+async function paystackRequest(
+  endpoint,
+  options = {}
+) {
+
+  if (!PAYSTACK_SECRET_KEY) {
+
+    throw new Error(
+      "PAYSTACK_SECRET_KEY is not configured."
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      "https://api.paystack.co" +
+      endpoint,
+      {
+
+        ...options,
+
+        headers: {
+
+          "Authorization":
+            "Bearer " +
+            PAYSTACK_SECRET_KEY,
+
+          "Content-Type":
+            "application/json",
+
+          ...(options.headers || {})
+
+        }
+
+      }
+    );
+
+
+  const data =
+    await response.json();
+
+
+  if (!response.ok) {
+
+    throw new Error(
+      data.message ||
+      "Paystack request failed."
+    );
+
+  }
+
+
+  return data;
+
+}
+
+
+/* ======================================================
+   INITIALIZE PAYMENT
+====================================================== */
+
+async function initializePayment(
+  email
+) {
+
+  const callbackURL =
+    FRONTEND_URL +
+    "/?payment=complete";
+
+
+  const data =
+    await paystackRequest(
+      "/transaction/initialize",
+      {
+
+        method: "POST",
+
+        body: JSON.stringify({
+
+          email: email,
+
+          amount: PREMIUM_AMOUNT,
+
+          currency: CURRENCY,
+
+          callback_url:
+            callbackURL,
+
+          metadata: {
+
+            product:
+              "My Education Premium",
+
+            plan:
+              "Premium",
+
+            price:
+              PREMIUM_PRICE_USD
+
+          }
+
+        })
+
+      }
+    );
+
+
+  return data.data;
+
+}
+
+
+/* ======================================================
+   VERIFY PAYMENT
+====================================================== */
+
+async function verifyPayment(
+  reference
+) {
+
+  const data =
+    await paystackRequest(
+      "/transaction/verify/" +
+      encodeURIComponent(reference)
+    );
+
+
+  const transaction =
+    data.data;
+
+
+  const correctStatus =
+    transaction.status ===
+    "success";
+
+
+  const correctAmount =
+    Number(transaction.amount) ===
+    PREMIUM_AMOUNT;
+
+
+  const correctCurrency =
+    transaction.currency ===
+    CURRENCY;
+
+
+  if (
+    !correctStatus ||
+    !correctAmount ||
+    !correctCurrency
+  ) {
+
+    return {
+      success: false,
+      message:
+        "Payment verification failed."
+    };
+
+  }
+
+
+  return {
+
+    success: true,
+
+    reference:
+      transaction.reference,
+
+    email:
+      transaction.customer?.email || ""
+
+  };
+
+}
+
+
+/* ======================================================
+   WEBHOOK SIGNATURE VERIFICATION
+====================================================== */
+
+function verifyPaystackSignature(
+  rawBody,
+  signature
+) {
+
+  if (!signature) {
+
+    return false;
+
+  }
+
+
+  const hash =
+    crypto
+      .createHmac(
+        "sha512",
+        PAYSTACK_SECRET_KEY
+      )
+      .update(rawBody)
+      .digest("hex");
+
+
+  return crypto.timingSafeEqual(
+    Buffer.from(hash),
+    Buffer.from(signature)
+  );
+
+}
+
+
+/* ======================================================
+   HTTP SERVER
+====================================================== */
+
+const server =
+  http.createServer(
+    async (req, res) => {
+
+      try {
+
+        const requestURL =
+          new URL(
+            req.url,
+            `http://${req.headers.host}`
+          );
+
+
+        /* ----------------------------------------------
+           CORS / OPTIONS
+        ---------------------------------------------- */
+
+        if (
+          req.method ===
+          "OPTIONS"
+        ) {
+
+          res.writeHead(
+            204,
+            {
+              "Access-Control-Allow-Origin":
+                FRONTEND_URL,
+
+              "Access-Control-Allow-Headers":
+                "Content-Type",
+
+              "Access-Control-Allow-Methods":
+                "GET,POST,OPTIONS"
+            }
+          );
+
+          return res.end();
+
+        }
+
+
+        /* ----------------------------------------------
+           HOME PAGE
+        ---------------------------------------------- */
+
+        if (
+          req.method === "GET" &&
+          requestURL.pathname === "/"
+        ) {
+
+          res.writeHead(
+            200,
+            {
+              "Content-Type":
+                "text/html; charset=utf-8"
+            }
+          );
+
+          return res.end(HTML);
+
+        }
+
+
+        /* ----------------------------------------------
+           INITIALIZE PAYMENT
+        ---------------------------------------------- */
+
+        if (
+          req.method === "POST" &&
+          requestURL.pathname ===
+            "/api/payment/initialize"
+        ) {
+
+          const body =
+            await readBody(req);
+
+
+          const email =
+            String(
+              body.email || ""
+            ).trim();
+
+
+          if (
+            !email ||
+            !email.includes("@")
+          ) {
+
+            return sendJSON(
+              res,
+              400,
+              {
+                message:
+                  "A valid email is required."
+              }
+            );
+
+          }
+
+
+          const payment =
+            await initializePayment(
+              email
+            );
+
+
+          return sendJSON(
+            res,
+            200,
+            {
+
+              authorization_url:
+                payment.authorization_url,
+
+              access_code:
+                payment.access_code,
+
+              reference:
+                payment.reference
+
+            }
+          );
+
+        }
+
+
+        /* ----------------------------------------------
+           VERIFY PAYMENT
+        ---------------------------------------------- */
+
+        if (
+          req.method === "GET" &&
+          requestURL.pathname ===
+            "/api/payment/verify"
+        ) {
+
+          const reference =
+            requestURL.searchParams
+              .get("reference");
+
+
+          if (!reference) {
+
+            return sendJSON(
+              res,
+              400,
+              {
+                message:
+                  "Payment reference is required."
+              }
+            );
+
+          }
+
+
+          const result =
+            await verifyPayment(
+              reference
+            );
+
+
+          return sendJSON(
+            res,
+            result.success
+              ? 200
+              : 400,
+            result
+          );
+
+        }
+
+
+        /* ----------------------------------------------
+           PAYSTACK WEBHOOK
+        ---------------------------------------------- */
+
+        if (
+          req.method === "POST" &&
+          requestURL.pathname ===
+            "/api/payment/webhook"
+        ) {
+
+          let rawBody = "";
+
+          req.setEncoding("utf8");
+
+
+          req.on(
+            "data",
+            chunk => {
+              rawBody += chunk;
+            }
+          );
+
+
+          req.on(
+            "end",
+            () => {
+
+              const signature =
+                req.headers[
+                  "x-paystack-signature"
+                ];
+
+
+              if (
+                !verifyPaystackSignature(
+                  rawBody,
+                  signature
+                )
+              ) {
+
+                res.writeHead(
+                  401
+                );
+
+                return res.end(
+                  "Invalid signature"
+                );
+
+              }
+
+
+              try {
+
+                const event =
+                  JSON.parse(
+                    rawBody
+                  );
+
+
+                if (
+                  event.event ===
+                  "charge.success"
+                ) {
+
+                  console.log(
+                    "Successful Paystack payment:",
+                    event.data.reference
+                  );
+
+                }
+
+
+                res.writeHead(
+                  200
+                );
+
+                res.end("OK");
+
+
+              } catch {
+
+                res.writeHead(
+                  400
+                );
+
+                res.end(
+                  "Invalid webhook"
+                );
+
+              }
+
+            }
+          );
+
+
+          return;
+
+        }
+
+
+        /* ----------------------------------------------
+           404
+        ---------------------------------------------- */
+
+        sendJSON(
+          res,
+          404,
+          {
+            message:
+              "Page not found."
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        sendJSON(
+          res,
+          500,
+          {
+            message:
+              error.message ||
+              "Server error."
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+/* ======================================================
+   START
+====================================================== */
+
+server.listen(
+  PORT,
+  () => {
+
+    console.log("");
+    console.log(
+      "========================================"
+    );
+
+    console.log(
+      " MY EDUCATION IS RUNNING"
+    );
+
+    console.log(
+      "========================================"
+    );
+
+    console.log(
+      "Website:"
+    );
+
+    console.log(
+      FRONTEND_URL
+    );
+
+    console.log("");
+
+    console.log(
+      "Premium price: $2.00 USD"
+    );
+
+    console.log("");
+
+  }
+);
