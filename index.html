@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Education</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f5f9;
+      color: #172033;
+    }
+
+    header {
+      background: #0d1728;
+      color: white;
+      padding: 28px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      margin-left: 25px;
+      cursor: pointer;
+    }
+
+    nav button:hover {
+      color: #4d7cff;
+    }
+
+    .container {
+      width: 86%;
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 10px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: #596579;
+    }
+
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .course-card {
+      background: white;
+      border-radius: 25px;
+      padding: 35px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    }
+
+    .course-card h2 {
+      color: #2864e8;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .course-card p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .btn {
+      background: #2864e8;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 14px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #174fc5;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .course-page {
+      background: white;
+      border-radius: 25px;
+      padding: 35px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    }
+
+    .course-page h1 {
+      color: #2864e8;
+      margin-bottom: 15px;
+    }
+
+    .lesson-list {
+      margin-top: 30px;
+    }
+
+    .lesson {
+      background: #f3f5f9;
+      padding: 18px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .lesson:hover {
+      background: #e4ebff;
+    }
+
+    .lesson-content {
+      margin-top: 30px;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    .lesson-content h2 {
+      margin-bottom: 15px;
+      color: #2864e8;
+    }
+
+    .navigation {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .back {
+      background: #64748b;
+    }
+
+    .about-box {
+      background: white;
+      border-radius: 25px;
+      padding: 40px;
+      line-height: 1.8;
+      font-size: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #687386;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 22px 5%;
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+
+      nav button {
+        font-size: 16px;
+        margin-left: 10px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .course-card {
+        padding: 28px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="logo">📚 My Education</div>
+
+  <nav>
+    <button onclick="showHome()">Courses</button>
+    <button onclick="showAbout()">About</button>
+  </nav>
+</header>
+
+
+<!-- HOME PAGE -->
+<section id="home" class="page active">
+
+  <div class="container">
+
+<div class="hero">
+  <h1>Learn. Build. Grow.</h1>
+  <p>Free education and digital skills for everyone.</p>
+</div>
+
+<div class="courses">
+
+  <div class="course-card">
+    <h2>💻 Web Development</h2>
+    <p>
+      Learn HTML, CSS and JavaScript and
+      build your own websites.
+    </p>
+    <button class="btn" onclick="openCourse('web')">
+      Start Course
+    </button>
+  </div>
+
+
+  <div class="course-card">
+    <h2>🤖 Artificial Intelligence</h2>
+    <p>
+      Learn the basics of AI and how
+      modern AI tools work.
+    </p>
+    <button class="btn" onclick="openCourse('ai')">
+      Start Course
+    </button>
+  </div>
+
+
+  <div class="course-card">
+    <h2>📱 Digital Skills</h2>
+    <p>
+      Learn useful digital skills for school,
+      work and everyday life.
+    </p>
+    <button class="btn" onclick="openCourse('digital')">
+      Start Course
+    </button>
+  </div>
+
+
+  <div class="course-card">
+    <h2>📈 Business</h2>
+    <p>
+      Learn the basics of business,
+      entrepreneurship and money management.
+    </p>
+    <button class="btn" onclick="openCourse('business')">
+      Start Course
+    </button>
+  </div>
+
+</div>
+  </div>
+
+</section>
+
+
+<!-- COURSE PAGE -->
+<section id="coursePage" class="page">
+
+  <div class="container">
+
+<div class="course-page">
+
+  <button class="btn back" onclick="showHome()">
+    ← Back to Courses
+  </button>
+
+  <br><br>
+
+  <h1 id="courseTitle"></h1>
+
+  <p id="courseDescription"></p>
+
+  <div class="lesson-list" id="lessonList"></div>
+
+  <div class="lesson-content" id="lessonContent"></div>
+
+  <div class="navigation">
+
+    <button class="btn" onclick="previousLesson()">
+      ← Previous
+    </button>
+
+    <button class="btn" onclick="nextLesson()">
+      Next →
+    </button>
+
+  </div>
+
+</div>
+  </div>
+
+</section>
+
+
+<!-- ABOUT PAGE -->
+<section id="about" class="page">
+
+  <div class="container">
+
+<div class="about-box">
+
+  <h1>About My Education</h1>
+
+  <br>
+
+  <p>
+    Welcome to My Education! 📚
+  </p>
+
+  <br>
+
+  <p>
+    My Education is a free learning platform
+    designed to make useful knowledge easier
+    to access.
+  </p>
+
+  <br>
+
+  <p>
+    You can learn web development, artificial
+    intelligence, digital skills and business
+    completely online.
+  </p>
+
+  <br>
+
+  <p>
+    More courses and lessons will be added
+    in the future.
+  </p>
+
+  <br>
+
+  <button class="btn" onclick="showHome()">
+    ← Back to Courses
+  </button>
+
+</div>
+  </div>
+
+</section>
+
+
+<footer>
+  © 2026 My Education — Free Learning
+</footer>
+
+
+<script>
+
+const courses = {
+
+  web: {
+    title: "💻 Web Development",
+    description: "Learn how websites are created using HTML, CSS and JavaScript.",
+    lessons: [
+      {
+        title: "Lesson 1: What is HTML?",
+        content: `
+          <h2>What is HTML?</h2>
+          <p>
+            HTML stands for HyperText Markup Language.
+            It is used to create the structure of a webpage.
+          </p>
+          <br>
+          <p>
+            HTML can create headings, paragraphs,
+            images, links, buttons and many other
+            elements.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 2: What is CSS?",
+        content: `
+          <h2>What is CSS?</h2>
+          <p>
+            CSS stands for Cascading Style Sheets.
+            CSS controls how a website looks.
+          </p>
+          <br>
+          <p>
+            You can use CSS to change colors,
+            fonts, spacing, backgrounds and layouts.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 3: What is JavaScript?",
+        content: `
+          <h2>What is JavaScript?</h2>
+          <p>
+            JavaScript makes websites interactive.
+          </p>
+          <br>
+          <p>
+            For example, JavaScript can make buttons
+            respond when someone clicks them.
+          </p>
+        `
+      }
+    ]
+  },
+
+
+  ai: {
+    title: "🤖 Artificial Intelligence",
+    description: "Understand the basics of artificial intelligence.",
+    lessons: [
+      {
+        title: "Lesson 1: What is AI?",
+        content: `
+          <h2>What is Artificial Intelligence?</h2>
+          <p>
+            Artificial Intelligence, or AI, is technology
+            that allows computers to perform tasks that
+            normally require human-like intelligence.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 2: How AI Learns",
+        content: `
+          <h2>How Does AI Learn?</h2>
+          <p>
+            Many AI systems learn patterns from data.
+            The system uses these patterns to make
+            predictions or generate results.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 3: AI Tools",
+        content: `
+          <h2>Modern AI Tools</h2>
+          <p>
+            AI can be used for writing, programming,
+            image creation, education, research and
+            many other tasks.
+          </p>
+        `
+      }
+    ]
+  },
+
+
+  digital: {
+    title: "📱 Digital Skills",
+    description: "Learn useful skills for using technology effectively.",
+    lessons: [
+      {
+        title: "Lesson 1: Internet Basics",
+        content: `
+          <h2>Internet Basics</h2>
+          <p>
+            The internet connects computers and devices
+            around the world so they can communicate
+            and share information.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 2: Online Safety",
+        content: `
+          <h2>Online Safety</h2>
+          <p>
+            Protect your accounts by using strong,
+            unique passwords and avoiding suspicious
+            links or messages.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 3: Digital Productivity",
+        content: `
+          <h2>Digital Productivity</h2>
+          <p>
+            Digital tools can help you organize school
+            work, create documents, communicate and
+            learn new skills.
+          </p>
+        `
+      }
+    ]
+  },
+
+
+  business: {
+    title: "📈 Business",
+    description: "Learn the basics of entrepreneurship and business.",
+    lessons: [
+      {
+        title: "Lesson 1: What is a Business?",
+        content: `
+          <h2>What is a Business?</h2>
+          <p>
+            A business provides products or services
+            that solve problems for customers.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 2: Finding a Problem",
+        content: `
+          <h2>Finding Problems to Solve</h2>
+          <p>
+            Good business ideas often begin by finding
+            a real problem that people need solved.
+          </p>
+        `
+      },
+
+      {
+        title: "Lesson 3: Starting Small</h2>
+        <p>
+          You can test a business idea on a small scale
+          before investing significant money or resources.
+        </p>
+        `
+      }
+    ]
+  }
+
+};
+
+
+let currentCourse = null;
+let currentLesson = 0;
+
+
+function hideAllPages() {
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+}
+
+
+function showHome() {
+
+  hideAllPages();
+
+  document.getElementById("home").classList.add("active");
+
+  window.scrollTo(0, 0);
+
+}
+
+
+function showAbout() {
+
+  hideAllPages();
+
+  document.getElementById("about").classList.add("active");
+
+  window.scrollTo(0, 0);
+
+}
+
+
+function openCourse(courseName) {
+
+  currentCourse = courseName;
+
+  currentLesson = 0;
+
+  const course = courses[courseName];
+
+  document.getElementById("courseTitle").textContent =
+    course.title;
+
+  document.getElementById("courseDescription").textContent =
+    course.description;
+
+  hideAllPages();
+
+  document.getElementById("coursePage").classList.add("active");
+
+  displayLessons();
+
+  displayLesson();
+
+  window.scrollTo(0, 0);
+
+}
+
+
+function displayLessons() {
+
+  const list = document.getElementById("lessonList");
+
+  list.innerHTML = "";
+
+  const lessons = courses[currentCourse].lessons;
+
+  lessons.forEach((lesson, index) => {
+
+    const item = document.createElement("div");
+
+    item.className = "lesson";
+
+    item.textContent = lesson.title;
+
+    item.onclick = function() {
+
+      currentLesson = index;
+
+      displayLesson();
+
+    };
+
+    list.appendChild(item);
+
+  });
+
+}
+
+
+function displayLesson() {
+
+  const lesson =
+    courses[currentCourse].lessons[currentLesson];
+
+  document.getElementById("lessonContent").innerHTML =
+    lesson.content;
+
+}
+
+
+function nextLesson() {
+
+  const lessons = courses[currentCourse].lessons;
+
+  if (currentLesson < lessons.length - 1) {
+
+    currentLesson++;
+
+    displayLesson();
+
+  } else {
+
+    alert("🎉 Congratulations! You completed this course!");
+
+  }
+
+}
+
+
+function previousLesson() {
+
+  if (currentLesson > 0) {
+
+    currentLesson--;
+
+    displayLesson();
+
+  }
+
+}
+
+</script>
+
+
+</body>
+</html>
+{ 
+title: "Lesson 3: Starting Small", 
+content: <h2>Starting Small</h2> <p> You can test a business idea on a small scale before investing significant money or resources. </p> 
+}
