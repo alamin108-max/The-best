@@ -697,12 +697,6 @@ function previousLesson() {
   }
 
 }
-
-</script>
-
-
-</body>
-</html>
 business: {
   title: "📈 Business",
   description: "Learn the basics of entrepreneurship and business.",
@@ -730,14 +724,29 @@ business: {
     },
 
     {
-      title: "Lesson 3: Starting Small",
-      content: `
-        <h2>Starting Small</h2>
-        <p>
-          You can test a business idea on a small scale
-          before investing significant money or resources.
-        </p>
-      `
-    }
-  ]
+  title: "Lesson 3: Starting Small",
+  content: `
+    <h2>Starting Small</h2>
+    <p>
+      You can test a business idea on a small scale
+      before investing significant money or resources.
+    </p>
+  `
+} 
+function previousLesson() {
+
+  if (currentLesson > 0) {
+
+    currentLesson--;
+
+    displayLesson();
+
+  }
+
 }
+
+</script>
+
+</body>
+</html>
+
