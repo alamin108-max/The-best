@@ -204,7 +204,6 @@
       }
     }
   </style>
-
 </head>
 
 <body>
@@ -218,165 +217,161 @@
   </nav>
 </header>
 
-
 <!-- HOME PAGE -->
 <section id="home" class="page active">
 
   <div class="container">
 
-<div class="hero">
-  <h1>Learn. Build. Grow.</h1>
-  <p>Free education and digital skills for everyone.</p>
-</div>
+    <div class="hero">
+      <h1>Learn. Build. Grow.</h1>
+      <p>Free education and digital skills for everyone.</p>
+    </div>
 
-<div class="courses">
+    <div class="courses">
 
-  <div class="course-card">
-    <h2>💻 Web Development</h2>
-    <p>
-      Learn HTML, CSS and JavaScript and
-      build your own websites.
-    </p>
-    <button class="btn" onclick="openCourse('web')">
-      Start Course
-    </button>
-  </div>
+      <div class="course-card">
+        <h2>💻 Web Development</h2>
+        <p>
+          Learn HTML, CSS and JavaScript and
+          build your own websites.
+        </p>
 
+        <button class="btn" onclick="openCourse('web')">
+          Start Course
+        </button>
+      </div>
 
-  <div class="course-card">
-    <h2>🤖 Artificial Intelligence</h2>
-    <p>
-      Learn the basics of AI and how
-      modern AI tools work.
-    </p>
-    <button class="btn" onclick="openCourse('ai')">
-      Start Course
-    </button>
-  </div>
+      <div class="course-card">
+        <h2>🤖 Artificial Intelligence</h2>
+        <p>
+          Learn the basics of AI and how
+          modern AI tools work.
+        </p>
 
+        <button class="btn" onclick="openCourse('ai')">
+          Start Course
+        </button>
+      </div>
 
-  <div class="course-card">
-    <h2>📱 Digital Skills</h2>
-    <p>
-      Learn useful digital skills for school,
-      work and everyday life.
-    </p>
-    <button class="btn" onclick="openCourse('digital')">
-      Start Course
-    </button>
-  </div>
+      <div class="course-card">
+        <h2>📱 Digital Skills</h2>
+        <p>
+          Learn useful digital skills for school,
+          work and everyday life.
+        </p>
 
+        <button class="btn" onclick="openCourse('digital')">
+          Start Course
+        </button>
+      </div>
 
-  <div class="course-card">
-    <h2>📈 Business</h2>
-    <p>
-      Learn the basics of business,
-      entrepreneurship and money management.
-    </p>
-    <button class="btn" onclick="openCourse('business')">
-      Start Course
-    </button>
-  </div>
+      <div class="course-card">
+        <h2>📈 Business</h2>
+        <p>
+          Learn the basics of business,
+          entrepreneurship and money management.
+        </p>
 
-</div>
+        <button class="btn" onclick="openCourse('business')">
+          Start Course
+        </button>
+      </div>
+
+    </div>
   </div>
 
 </section>
-
 
 <!-- COURSE PAGE -->
 <section id="coursePage" class="page">
 
   <div class="container">
 
-<div class="course-page">
+    <div class="course-page">
 
-  <button class="btn back" onclick="showHome()">
-    ← Back to Courses
-  </button>
+      <button class="btn back" onclick="showHome()">
+        ← Back to Courses
+      </button>
 
-  <br><br>
+      <br><br>
 
-  <h1 id="courseTitle"></h1>
+      <h1 id="courseTitle"></h1>
 
-  <p id="courseDescription"></p>
+      <p id="courseDescription"></p>
 
-  <div class="lesson-list" id="lessonList"></div>
+      <div class="lesson-list" id="lessonList"></div>
 
-  <div class="lesson-content" id="lessonContent"></div>
+      <div class="lesson-content" id="lessonContent"></div>
 
-  <div class="navigation">
+      <div class="navigation">
 
-    <button class="btn" onclick="previousLesson()">
-      ← Previous
-    </button>
+        <button class="btn" onclick="previousLesson()">
+          ← Previous
+        </button>
 
-    <button class="btn" onclick="nextLesson()">
-      Next →
-    </button>
+        <button class="btn" onclick="nextLesson()">
+          Next →
+        </button>
 
-  </div>
+      </div>
 
-</div>
+    </div>
   </div>
 
 </section>
-
 
 <!-- ABOUT PAGE -->
 <section id="about" class="page">
 
   <div class="container">
 
-<div class="about-box">
+    <div class="about-box">
 
-  <h1>About My Education</h1>
+      <h1>About My Education</h1>
 
-  <br>
+      <br>
 
-  <p>
-    Welcome to My Education! 📚
-  </p>
+      <p>
+        Welcome to My Education! 📚
+      </p>
 
-  <br>
+      <br>
 
-  <p>
-    My Education is a free learning platform
-    designed to make useful knowledge easier
-    to access.
-  </p>
+      <p>
+        My Education is a free learning platform
+        designed to make useful knowledge easier
+        to access.
+      </p>
 
-  <br>
+      <br>
 
-  <p>
-    You can learn web development, artificial
-    intelligence, digital skills and business
-    completely online.
-  </p>
+      <p>
+        You can learn web development, artificial
+        intelligence, digital skills and business
+        completely online.
+      </p>
 
-  <br>
+      <br>
 
-  <p>
-    More courses and lessons will be added
-    in the future.
-  </p>
+      <p>
+        More courses and lessons will be added
+        in the future.
+      </p>
 
-  <br>
+      <br>
 
-  <button class="btn" onclick="showHome()">
-    ← Back to Courses
-  </button>
+      <button class="btn" onclick="showHome()">
+        ← Back to Courses
+      </button>
 
-</div>
+    </div>
   </div>
 
 </section>
 
-
 <footer>
   © 2026 My Education — Free Learning
 </footer>
-
 
 <script>
 
@@ -386,15 +381,19 @@ const courses = {
     title: "💻 Web Development",
     description: "Learn how websites are created using HTML, CSS and JavaScript.",
     lessons: [
+
       {
         title: "Lesson 1: What is HTML?",
         content: `
           <h2>What is HTML?</h2>
+
           <p>
             HTML stands for HyperText Markup Language.
             It is used to create the structure of a webpage.
           </p>
+
           <br>
+
           <p>
             HTML can create headings, paragraphs,
             images, links, buttons and many other
@@ -407,11 +406,14 @@ const courses = {
         title: "Lesson 2: What is CSS?",
         content: `
           <h2>What is CSS?</h2>
+
           <p>
             CSS stands for Cascading Style Sheets.
             CSS controls how a website looks.
           </p>
+
           <br>
+
           <p>
             You can use CSS to change colors,
             fonts, spacing, backgrounds and layouts.
@@ -423,16 +425,20 @@ const courses = {
         title: "Lesson 3: What is JavaScript?",
         content: `
           <h2>What is JavaScript?</h2>
+
           <p>
             JavaScript makes websites interactive.
           </p>
+
           <br>
+
           <p>
             For example, JavaScript can make buttons
             respond when someone clicks them.
           </p>
         `
       }
+
     ]
   },
 
@@ -441,10 +447,12 @@ const courses = {
     title: "🤖 Artificial Intelligence",
     description: "Understand the basics of artificial intelligence.",
     lessons: [
+
       {
         title: "Lesson 1: What is AI?",
         content: `
           <h2>What is Artificial Intelligence?</h2>
+
           <p>
             Artificial Intelligence, or AI, is technology
             that allows computers to perform tasks that
@@ -457,6 +465,7 @@ const courses = {
         title: "Lesson 2: How AI Learns",
         content: `
           <h2>How Does AI Learn?</h2>
+
           <p>
             Many AI systems learn patterns from data.
             The system uses these patterns to make
@@ -469,6 +478,7 @@ const courses = {
         title: "Lesson 3: AI Tools",
         content: `
           <h2>Modern AI Tools</h2>
+
           <p>
             AI can be used for writing, programming,
             image creation, education, research and
@@ -476,6 +486,7 @@ const courses = {
           </p>
         `
       }
+
     ]
   },
 
@@ -484,10 +495,12 @@ const courses = {
     title: "📱 Digital Skills",
     description: "Learn useful skills for using technology effectively.",
     lessons: [
+
       {
         title: "Lesson 1: Internet Basics",
         content: `
           <h2>Internet Basics</h2>
+
           <p>
             The internet connects computers and devices
             around the world so they can communicate
@@ -500,6 +513,7 @@ const courses = {
         title: "Lesson 2: Online Safety",
         content: `
           <h2>Online Safety</h2>
+
           <p>
             Protect your accounts by using strong,
             unique passwords and avoiding suspicious
@@ -512,6 +526,7 @@ const courses = {
         title: "Lesson 3: Digital Productivity",
         content: `
           <h2>Digital Productivity</h2>
+
           <p>
             Digital tools can help you organize school
             work, create documents, communicate and
@@ -519,6 +534,7 @@ const courses = {
           </p>
         `
       }
+
     ]
   },
 
@@ -527,10 +543,12 @@ const courses = {
     title: "📈 Business",
     description: "Learn the basics of entrepreneurship and business.",
     lessons: [
+
       {
         title: "Lesson 1: What is a Business?",
         content: `
           <h2>What is a Business?</h2>
+
           <p>
             A business provides products or services
             that solve problems for customers.
@@ -542,6 +560,7 @@ const courses = {
         title: "Lesson 2: Finding a Problem",
         content: `
           <h2>Finding Problems to Solve</h2>
+
           <p>
             Good business ideas often begin by finding
             a real problem that people need solved.
@@ -550,13 +569,17 @@ const courses = {
       },
 
       {
-        title: "Lesson 3: Starting Small</h2>
-        <p>
-          You can test a business idea on a small scale
-          before investing significant money or resources.
-        </p>
+        title: "Lesson 3: Starting Small",
+        content: `
+          <h2>Starting Small</h2>
+
+          <p>
+            You can test a business idea on a small scale
+            before investing significant money or resources.
+          </p>
         `
       }
+
     ]
   }
 
@@ -697,56 +720,8 @@ function previousLesson() {
   }
 
 }
-business: {
-  title: "📈 Business",
-  description: "Learn the basics of entrepreneurship and business.",
-  lessons: [
-    {
-      title: "Lesson 1: What is a Business?",
-      content: `
-        <h2>What is a Business?</h2>
-        <p>
-          A business provides products or services
-          that solve problems for customers.
-        </p>
-      `
-    },
-
-    {
-      title: "Lesson 2: Finding a Problem",
-      content: `
-        <h2>Finding Problems to Solve</h2>
-        <p>
-          Good business ideas often begin by finding
-          a real problem that people need solved.
-        </p>
-      `
-    },
-
-    {
-  title: "Lesson 3: Starting Small",
-  content: `
-    <h2>Starting Small</h2>
-    <p>
-      You can test a business idea on a small scale
-      before investing significant money or resources.
-    </p>
-  `
-} 
-function previousLesson() {
-
-  if (currentLesson > 0) {
-
-    currentLesson--;
-
-    displayLesson();
-
-  }
-
-}
 
 </script>
 
 </body>
 </html>
-
