@@ -1,311 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Education</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<title>My Education</title>
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f3f5f9;
-      color: #172033;
-    }
+<style>
 
-    header {
-      background: #0d1728;
-      color: white;
-      padding: 28px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .logo {
-      font-size: 30px;
-      font-weight: bold;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6fb;
+  color:#172033;
+  line-height:1.7;
+}
 
-    nav button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 18px;
-      margin-left: 25px;
-      cursor: pointer;
-    }
+header{
+  background:#0d1728;
+  color:white;
+  padding:20px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
 
-    nav button:hover {
-      color: #4d7cff;
-    }
+.logo{
+  font-size:25px;
+  font-weight:bold;
+}
 
-    .container {
-      width: 86%;
-      max-width: 1100px;
-      margin: 40px auto;
-    }
+nav button{
+  background:none;
+  border:0;
+  color:white;
+  font-size:16px;
+  margin-left:18px;
+  cursor:pointer;
+}
 
-    .hero {
-      text-align: center;
-      padding: 40px 10px;
-    }
+nav button:hover{
+  color:#6d91ff;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
+.container{
+  width:90%;
+  max-width:1150px;
+  margin:0 auto;
+}
 
-    .hero p {
-      font-size: 20px;
-      color: #596579;
-    }
+.page{
+  display:none;
+}
 
-    .courses {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 28px;
-    }
+.page.active{
+  display:block;
+}
 
-    .course-card {
-      background: white;
-      border-radius: 25px;
-      padding: 35px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-    }
+.hero{
+  text-align:center;
+  padding:70px 10px 45px;
+}
 
-    .course-card h2 {
-      color: #2864e8;
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
+.hero h1{
+  font-size:48px;
+  margin-bottom:15px;
+}
 
-    .course-card p {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
+.hero p{
+  font-size:20px;
+  color:#64748b;
+}
 
-    .btn {
-      background: #2864e8;
-      color: white;
-      border: none;
-      padding: 15px 25px;
-      border-radius: 14px;
-      font-size: 17px;
-      cursor: pointer;
-    }
+.search-box{
+  max-width:600px;
+  margin:0 auto 45px;
+}
 
-    .btn:hover {
-      background: #174fc5;
-    }
+.search-box input{
+  width:100%;
+  padding:17px 20px;
+  border:2px solid #dbe2ee;
+  border-radius:15px;
+  font-size:17px;
+  outline:none;
+}
 
-    .page {
-      display: none;
-    }
+.search-box input:focus{
+  border-color:#2864e8;
+}
 
-    .page.active {
-      display: block;
-    }
+.courses{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:25px;
+  padding-bottom:50px;
+}
 
-    .course-page {
-      background: white;
-      border-radius: 25px;
-      padding: 35px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-    }
+.course-card{
+  background:white;
+  border-radius:22px;
+  padding:30px;
+  box-shadow:0 8px 30px rgba(0,0,0,.06);
+  transition:.2s;
+}
 
-    .course-page h1 {
-      color: #2864e8;
-      margin-bottom: 15px;
-    }
+.course-card:hover{
+  transform:translateY(-5px);
+}
 
-    .lesson-list {
-      margin-top: 30px;
-    }
+.course-card .icon{
+  font-size:45px;
+  margin-bottom:15px;
+}
 
-    .lesson {
-      background: #f3f5f9;
-      padding: 18px;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+.course-card h2{
+  color:#2864e8;
+  margin-bottom:12px;
+}
 
-    .lesson:hover {
-      background: #e4ebff;
-    }
+.course-card p{
+  color:#596579;
+  margin-bottom:22px;
+}
 
-    .lesson-content {
-      margin-top: 30px;
-      line-height: 1.8;
-      font-size: 18px;
-    }
+.btn{
+  background:#2864e8;
+  color:white;
+  border:none;
+  padding:13px 20px;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    .lesson-content h2 {
-      margin-bottom: 15px;
-      color: #2864e8;
-    }
+.btn:hover{
+  background:#174fc5;
+}
 
-    .navigation {
-      margin-top: 30px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+.secondary{
+  background:#64748b;
+}
 
-    .back {
-      background: #64748b;
-    }
+.course-header{
+  background:white;
+  margin:40px 0 25px;
+  padding:35px;
+  border-radius:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.06);
+}
 
-    .about-box {
-      background: white;
-      border-radius: 25px;
-      padding: 40px;
-      line-height: 1.8;
-      font-size: 18px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-    }
+.course-header h1{
+  color:#2864e8;
+  margin-bottom:10px;
+}
 
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: #687386;
-    }
+.progress-area{
+  margin-top:25px;
+}
 
-    @media (max-width: 600px) {
-      header {
-        padding: 22px 5%;
-      }
+.progress-text{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+  font-size:14px;
+  color:#64748b;
+}
 
-      .logo {
-        font-size: 23px;
-      }
+.progress-bar{
+  width:100%;
+  height:12px;
+  background:#e2e8f0;
+  border-radius:20px;
+  overflow:hidden;
+}
 
-      nav button {
-        font-size: 16px;
-        margin-left: 10px;
-      }
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:#2864e8;
+  transition:.3s;
+}
 
-      .hero h1 {
-        font-size: 32px;
-      }
+.lesson-layout{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:25px;
+  margin-bottom:50px;
+}
 
-      .course-card {
-        padding: 28px;
-      }
-    }
-  </style>
+.lesson-menu{
+  background:white;
+  padding:20px;
+  border-radius:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.06);
+  height:max-content;
+}
+
+.lesson-menu h3{
+  margin-bottom:15px;
+}
+
+.lesson-item{
+  padding:14px;
+  background:#f3f6fb;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.lesson-item:hover{
+  background:#e4ebff;
+}
+
+.lesson-item.active{
+  background:#2864e8;
+  color:white;
+}
+
+.lesson-item.completed{
+  border-left:5px solid #22a06b;
+}
+
+.lesson-content{
+  background:white;
+  border-radius:22px;
+  padding:40px;
+  box-shadow:0 8px 30px rgba(0,0,0,.06);
+}
+
+.lesson-content h2{
+  color:#2864e8;
+  margin-bottom:18px;
+  font-size:30px;
+}
+
+.lesson-content h3{
+  margin:30px 0 12px;
+  color:#172033;
+}
+
+.lesson-content p{
+  margin-bottom:15px;
+}
+
+.definition{
+  background:#eef4ff;
+  border-left:5px solid #2864e8;
+  padding:22px;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+.visual{
+  margin:30px 0;
+  padding:20px;
+  background:#f8fafc;
+  border-radius:18px;
+  text-align:center;
+  border:1px solid #e2e8f0;
+}
+
+.visual-title{
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.diagram{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.diagram-box{
+  padding:20px;
+  min-width:150px;
+  background:white;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+  font-weight:bold;
+}
+
+.arrow{
+  font-size:28px;
+  color:#2864e8;
+}
+
+.code-box{
+  background:#111827;
+  color:#e5e7eb;
+  padding:22px;
+  border-radius:15px;
+  overflow-x:auto;
+  margin:20px 0;
+}
+
+.code-box pre{
+  white-space:pre-wrap;
+  text-align:left;
+  font-family:monospace;
+  font-size:15px;
+}
+
+.explain-box{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  padding:20px;
+  border-radius:15px;
+  margin:20px 0;
+}
+
+.explain-box strong{
+  color:#2864e8;
+}
+
+.example{
+  background:#f0fdf4;
+  border-left:5px solid #22a06b;
+  padding:20px;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+.remember{
+  background:#fff7ed;
+  border-left:5px solid #f97316;
+  padding:20px;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+.practice{
+  background:#f5f3ff;
+  border-left:5px solid #7c3aed;
+  padding:20px;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+.quiz{
+  margin-top:35px;
+  padding:25px;
+  background:#f8fafc;
+  border-radius:18px;
+}
+
+.quiz-option{
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:14px;
+  margin:10px 0;
+  border:2px solid #dbe2ee;
+  border-radius:10px;
+  background:white;
+  cursor:pointer;
+}
+
+.quiz-option:hover{
+  border-color:#2864e8;
+}
+
+.quiz-result{
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.navigation{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:30px;
+  flex-wrap:wrap;
+}
+
+.complete-btn{
+  background:#22a06b;
+}
+
+.about-box{
+  background:white;
+  margin:50px auto;
+  padding:40px;
+  border-radius:22px;
+  box-shadow:0 8px 30px rgba(0,0,0,.06);
+}
+
+.about-box h1{
+  color:#2864e8;
+  margin-bottom:20px;
+}
+
+footer{
+  text-align:center;
+  padding:40px;
+  color:#64748b;
+}
+
+@media(max-width:700px){
+
+  header{
+    padding:17px 5%;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+
+  nav button{
+    font-size:14px;
+    margin-left:8px;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .lesson-layout{
+    grid-template-columns:1fr;
+  }
+
+  .lesson-content{
+    padding:25px;
+  }
+
+  .lesson-content h2{
+    font-size:25px;
+  }
+
+  .diagram-box{
+    min-width:120px;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
 <header>
+
   <div class="logo">📚 My Education</div>
 
   <nav>
     <button onclick="showHome()">Courses</button>
     <button onclick="showAbout()">About</button>
   </nav>
+
 </header>
 
-<!-- HOME PAGE -->
+
+<!-- HOME -->
+
 <section id="home" class="page active">
 
-  <div class="container">
+<div class="container">
 
-    <div class="hero">
-      <h1>Learn. Build. Grow.</h1>
-      <p>Free education and digital skills for everyone.</p>
-    </div>
+  <div class="hero">
 
-    <div class="courses">
+    <h1>Learn. Build. Grow.</h1>
 
-      <div class="course-card">
-        <h2>💻 Web Development</h2>
-        <p>
-          Learn HTML, CSS and JavaScript and
-          build your own websites.
-        </p>
+    <p>
+      Free education with detailed lessons,
+      examples and practical learning.
+    </p>
 
-        <button class="btn" onclick="openCourse('web')">
-          Start Course
-        </button>
-      </div>
-
-      <div class="course-card">
-        <h2>🤖 Artificial Intelligence</h2>
-        <p>
-          Learn the basics of AI and how
-          modern AI tools work.
-        </p>
-
-        <button class="btn" onclick="openCourse('ai')">
-          Start Course
-        </button>
-      </div>
-
-      <div class="course-card">
-        <h2>📱 Digital Skills</h2>
-        <p>
-          Learn useful digital skills for school,
-          work and everyday life.
-        </p>
-
-        <button class="btn" onclick="openCourse('digital')">
-          Start Course
-        </button>
-      </div>
-
-      <div class="course-card">
-        <h2>📈 Business</h2>
-        <p>
-          Learn the basics of business,
-          entrepreneurship and money management.
-        </p>
-
-        <button class="btn" onclick="openCourse('business')">
-          Start Course
-        </button>
-      </div>
-
-    </div>
   </div>
+
+  <div class="search-box">
+
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="🔎 Search courses..."
+      oninput="searchCourses()"
+    >
+
+  </div>
+
+  <div class="courses" id="courseGrid"></div>
+
+</div>
 
 </section>
 
-<!-- COURSE PAGE -->
+
+<!-- COURSE -->
+
 <section id="coursePage" class="page">
 
-  <div class="container">
+<div class="container">
 
-    <div class="course-page">
+  <div class="course-header">
 
-      <button class="btn back" onclick="showHome()">
-        ← Back to Courses
-      </button>
+    <button class="btn secondary" onclick="showHome()">
+      ← Back to Courses
+    </button>
 
-      <br><br>
+    <br><br>
 
-      <h1 id="courseTitle"></h1>
+    <h1 id="courseTitle"></h1>
 
-      <p id="courseDescription"></p>
+    <p id="courseDescription"></p>
 
-      <div class="lesson-list" id="lessonList"></div>
+    <div class="progress-area">
 
-      <div class="lesson-content" id="lessonContent"></div>
+      <div class="progress-text">
+
+        <span>Course Progress</span>
+
+        <span id="progressText">0%</span>
+
+      </div>
+
+      <div class="progress-bar">
+
+        <div class="progress-fill" id="progressFill"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="lesson-layout">
+
+    <aside class="lesson-menu">
+
+      <h3>📖 Lessons</h3>
+
+      <div id="lessonList"></div>
+
+    </aside>
+
+
+    <main class="lesson-content">
+
+      <div id="lessonContent"></div>
 
       <div class="navigation">
 
-        <button class="btn" onclick="previousLesson()">
+        <button class="btn secondary" onclick="previousLesson()">
           ← Previous
         </button>
 
@@ -315,360 +564,1990 @@
 
       </div>
 
-    </div>
+    </main>
+
   </div>
+
+</div>
 
 </section>
 
-<!-- ABOUT PAGE -->
+
+<!-- ABOUT -->
+
 <section id="about" class="page">
 
-  <div class="container">
+<div class="container">
 
-    <div class="about-box">
+  <div class="about-box">
 
-      <h1>About My Education</h1>
+    <h1>About My Education</h1>
 
-      <br>
+    <p>
+      Welcome to My Education! 📚
+    </p>
 
-      <p>
-        Welcome to My Education! 📚
-      </p>
+    <br>
 
-      <br>
+    <p>
+      My Education is a free learning platform
+      designed to make useful knowledge easier
+      to understand and access.
+    </p>
 
-      <p>
-        My Education is a free learning platform
-        designed to make useful knowledge easier
-        to access.
-      </p>
+    <br>
 
-      <br>
+    <p>
+      Our lessons combine detailed explanations,
+      visual examples, practical activities and
+      quizzes to help students understand what
+      they are learning.
+    </p>
 
-      <p>
-        You can learn web development, artificial
-        intelligence, digital skills and business
-        completely online.
-      </p>
+    <br>
 
-      <br>
+    <p>
+      New courses and lessons can be added as
+      the platform grows.
+    </p>
 
-      <p>
-        More courses and lessons will be added
-        in the future.
-      </p>
+    <br>
 
-      <br>
+    <button class="btn" onclick="showHome()">
+      ← Back to Courses
+    </button>
 
-      <button class="btn" onclick="showHome()">
-        ← Back to Courses
-      </button>
-
-    </div>
   </div>
 
+</div>
+
 </section>
+
 
 <footer>
   © 2026 My Education — Free Learning
 </footer>
 
+
 <script>
+
+
+// ==============================
+// COURSE DATA
+// ==============================
 
 const courses = {
 
   web: {
-    title: "💻 Web Development",
-    description: "Learn how websites are created using HTML, CSS and JavaScript.",
-    lessons: [
+
+    icon:"💻",
+
+    title:"Web Development",
+
+    description:
+    "Learn how websites are built using HTML, CSS and JavaScript.",
+
+    lessons:[
 
       {
-        title: "Lesson 1: What is HTML?",
-        content: `
-          <h2>What is HTML?</h2>
+
+        title:"Lesson 1: HTML",
+
+        content:`
+
+        <h2>HTML — The Structure of a Website</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
             HTML stands for HyperText Markup Language.
-            It is used to create the structure of a webpage.
+            It is the standard markup language used to
+            organize and describe the content and structure
+            of webpages. HTML tells a web browser what
+            different pieces of content are, such as headings,
+            paragraphs, images, links, lists, forms and
+            buttons. HTML does not primarily control the
+            visual appearance of a website; instead, it
+            provides the underlying structure that browsers
+            interpret and display to users.
           </p>
-
-          <br>
 
           <p>
-            HTML can create headings, paragraphs,
-            images, links, buttons and many other
-            elements.
+            Think of HTML as the framework of a building.
+            Before a building can be decorated or equipped
+            with interactive systems, it needs a structure.
+            In a similar way, a webpage needs HTML to define
+            what content exists and how that content is
+            organized.
           </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ How the three main web technologies work
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              🧱 HTML<br>
+              Structure
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🎨 CSS<br>
+              Appearance
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              ⚙️ JavaScript<br>
+              Behavior
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <h3>💻 Example Code</h3>
+
+        <div class="code-box">
+
+<pre>&lt;h1&gt;My Education&lt;/h1&gt;
+
+&lt;p&gt;Welcome to my website.&lt;/p&gt;
+
+&lt;button&gt;Start Learning&lt;/button&gt;</pre>
+
+        </div>
+
+
+        <div class="explain-box">
+
+          <p>
+            <strong>&lt;h1&gt;</strong>
+            creates the main heading.
+          </p>
+
+          <p>
+            <strong>&lt;p&gt;</strong>
+            creates a paragraph.
+          </p>
+
+          <p>
+            <strong>&lt;button&gt;</strong>
+            creates a button.
+          </p>
+
+          <p>
+            HTML elements normally have an opening tag
+            and a closing tag surrounding their content.
+          </p>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            When you visit an educational website and see
+            a title, paragraphs, navigation links, images
+            and buttons, HTML is responsible for defining
+            those pieces of content and their structure.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            HTML = structure and content.
+          </p>
+
+          <p>
+            HTML tells the browser what elements are on
+            the webpage.
+          </p>
+
+        </div>
+
+
+        <div class="practice">
+
+          <h3>✍️ Practice</h3>
+
+          <p>
+            Try writing HTML that creates:
+          </p>
+
+          <p>
+            1. A heading saying "My School"<br>
+            2. A paragraph saying "I love learning."<br>
+            3. A button saying "Learn More"
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What does HTML mainly provide?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            A. Website structure
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Internet connection
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            C. Website structure and content
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            D. Computer hardware
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 2: What is CSS?",
-        content: `
-          <h2>What is CSS?</h2>
+
+        title:"Lesson 2: CSS",
+
+        content:`
+
+        <h2>CSS — Styling a Website</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
             CSS stands for Cascading Style Sheets.
-            CSS controls how a website looks.
+            It is a stylesheet language used to control
+            the presentation and visual appearance of
+            HTML documents. CSS allows developers to
+            specify colors, fonts, spacing, borders,
+            sizes, positioning, layouts, animations and
+            responsive designs.
           </p>
-
-          <br>
 
           <p>
-            You can use CSS to change colors,
-            fonts, spacing, backgrounds and layouts.
+            Without CSS, most webpages would have a much
+            simpler default appearance. CSS allows a
+            developer to transform a basic HTML structure
+            into a polished interface that works across
+            phones, tablets and computers.
           </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ HTML + CSS
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              HTML<br>
+              🧱 Structure
+            </div>
+
+            <div class="arrow">+</div>
+
+            <div class="diagram-box">
+              CSS<br>
+              🎨 Styling
+            </div>
+
+            <div class="arrow">=</div>
+
+            <div class="diagram-box">
+              🌐 Website
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <h3>💻 Example Code</h3>
+
+        <div class="code-box">
+
+<pre>h1 {
+  color: blue;
+  font-size: 40px;
+}
+
+button {
+  background: blue;
+  color: white;
+  padding: 15px;
+}</pre>
+
+        </div>
+
+
+        <div class="explain-box">
+
+          <p>
+            <strong>color</strong>
+            changes the text color.
+          </p>
+
+          <p>
+            <strong>font-size</strong>
+            changes the size of text.
+          </p>
+
+          <p>
+            <strong>background</strong>
+            changes an element's background.
+          </p>
+
+          <p>
+            <strong>padding</strong>
+            creates space inside an element.
+          </p>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            The cards, buttons, spacing, colors and layout
+            on this My Education website are controlled
+            largely by CSS.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            CSS = appearance and presentation.
+          </p>
+
+          <p>
+            HTML gives the page its structure while CSS
+            makes that structure look better.
+          </p>
+
+        </div>
+
+
+        <div class="practice">
+
+          <h3>✍️ Practice</h3>
+
+          <p>
+            Create a CSS rule that makes a heading blue
+            and 30 pixels large.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What is CSS mainly used for?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            A. Styling and presentation
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            B. Styling and presentation
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Connecting Wi-Fi
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            D. Storing electricity
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 3: What is JavaScript?",
-        content: `
-          <h2>What is JavaScript?</h2>
+
+        title:"Lesson 3: JavaScript",
+
+        content:`
+
+        <h2>JavaScript — Making Websites Interactive</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            JavaScript makes websites interactive.
+            JavaScript is a high-level programming language
+            widely used to add logic, interactivity and
+            dynamic behavior to websites and web applications.
+            Unlike HTML, which primarily describes the
+            structure of content, JavaScript can respond to
+            user actions, process information, make decisions,
+            perform calculations, change webpage content and
+            communicate with online services.
           </p>
-
-          <br>
 
           <p>
-            For example, JavaScript can make buttons
-            respond when someone clicks them.
+            For example, JavaScript can make a button respond
+            when someone taps it, display a message, calculate
+            a student's score, switch between lessons, check
+            a quiz answer or update information on a webpage
+            without requiring the entire page to be manually
+            rebuilt.
           </p>
+
+          <p>
+            JavaScript works together with HTML and CSS.
+            HTML creates the structure, CSS controls the
+            appearance, and JavaScript provides behavior
+            and logic.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ How JavaScript interacts with a webpage
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              👆 User<br>
+              clicks button
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              ⚙️ JavaScript<br>
+              processes action
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🖥️ Page<br>
+              changes
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <h3>💻 Example Code</h3>
+
+        <div class="code-box">
+
+<pre>function sayHello() {
+  alert("Hello! Welcome to My Education.");
+}</pre>
+
+        </div>
+
+
+        <div class="explain-box">
+
+          <p>
+            <strong>function</strong>
+            creates a reusable block of instructions.
+          </p>
+
+          <p>
+            <strong>sayHello</strong>
+            is the name of the function.
+          </p>
+
+          <p>
+            <strong>alert()</strong>
+            displays a message to the user.
+          </p>
+
+          <p>
+            The instructions inside the function run when
+            the function is called.
+          </p>
+
+        </div>
+
+
+        <h3>🖼️ Another Example</h3>
+
+        <div class="code-box">
+
+<pre>button.onclick = function() {
+  alert("You clicked the button!");
+};</pre>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            When you press the Start Course button on this
+            website and the course page opens, JavaScript
+            handles that interaction.
+          </p>
+
+          <p>
+            When you press Next and the next lesson appears,
+            JavaScript handles that action too.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            HTML = structure
+          </p>
+
+          <p>
+            CSS = appearance
+          </p>
+
+          <p>
+            JavaScript = behavior and interaction
+          </p>
+
+        </div>
+
+
+        <div class="practice">
+
+          <h3>✍️ Practice</h3>
+
+          <p>
+            Try changing the message inside
+            alert("...");
+            to a message of your own.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What is JavaScript commonly used for?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            A. Only creating images
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            B. Adding logic and interactivity
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Replacing the internet
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            D. Charging a phone
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       }
 
     ]
+
   },
 
 
   ai: {
-    title: "🤖 Artificial Intelligence",
-    description: "Understand the basics of artificial intelligence.",
-    lessons: [
+
+    icon:"🤖",
+
+    title:"Artificial Intelligence",
+
+    description:
+    "Understand AI, machine learning and modern AI systems.",
+
+    lessons:[
 
       {
-        title: "Lesson 1: What is AI?",
-        content: `
-          <h2>What is Artificial Intelligence?</h2>
+
+        title:"Lesson 1: What is AI?",
+
+        content:`
+
+        <h2>What is Artificial Intelligence?</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            Artificial Intelligence, or AI, is technology
-            that allows computers to perform tasks that
-            normally require human-like intelligence.
+            Artificial Intelligence, commonly called AI,
+            is a field of computer science concerned with
+            creating computer systems that can perform tasks
+            that normally require aspects of human intelligence.
           </p>
+
+          <p>
+            Depending on the system, these tasks can include
+            recognizing patterns, understanding language,
+            making predictions, generating content, solving
+            problems and assisting people with decisions.
+          </p>
+
+          <p>
+            Modern AI systems can process large amounts of
+            information and use learned patterns to produce
+            outputs. However, AI does not think exactly like
+            a human being, and its outputs can sometimes be
+            incorrect.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Basic AI Process
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              📊 Data
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🤖 AI System
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              💡 Output
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <h3>💻 Simple Example</h3>
+
+        <div class="code-box">
+
+<pre>Input:
+"Recommend a lesson about coding."
+
+AI:
+Analyzes the request.
+
+Output:
+"Try the Web Development course."</pre>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            AI can be used in education, search engines,
+            translation, recommendation systems, image
+            generation, programming assistants and many
+            other areas.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            AI is a broad field involving computer systems
+            designed to perform tasks that can involve
+            intelligent behavior.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What does AI stand for?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. Artificial Intelligence
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Automatic Internet
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Advanced Internet
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 2: How AI Learns",
-        content: `
-          <h2>How Does AI Learn?</h2>
+
+        title:"Lesson 2: Machine Learning",
+
+        content:`
+
+        <h2>How Machine Learning Works</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            Many AI systems learn patterns from data.
-            The system uses these patterns to make
-            predictions or generate results.
+            Machine learning is a major approach within
+            artificial intelligence in which computer systems
+            learn patterns from data and use those patterns
+            to make predictions or produce outputs.
           </p>
+
+          <p>
+            Instead of writing a separate instruction for
+            every possible situation, developers can train
+            certain machine-learning systems using examples.
+            The system adjusts internal parameters during
+            training so that it becomes better at a particular
+            task.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Simplified Learning Process
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              📚 Training Data
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🧠 Training
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🤖 Model
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🎯 Prediction
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <h3>💻 Simplified Example</h3>
+
+        <div class="code-box">
+
+<pre>Examples:
+Dog → Animal
+Cat → Animal
+Lion → Animal
+
+New input:
+Horse
+
+Model:
+Animal</pre>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            Machine learning can be used to recognize
+            patterns in images, recommend content, detect
+            unusual activity and make predictions from data.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            Machine learning systems can learn patterns
+            from examples and data.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What is an important part of machine learning?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            A. Learning from no information
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            B. Learning patterns from data
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Turning off computers
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 3: AI Tools",
-        content: `
-          <h2>Modern AI Tools</h2>
+
+        title:"Lesson 3: AI Tools",
+
+        content:`
+
+        <h2>Modern AI Tools</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            AI can be used for writing, programming,
-            image creation, education, research and
-            many other tasks.
+            Modern AI tools are software applications that
+            use artificial intelligence techniques to help
+            people perform specific tasks. Depending on the
+            tool, they may generate or analyze text, images,
+            audio, code or other forms of information.
           </p>
+
+          <p>
+            AI tools are increasingly used for education,
+            programming, research, productivity and creative
+            work. A responsible user should still check
+            important information because AI systems can
+            produce inaccurate or misleading results.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Examples of AI Applications
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">✍️ Text</div>
+            <div class="diagram-box">🖼️ Images</div>
+            <div class="diagram-box">💻 Code</div>
+            <div class="diagram-box">🎙️ Audio</div>
+
+          </div>
+
+        </div>
+
+
+        <h3>🌍 Example</h3>
+
+        <div class="example">
+
+          <p>
+            A student could use an AI tool to explain a
+            difficult programming concept, then verify the
+            explanation using trusted educational sources
+            and their own understanding.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            AI tools can be powerful assistants, but they
+            should be used thoughtfully and their important
+            outputs should be checked.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            Why should important AI-generated information
+            be checked?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. AI can sometimes make mistakes
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. AI never produces information
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. AI cannot process text
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       }
 
     ]
+
   },
 
 
   digital: {
-    title: "📱 Digital Skills",
-    description: "Learn useful skills for using technology effectively.",
-    lessons: [
+
+    icon:"📱",
+
+    title:"Digital Skills",
+
+    description:
+    "Learn practical skills for using technology safely and effectively.",
+
+    lessons:[
 
       {
-        title: "Lesson 1: Internet Basics",
-        content: `
-          <h2>Internet Basics</h2>
+
+        title:"Lesson 1: Internet Basics",
+
+        content:`
+
+        <h2>Understanding the Internet</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            The internet connects computers and devices
-            around the world so they can communicate
-            and share information.
+            The internet is a global system of interconnected
+            computer networks that communicate using standardized
+            protocols. It allows devices and services around the
+            world to exchange information.
           </p>
+
+          <p>
+            The web is one of the services that operates over
+            the internet. Websites are accessed through browsers,
+            while many other services also use internet
+            connectivity.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Simplified Internet Connection
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              📱 Your Device
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🌐 Internet
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🖥️ Server
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <h3>🌍 Real-World Example</h3>
+
+        <div class="example">
+
+          <p>
+            When you open a website, your device communicates
+            across networks with computers that provide the
+            requested webpage or service.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            The internet connects networks and devices so
+            information can be exchanged.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What does the internet allow connected devices
+            to do?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. Communicate and exchange information
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Work without electricity
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Become physical books
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 2: Online Safety",
-        content: `
-          <h2>Online Safety</h2>
+
+        title:"Lesson 2: Online Safety",
+
+        content:`
+
+        <h2>Online Safety</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            Protect your accounts by using strong,
-            unique passwords and avoiding suspicious
-            links or messages.
+            Online safety involves protecting your personal
+            information, accounts, devices and digital identity
+            while using internet-connected services.
           </p>
+
+          <p>
+            Good online safety practices include using strong
+            and unique passwords, enabling additional account
+            security where available, avoiding suspicious links,
+            keeping software updated and thinking carefully
+            before sharing personal information.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Basic Safety Model
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              🔐 Strong Password
+            </div>
+
+            <div class="diagram-box">
+              🚫 Suspicious Links
+            </div>
+
+            <div class="diagram-box">
+              🛡️ Privacy
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            If someone sends you an unexpected message asking
+            you to urgently enter your password on a strange
+            website, stop and verify the message before doing
+            anything.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            Protect your accounts and think before clicking
+            unexpected links or sharing personal information.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            Which is a good online safety habit?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. Using strong unique passwords
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Sharing passwords publicly
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Clicking every suspicious link
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 3: Digital Productivity",
-        content: `
-          <h2>Digital Productivity</h2>
+
+        title:"Lesson 3: Digital Productivity",
+
+        content:`
+
+        <h2>Digital Productivity</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            Digital tools can help you organize school
-            work, create documents, communicate and
-            learn new skills.
+            Digital productivity refers to using digital
+            devices and software effectively to organize
+            information, complete tasks, communicate and
+            manage work or learning.
           </p>
+
+          <p>
+            Examples include using calendars, note-taking
+            applications, document editors, cloud storage,
+            task lists and collaboration tools.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Productivity Workflow
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">📝 Plan</div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">💻 Work</div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">✅ Complete</div>
+
+          </div>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            A student can use a calendar to remember
+            assignment deadlines and a document editor
+            to prepare schoolwork.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            Digital tools are most useful when they help
+            you organize your work and save time.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            Which can help with digital productivity?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. A digital calendar
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Ignoring every deadline
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Deleting all notes
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       }
 
     ]
+
   },
 
 
   business: {
-    title: "📈 Business",
-    description: "Learn the basics of entrepreneurship and business.",
-    lessons: [
+
+    icon:"📈",
+
+    title:"Business",
+
+    description:
+    "Learn the fundamentals of entrepreneurship and business thinking.",
+
+    lessons:[
 
       {
-        title: "Lesson 1: What is a Business?",
-        content: `
-          <h2>What is a Business?</h2>
+
+        title:"Lesson 1: What is a Business?",
+
+        content:`
+
+        <h2>What is a Business?</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            A business provides products or services
-            that solve problems for customers.
+            A business is an organization or activity that
+            provides products or services to customers.
+            Businesses generally aim to create value by
+            solving problems, meeting needs or providing
+            useful experiences.
           </p>
+
+          <p>
+            A business can be very small, such as a person
+            providing a service independently, or very large,
+            involving many employees, locations and products.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Basic Business Model
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              🧩 Problem
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              💡 Solution
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              👥 Customers
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            If students in an area need affordable tutoring,
+            someone could create a tutoring service that
+            provides useful lessons to those students.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            Businesses create value by providing products
+            or services that meet customer needs.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What does a business generally provide?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. Products or services
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Only homework
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Only games
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 2: Finding a Problem",
-        content: `
-          <h2>Finding Problems to Solve</h2>
+
+        title:"Lesson 2: Finding a Problem",
+
+        content:`
+
+        <h2>Finding a Problem to Solve</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            Good business ideas often begin by finding
-            a real problem that people need solved.
+            Many useful business ideas begin with identifying
+            a problem, need or inconvenience experienced by
+            a group of people. Entrepreneurs can investigate
+            these problems and consider whether a practical
+            solution could provide meaningful value.
           </p>
+
+          <p>
+            A good problem is not automatically a good business
+            opportunity. It is important to understand who has
+            the problem, how serious it is, what solutions
+            already exist and whether people actually want a
+            better solution.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Problem → Solution
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              😕 Problem
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🔎 Research
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              💡 Solution
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            Suppose students find it difficult to locate
+            organized free learning materials. A possible
+            solution could be a website that organizes useful
+            educational lessons in one place.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            Start by understanding a real problem before
+            deciding what solution to build.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            What can be a starting point for a business idea?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. A real problem people experience
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. Ignoring customers
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. Copying random ideas without research
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       },
 
+
       {
-        title: "Lesson 3: Starting Small",
-        content: `
-          <h2>Starting Small</h2>
+
+        title:"Lesson 3: Starting Small",
+
+        content:`
+
+        <h2>Starting Small</h2>
+
+        <div class="definition">
+
+          <h3>📖 Detailed Definition</h3>
 
           <p>
-            You can test a business idea on a small scale
-            before investing significant money or resources.
+            Starting small means testing an idea on a limited
+            scale before committing significant resources.
+            This approach can help someone learn what customers
+            actually need, identify weaknesses and improve the
+            idea using feedback.
           </p>
+
+          <p>
+            Testing an idea does not guarantee success. The
+            purpose is to learn efficiently and reduce the
+            amount of unnecessary effort spent on assumptions
+            that have not been tested.
+          </p>
+
+        </div>
+
+
+        <div class="visual">
+
+          <div class="visual-title">
+            🖼️ Simple Business Testing Cycle
+          </div>
+
+          <div class="diagram">
+
+            <div class="diagram-box">
+              💡 Idea
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🧪 Test
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              💬 Feedback
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="diagram-box">
+              🔄 Improve
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="example">
+
+          <h3>🌍 Real-World Example</h3>
+
+          <p>
+            Instead of immediately building a huge platform,
+            an entrepreneur might first create a small version,
+            let a few people try it and use their feedback to
+            improve the idea.
+          </p>
+
+        </div>
+
+
+        <div class="remember">
+
+          <h3>🧠 What to Remember</h3>
+
+          <p>
+            Test, learn, improve and then expand.
+          </p>
+
+        </div>
+
+
+        <div class="quiz">
+
+          <h3>❓ Quick Quiz</h3>
+
+          <p>
+            Why can starting small be useful?
+          </p>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,true)">
+            A. It allows you to test and learn
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            B. It guarantees success
+          </button>
+
+          <button class="quiz-option"
+            onclick="checkAnswer(this,false)">
+            C. It removes the need for customers
+          </button>
+
+          <div class="quiz-result"></div>
+
+        </div>
+
         `
+
       }
 
     ]
+
   }
 
 };
 
 
+// ==============================
+// VARIABLES
+// ==============================
+
 let currentCourse = null;
+
 let currentLesson = 0;
 
 
-function hideAllPages() {
+// ==============================
+// HOME
+// ==============================
 
-  document.querySelectorAll(".page").forEach(page => {
+function showHome(){
+
+  document.querySelectorAll(".page").forEach(page=>{
     page.classList.remove("active");
+  });
+
+  document.getElementById("home").classList.add("active");
+
+  window.scrollTo(0,0);
+
+  renderCourses();
+
+}
+
+
+// ==============================
+// ABOUT
+// ==============================
+
+function showAbout(){
+
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+  document.getElementById("about").classList.add("active");
+
+  window.scrollTo(0,0);
+
+}
+
+
+// ==============================
+// DISPLAY COURSES
+// ==============================
+
+function renderCourses(filter=""){
+
+  const grid=document.getElementById("courseGrid");
+
+  grid.innerHTML="";
+
+  Object.keys(courses).forEach(key=>{
+
+    const course=courses[key];
+
+    if(
+      filter &&
+      !course.title.toLowerCase().includes(filter.toLowerCase())
+    ){
+      return;
+    }
+
+    const card=document.createElement("div");
+
+    card.className="course-card";
+
+    card.innerHTML=`
+
+      <div class="icon">${course.icon}</div>
+
+      <h2>${course.title}</h2>
+
+      <p>${course.description}</p>
+
+      <button class="btn"
+        onclick="openCourse('${key}')">
+        Start Course →
+      </button>
+
+    `;
+
+    grid.appendChild(card);
+
   });
 
 }
 
 
-function showHome() {
+// ==============================
+// SEARCH
+// ==============================
 
-  hideAllPages();
+function searchCourses(){
 
-  document.getElementById("home").classList.add("active");
+  const value=document
+    .getElementById("searchInput")
+    .value;
 
-  window.scrollTo(0, 0);
-
-}
-
-
-function showAbout() {
-
-  hideAllPages();
-
-  document.getElementById("about").classList.add("active");
-
-  window.scrollTo(0, 0);
+  renderCourses(value);
 
 }
 
 
-function openCourse(courseName) {
+// ==============================
+// OPEN COURSE
+// ==============================
 
-  currentCourse = courseName;
+function openCourse(courseName){
 
-  currentLesson = 0;
+  currentCourse=courseName;
 
-  const course = courses[courseName];
+  currentLesson=0;
 
-  document.getElementById("courseTitle").textContent =
-    course.title;
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
 
-  document.getElementById("courseDescription").textContent =
+  document
+    .getElementById("coursePage")
+    .classList.add("active");
+
+  const course=courses[currentCourse];
+
+  document.getElementById("courseTitle").textContent=
+    course.icon+" "+course.title;
+
+  document.getElementById("courseDescription").textContent=
     course.description;
-
-  hideAllPages();
-
-  document.getElementById("coursePage").classList.add("active");
 
   displayLessons();
 
   displayLesson();
 
-  window.scrollTo(0, 0);
+  updateProgress();
+
+  window.scrollTo(0,0);
 
 }
 
 
-function displayLessons() {
+// ==============================
+// DISPLAY LESSONS
+// ==============================
 
-  const list = document.getElementById("lessonList");
+function displayLessons(){
 
-  list.innerHTML = "";
+  const list=document.getElementById("lessonList");
 
-  const lessons = courses[currentCourse].lessons;
+  list.innerHTML="";
 
-  lessons.forEach((lesson, index) => {
+  const completed=getCompletedLessons();
 
-    const item = document.createElement("div");
+  courses[currentCourse].lessons.forEach((lesson,index)=>{
 
-    item.className = "lesson";
+    const item=document.createElement("div");
 
-    item.textContent = lesson.title;
+    item.className="lesson-item";
 
-    item.onclick = function() {
+    if(index===currentLesson){
+      item.classList.add("active");
+    }
 
-      currentLesson = index;
+    if(completed.includes(index)){
+      item.classList.add("completed");
+      item.textContent="✅ "+lesson.title;
+    }else{
+      item.textContent=lesson.title;
+    }
+
+    item.onclick=function(){
+
+      currentLesson=index;
+
+      displayLessons();
 
       displayLesson();
+
+      window.scrollTo(0,0);
 
     };
 
@@ -679,47 +2558,185 @@ function displayLessons() {
 }
 
 
-function displayLesson() {
+// ==============================
+// DISPLAY LESSON
+// ==============================
 
-  const lesson =
+function displayLesson(){
+
+  const lesson=
     courses[currentCourse].lessons[currentLesson];
 
-  document.getElementById("lessonContent").innerHTML =
+  document.getElementById("lessonContent").innerHTML=
     lesson.content;
+
+  updateProgress();
 
 }
 
 
-function nextLesson() {
+// ==============================
+// NEXT
+// ==============================
 
-  const lessons = courses[currentCourse].lessons;
+function nextLesson(){
 
-  if (currentLesson < lessons.length - 1) {
+  markLessonComplete();
+
+  const lessons=
+    courses[currentCourse].lessons;
+
+  if(currentLesson < lessons.length-1){
 
     currentLesson++;
 
+    displayLessons();
+
     displayLesson();
 
-  } else {
+    window.scrollTo(0,0);
 
-    alert("🎉 Congratulations! You completed this course!");
+  }else{
+
+    updateProgress();
+
+    alert(
+      "🎉 Congratulations! You completed "+courses[currentCourse].title+"!"
+    );
 
   }
 
 }
 
 
-function previousLesson() {
+// ==============================
+// PREVIOUS
+// ==============================
 
-  if (currentLesson > 0) {
+function previousLesson(){
+
+  if(currentLesson>0){
 
     currentLesson--;
 
+    displayLessons();
+
     displayLesson();
+
+    window.scrollTo(0,0);
 
   }
 
 }
+
+
+// ==============================
+// PROGRESS
+// ==============================
+
+function getProgressKey(){
+
+  return "myEducation_"+currentCourse+"_completed";
+
+}
+
+
+function getCompletedLessons(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(getProgressKey())
+    ) || [];
+
+  }catch(error){
+
+    return [];
+
+  }
+
+}
+
+
+function markLessonComplete(){
+
+  const completed=getCompletedLessons();
+
+  if(!completed.includes(currentLesson)){
+
+    completed.push(currentLesson);
+
+    localStorage.setItem(
+      getProgressKey(),
+      JSON.stringify(completed)
+    );
+
+  }
+
+  updateProgress();
+
+}
+
+
+function updateProgress(){
+
+  if(!currentCourse) return;
+
+  const total=
+    courses[currentCourse].lessons.length;
+
+  const completed=
+    getCompletedLessons().length;
+
+  const percent=
+    Math.round((completed/total)*100);
+
+  document.getElementById("progressText").textContent=
+    percent+"%";
+
+  document.getElementById("progressFill").style.width=
+    percent+"%";
+
+}
+
+
+// ==============================
+// QUIZ
+// ==============================
+
+function checkAnswer(button,correct){
+
+  const result=
+    button.parentElement.querySelector(".quiz-result");
+
+  const options=
+    button.parentElement.querySelectorAll(".quiz-option");
+
+  options.forEach(option=>{
+    option.disabled=true;
+    option.style.cursor="default";
+  });
+
+  if(correct){
+
+    result.textContent=
+      "✅ Correct! Great job.";
+
+  }else{
+
+    result.textContent=
+      "❌ Not quite. Review the lesson and try again.";
+
+  }
+
+}
+
+
+// ==============================
+// START
+// ==============================
+
+renderCourses();
 
 </script>
 
