@@ -3,1060 +3,998 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="My Education - Learn. Build. Grow.">
+
 <title>My Education | Learn. Build. Grow.</title>
 
 <style>
-:root{
-  --primary:#2563eb;
-  --primary-dark:#1d4ed8;
-  --dark:#0f172a;
-  --dark2:#172554;
-  --light:#f5f7fb;
-  --card:#ffffff;
-  --text:#172033;
-  --muted:#64748b;
-  --green:#16a34a;
-  --red:#dc2626;
-  --gold:#f59e0b;
-  --border:#e2e8f0;
-}
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html{
-  scroll-behavior:smooth;
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --dark:#0f172a;
+    --dark2:#172554;
+    --light:#f5f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#64748b;
+    --green:#16a34a;
+    --red:#dc2626;
+    --gold:#f59e0b;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--light);
-  color:var(--text);
-  line-height:1.6;
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--light);
+    color:var(--text);
+    line-height:1.6;
 }
 
-button{
-  font:inherit;
-  cursor:pointer;
-}
-
-.header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:white;
-  border-bottom:1px solid var(--border);
-  padding:15px 5%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
+header{
+    background:linear-gradient(135deg,#0f172a,#172554);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
 }
 
 .logo{
-  font-size:21px;
-  font-weight:800;
-  color:var(--primary);
-  white-space:nowrap;
+    font-size:24px;
+    font-weight:800;
 }
 
-.nav{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+.logo span{
+    color:#60a5fa;
 }
 
-.nav button{
-  border:0;
-  background:transparent;
-  color:var(--text);
-  padding:9px 13px;
-  border-radius:9px;
-  font-weight:600;
+nav{
+    display:flex;
+    gap:8px;
 }
 
-.nav button:hover{
-  background:#eff6ff;
-  color:var(--primary);
+nav button{
+    border:0;
+    background:transparent;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
 }
 
-.nav .premium-nav{
-  background:#fff7ed;
-  color:#b45309;
+nav button:hover{
+    background:rgba(255,255,255,.1);
 }
 
-.hero{
-  background:linear-gradient(135deg,var(--dark),var(--dark2));
-  color:white;
-  padding:85px 5%;
-  text-align:center;
-}
-
-.hero h1{
-  font-size:clamp(42px,7vw,72px);
-  line-height:1.05;
-  margin-bottom:20px;
-}
-
-.hero p{
-  max-width:700px;
-  margin:0 auto 30px;
-  color:#dbeafe;
-  font-size:18px;
-}
-
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:13px 20px;
-  background:var(--primary);
-  color:white;
-  font-weight:700;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-  background:var(--primary-dark);
-}
-
-.btn.gold{
-  background:var(--gold);
-  color:#451a03;
-}
-
-.btn.green{
-  background:var(--green);
-}
-
-.btn.secondary{
-  background:#e2e8f0;
-  color:var(--text);
-}
-
-.section{
-  max-width:1150px;
-  margin:auto;
-  padding:70px 5%;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:40px;
-}
-
-.section-title h2{
-  font-size:36px;
-  margin-bottom:10px;
-}
-
-.section-title p{
-  color:var(--muted);
-}
-
-.features,
-.courses{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:22px;
-}
-
-.courses{
-  grid-template-columns:repeat(2,1fr);
-}
-
-.card,
-.course-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:27px;
-  box-shadow:0 8px 25px rgba(15,23,42,.05);
-}
-
-.card-icon,
-.course-icon{
-  font-size:40px;
-  margin-bottom:15px;
-}
-
-.card h3,
-.course-card h3{
-  margin-bottom:9px;
-}
-
-.card p,
-.course-card p{
-  color:var(--muted);
-}
-
-.course-card{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.course-card .btn{
-  margin-top:auto;
-  width:100%;
-}
-
-.premium-card{
-  border:2px solid var(--gold);
-  background:linear-gradient(145deg,#fff,#fffbeb);
-  position:relative;
-  overflow:hidden;
-}
-
-.premium-card::before{
-  content:"PREMIUM";
-  position:absolute;
-  top:15px;
-  right:-34px;
-  transform:rotate(35deg);
-  background:var(--gold);
-  color:#451a03;
-  font-size:11px;
-  font-weight:900;
-  padding:5px 40px;
-}
-
-.premium-price{
-  font-size:30px;
-  font-weight:900;
-  color:#b45309;
-  margin:8px 0;
-}
-
-.premium-price small{
-  font-size:13px;
-  font-weight:600;
-  color:var(--muted);
-}
-
-.premium-features{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin:10px 0 15px;
-}
-
-.premium-feature{
-  background:#fff7ed;
-  border-radius:9px;
-  padding:8px;
-  font-size:13px;
-  font-weight:600;
+.container{
+    width:90%;
+    max-width:1150px;
+    margin:auto;
 }
 
 .page{
-  display:none;
+    display:none;
 }
 
 .page.active{
-  display:block;
+    display:block;
 }
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:80px 15px 60px;
+    background:
+        radial-gradient(circle at top left,#dbeafe,transparent 35%),
+        radial-gradient(circle at bottom right,#e0e7ff,transparent 35%);
+}
+
+.hero h1{
+    font-size:clamp(40px,7vw,72px);
+    line-height:1.05;
+    margin-bottom:20px;
+}
+
+.gradient-text{
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    max-width:700px;
+    margin:auto;
+    color:var(--muted);
+    font-size:19px;
+}
+
+.hero-buttons{
+    margin-top:30px;
+}
+
+.btn{
+    border:0;
+    background:var(--primary);
+    color:white;
+    padding:14px 22px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.btn:hover{
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+}
+
+.btn.secondary{
+    background:#e2e8f0;
+    color:#172033;
+}
+
+.btn.success{
+    background:var(--green);
+}
+
+.btn.gold{
+    background:var(--gold);
+    color:#111827;
+}
+
+/* FEATURES */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin:35px auto;
+}
+
+.feature{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(15,23,42,.06);
+}
+
+.feature-icon{
+    font-size:35px;
+    margin-bottom:10px;
+}
+
+.feature h3{
+    margin-bottom:8px;
+}
+
+/* COURSES */
+
+.section-title{
+    text-align:center;
+    margin:45px 0 25px;
+}
+
+.section-title h2{
+    font-size:35px;
+}
+
+.courses{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+    padding-bottom:60px;
+}
+
+.course-card{
+    background:white;
+    border-radius:22px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(15,23,42,.07);
+    transition:.25s;
+    border:1px solid #e5e7eb;
+}
+
+.course-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 18px 40px rgba(15,23,42,.12);
+}
+
+.course-icon{
+    font-size:45px;
+}
+
+.course-card h3{
+    font-size:25px;
+    margin:12px 0 8px;
+}
+
+.course-card p{
+    color:var(--muted);
+    margin-bottom:20px;
+}
+
+.course-meta{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.badge{
+    background:#eff6ff;
+    color:#1d4ed8;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* COURSE PAGE */
 
 .course-header{
-  background:linear-gradient(135deg,var(--dark),var(--dark2));
-  color:white;
-  padding:50px 5%;
-}
-
-.course-header-inner{
-  max-width:1150px;
-  margin:auto;
+    background:linear-gradient(135deg,#172554,#2563eb);
+    color:white;
+    padding:35px;
+    border-radius:24px;
+    margin:35px 0 25px;
 }
 
 .course-header h1{
-  font-size:40px;
-  margin-bottom:8px;
+    font-size:40px;
+    margin:8px 0;
 }
 
 .course-header p{
-  color:#cbd5e1;
+    opacity:.9;
 }
 
-.course-layout{
-  max-width:1150px;
-  margin:35px auto;
-  padding:0 5%;
-  display:grid;
-  grid-template-columns:280px 1fr;
-  gap:25px;
+.back-btn{
+    background:rgba(255,255,255,.15);
+    color:white;
+    border:0;
+    padding:9px 13px;
+    border-radius:10px;
+    cursor:pointer;
 }
 
-.lesson-sidebar{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:15px;
-  height:max-content;
-}
-
-.lesson-sidebar h3{
-  margin-bottom:12px;
-}
-
-.lesson-btn{
-  display:block;
-  width:100%;
-  text-align:left;
-  padding:12px;
-  margin-bottom:7px;
-  border:0;
-  border-radius:9px;
-  background:#f8fafc;
-  color:var(--text);
-}
-
-.lesson-btn.active{
-  background:#dbeafe;
-  color:var(--primary);
-  font-weight:700;
-}
-
-.lesson-btn.completed{
-  border-left:4px solid var(--green);
-}
-
-.lesson-content{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:30px;
-}
-
-.lesson-content h2{
-  font-size:30px;
-  margin-bottom:20px;
-}
-
-.lesson-content h3{
-  margin-top:25px;
-  margin-bottom:8px;
-}
-
-.definition{
-  background:#eff6ff;
-  border-left:5px solid var(--primary);
-  padding:15px;
-  border-radius:8px;
-}
-
-.visual{
-  background:#0f172a;
-  color:#e2e8f0;
-  border-radius:12px;
-  padding:20px;
-  margin:15px 0;
-  white-space:pre-wrap;
-  font-family:monospace;
-}
-
-.code{
-  background:#111827;
-  color:#d1fae5;
-  padding:20px;
-  border-radius:12px;
-  overflow:auto;
-  white-space:pre-wrap;
-  font-family:monospace;
-}
-
-.quiz{
-  margin-top:30px;
-  padding:20px;
-  background:#f8fafc;
-  border-radius:12px;
-  border:1px solid var(--border);
-}
-
-.quiz-question{
-  margin-bottom:25px;
-}
-
-.option{
-  display:block;
-  width:100%;
-  text-align:left;
-  margin:8px 0;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:9px;
-  background:white;
-}
-
-.option:hover{
-  border-color:var(--primary);
-}
-
-.option.selected{
-  background:#dbeafe;
-  border-color:var(--primary);
-}
-
-.quiz-result{
-  margin-top:10px;
-  font-weight:700;
-}
-
-.lesson-actions{
-  display:flex;
-  gap:10px;
-  justify-content:space-between;
-  margin-top:30px;
-  flex-wrap:wrap;
-}
+/* PROGRESS */
 
 .progress-box{
-  margin-top:20px;
-  background:rgba(255,255,255,.12);
-  border-radius:12px;
-  padding:15px;
-  max-width:600px;
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:25px;
+    box-shadow:0 6px 20px rgba(0,0,0,.05);
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+.progress{
+    width:100%;
+    height:12px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
 }
 
 .progress-bar{
-  height:10px;
-  background:#334155;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:8px;
+    height:100%;
+    background:linear-gradient(90deg,#2563eb,#7c3aed);
+    width:0%;
+    transition:.4s;
 }
 
-.progress-fill{
-  height:100%;
-  background:#60a5fa;
-  width:0%;
-  transition:.3s;
+/* LESSONS */
+
+.lesson-layout{
+    display:grid;
+    grid-template-columns:270px 1fr;
+    gap:25px;
+    padding-bottom:50px;
 }
 
-.about-box{
-  max-width:800px;
-  margin:auto;
-  background:white;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:35px;
+.lesson-list{
+    background:white;
+    border-radius:20px;
+    padding:15px;
+    height:max-content;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
 }
 
-.premium-dashboard{
-  background:#fff;
-  border-top:1px solid var(--border);
+.lesson-item{
+    padding:15px;
+    border-radius:12px;
+    cursor:pointer;
+    margin-bottom:8px;
+    transition:.2s;
 }
 
-.premium-banner{
-  background:linear-gradient(135deg,#451a03,#92400e);
-  color:white;
-  border-radius:18px;
-  padding:30px;
-  margin-bottom:25px;
+.lesson-item:hover{
+    background:#eff6ff;
 }
 
-.premium-banner h2{
-  margin-bottom:7px;
+.lesson-item.active{
+    background:#dbeafe;
+    color:#1d4ed8;
+    font-weight:bold;
 }
 
-.premium-status{
-  display:inline-block;
-  margin-top:12px;
-  padding:6px 11px;
-  background:#f59e0b;
-  color:#451a03;
-  border-radius:20px;
-  font-weight:800;
-  font-size:13px;
+.lesson-item.completed{
+    border-left:4px solid var(--green);
 }
 
-.xp-box{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:25px;
+.lesson-content{
+    background:white;
+    border-radius:22px;
+    padding:35px;
+    box-shadow:0 8px 25px rgba(0,0,0,.05);
 }
 
-.xp-stat{
-  background:#f8fafc;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
-  text-align:center;
+.lesson-content h2{
+    font-size:32px;
+    margin-bottom:15px;
 }
 
-.xp-stat strong{
-  display:block;
-  font-size:30px;
-  color:var(--primary);
+.lesson-content h3{
+    font-size:23px;
+    margin:28px 0 10px;
 }
 
-.premium-tools{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:20px;
+.lesson-content p{
+    margin-bottom:15px;
+    color:#334155;
+    font-size:17px;
 }
 
-.premium-tool{
-  background:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:25px;
+/* DEFINITION */
+
+.definition{
+    background:#eff6ff;
+    border-left:5px solid var(--primary);
+    padding:22px;
+    border-radius:12px;
+    margin:20px 0;
 }
 
-.premium-tool h3{
-  margin-bottom:8px;
+.definition strong{
+    color:#1d4ed8;
 }
 
-.premium-tool p{
-  color:var(--muted);
-  margin-bottom:15px;
+/* VISUAL */
+
+.visual{
+    background:#0f172a;
+    color:white;
+    border-radius:18px;
+    padding:25px;
+    margin:25px 0;
+    overflow:hidden;
 }
 
-.notes{
-  width:100%;
-  min-height:180px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:13px;
-  resize:vertical;
-  font:inherit;
+.visual-title{
+    text-align:center;
+    margin-bottom:20px;
+    color:#93c5fd;
 }
 
-.premium-modal{
-  position:fixed;
-  inset:0;
-  background:rgba(15,23,42,.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:3000;
-  padding:20px;
+.visual-flow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
 }
 
-.premium-modal.show{
-  display:flex;
+.visual-box{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+    min-width:130px;
 }
 
-.premium-modal-box{
-  width:min(550px,100%);
-  background:white;
-  border-radius:20px;
-  padding:30px;
-  max-height:90vh;
-  overflow:auto;
+.arrow{
+    font-size:25px;
+    color:#60a5fa;
 }
 
-.premium-modal-box h2{
-  font-size:30px;
-  margin-bottom:10px;
+/* CODE */
+
+.code-box{
+    background:#0b1120;
+    color:#e2e8f0;
+    border-radius:16px;
+    margin:20px 0;
+    overflow:hidden;
+    border:1px solid #1e293b;
 }
 
-.premium-list{
-  list-style:none;
-  margin:20px 0;
+.code-header{
+    padding:10px 15px;
+    background:#111827;
+    color:#94a3b8;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
 }
 
-.premium-list li{
-  padding:9px 0;
-  border-bottom:1px solid var(--border);
+.code-box pre{
+    padding:20px;
+    overflow-x:auto;
+    font-size:14px;
+    line-height:1.7;
 }
 
-.premium-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+.keyword{
+    color:#c084fc;
 }
+
+.string{
+    color:#86efac;
+}
+
+.comment{
+    color:#64748b;
+}
+
+/* QUIZ */
+
+.quiz{
+    background:#f8fafc;
+    border:2px solid #e2e8f0;
+    border-radius:20px;
+    padding:25px;
+    margin-top:35px;
+}
+
+.quiz-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.quiz-title h3{
+    margin:0;
+}
+
+.question{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-top:18px;
+    border:1px solid #e2e8f0;
+}
+
+.options{
+    display:grid;
+    gap:10px;
+    margin-top:15px;
+}
+
+.option{
+    border:2px solid #e2e8f0;
+    background:white;
+    padding:13px;
+    border-radius:10px;
+    text-align:left;
+    cursor:pointer;
+}
+
+.option:hover{
+    border-color:#93c5fd;
+    background:#eff6ff;
+}
+
+.option.selected{
+    border-color:#2563eb;
+    background:#dbeafe;
+}
+
+.option.correct{
+    border-color:#16a34a;
+    background:#dcfce7;
+}
+
+.option.wrong{
+    border-color:#dc2626;
+    background:#fee2e2;
+}
+
+.fill-input{
+    width:100%;
+    padding:14px;
+    border:2px solid #cbd5e1;
+    border-radius:10px;
+    font-size:16px;
+    margin:15px 0;
+    outline:none;
+}
+
+.fill-input:focus{
+    border-color:#2563eb;
+}
+
+.feedback{
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    font-weight:bold;
+    display:none;
+}
+
+.feedback.show{
+    display:block;
+}
+
+.feedback.correct{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.feedback.wrong{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+/* NAVIGATION */
+
+.lesson-navigation{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:30px;
+    border-top:1px solid #e2e8f0;
+    padding-top:25px;
+}
+
+.complete-box{
+    text-align:center;
+    background:#ecfdf5;
+    border:2px solid #86efac;
+    padding:25px;
+    border-radius:18px;
+    margin-top:25px;
+}
+
+.complete-box h3{
+    color:#166534;
+    margin:0 0 8px;
+}
+
+/* ABOUT */
+
+.about{
+    background:white;
+    margin:40px auto;
+    padding:40px;
+    border-radius:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+}
+
+.about h2{
+    font-size:35px;
+    margin-bottom:15px;
+}
+
+.about p{
+    margin-bottom:15px;
+    font-size:17px;
+    color:#475569;
+}
+
+/* FOOTER */
+
+footer{
+    background:#0f172a;
+    color:#94a3b8;
+    text-align:center;
+    padding:35px 15px;
+    margin-top:30px;
+}
+
+/* TOAST */
 
 .toast{
-  position:fixed;
-  bottom:25px;
-  left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:#0f172a;
-  color:white;
-  padding:12px 18px;
-  border-radius:10px;
-  opacity:0;
-  transition:.3s;
-  z-index:5000;
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    transform:translateX(-50%) translateY(100px);
+    background:#0f172a;
+    color:white;
+    padding:14px 20px;
+    border-radius:12px;
+    opacity:0;
+    transition:.3s;
+    z-index:999;
 }
 
 .toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+    transform:translateX(-50%) translateY(0);
+    opacity:1;
 }
 
-footer{
-  background:var(--dark);
-  color:#cbd5e1;
-  text-align:center;
-  padding:35px 5%;
-  margin-top:30px;
-}
-
-footer strong{
-  color:white;
-}
+/* MOBILE */
 
 @media(max-width:800px){
-  .header{
-    align-items:flex-start;
-    flex-direction:column;
-  }
 
-  .nav{
-    width:100%;
-  }
+    .features{
+        grid-template-columns:1fr;
+    }
 
-  .nav button{
-    flex:1;
-  }
+    .courses{
+        grid-template-columns:1fr;
+    }
 
-  .features,
-  .courses,
-  .premium-tools{
-    grid-template-columns:1fr;
-  }
+    .lesson-layout{
+        grid-template-columns:1fr;
+    }
 
-  .course-layout{
-    grid-template-columns:1fr;
-  }
+    .lesson-list{
+        position:static;
+    }
 
-  .xp-box{
-    grid-template-columns:1fr;
-  }
+    header{
+        padding:15px 4%;
+    }
 
-  .hero{
-    padding:65px 5%;
-  }
+    .logo{
+        font-size:19px;
+    }
 
-  .premium-features{
-    grid-template-columns:1fr;
-  }
+    nav button{
+        padding:8px;
+        font-size:13px;
+    }
+
+    .hero{
+        padding:55px 10px;
+    }
+
+    .lesson-content{
+        padding:22px;
+    }
+
+    .course-header{
+        padding:25px;
+    }
+
+    .course-header h1{
+        font-size:30px;
+    }
+
+    .lesson-content h2{
+        font-size:27px;
+    }
+
+    .lesson-navigation{
+        flex-direction:column;
+    }
+
+    .lesson-navigation .btn{
+        width:100%;
+    }
 }
+
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="logo">📚 My Education</div>
+<header>
 
-  <nav class="nav">
-    <button onclick="showHome()">Home</button>
-    <button onclick="scrollToCourses()">Courses</button>
-    <button onclick="showAbout()">About</button>
-    <button class="premium-nav" onclick="openPremium()">👑 Premium</button>
-  </nav>
+    <div class="logo">
+        📚 <span>My</span> Education
+    </div>
+
+    <nav>
+        <button onclick="showHome()">Home</button>
+        <button onclick="showHome();scrollToCourses()">Courses</button>
+        <button onclick="showAbout()">About</button>
+    </nav>
+
 </header>
 
 
 <!-- HOME -->
-<main id="homePage" class="page active">
 
-<section class="hero">
-  <h1>Learn. Build. Grow.</h1>
-  <p>
-    A simple learning platform designed to help you understand technology,
-    develop useful skills and turn knowledge into real-world projects.
-  </p>
+<section id="homePage" class="page active">
 
-  <button class="btn" onclick="scrollToCourses()">
-    🚀 Start Learning
-  </button>
-</section>
+    <div class="hero">
 
+        <div class="container">
 
-<section class="section">
-  <div class="section-title">
-    <h2>Why My Education?</h2>
-    <p>Learn by understanding, practicing and challenging yourself.</p>
-  </div>
+            <h1>
+                Learn.<br>
+                <span class="gradient-text">Build. Grow.</span>
+            </h1>
 
-  <div class="features">
+            <p>
+                Free, interactive education for students who want
+                to understand technology, digital skills, artificial
+                intelligence and business.
+            </p>
 
-    <div class="card">
-      <div class="card-icon">🧠</div>
-      <h3>Understand</h3>
-      <p>
-        Learn important concepts in a simple way instead of memorizing
-        complicated definitions.
-      </p>
-    </div>
+            <div class="hero-buttons">
 
-    <div class="card">
-      <div class="card-icon">🛠️</div>
-      <h3>Practice</h3>
-      <p>
-        Apply what you learn using examples, activities and practical
-        exercises.
-      </p>
-    </div>
+                <button class="btn" onclick="scrollToCourses()">
+                    🚀 Start Learning
+                </button>
 
-    <div class="card">
-      <div class="card-icon">🔥</div>
-      <h3>Challenge Yourself</h3>
-      <p>
-        Test your knowledge with quizzes and keep improving your skills.
-      </p>
-    </div>
+            </div>
 
-  </div>
-</section>
-
-
-<section id="coursesSection" class="section">
-
-  <div class="section-title">
-    <h2>Courses</h2>
-    <p>Choose a subject and start learning.</p>
-  </div>
-
-  <div class="courses">
-
-    <div class="course-card">
-      <div class="course-icon">💻</div>
-      <h3>Web Development</h3>
-      <p>Learn HTML, CSS and JavaScript and understand how websites work.</p>
-      <button class="btn" onclick="openCourse('web')">
-        Start Course
-      </button>
-    </div>
-
-    <div class="course-card">
-      <div class="course-icon">🤖</div>
-      <h3>Artificial Intelligence</h3>
-      <p>Understand AI, machine learning and responsible AI usage.</p>
-      <button class="btn" onclick="openCourse('ai')">
-        Start Course
-      </button>
-    </div>
-
-    <div class="course-card">
-      <div class="course-icon">🌐</div>
-      <h3>Digital Skills</h3>
-      <p>Learn about the internet, online safety and digital productivity.</p>
-      <button class="btn" onclick="openCourse('digital')">
-        Start Course
-      </button>
-    </div>
-
-    <div class="course-card">
-      <div class="course-icon">💼</div>
-      <h3>Business Basics</h3>
-      <p>Understand businesses, problems, ideas and starting small.</p>
-      <button class="btn" onclick="openCourse('business')">
-        Start Course
-      </button>
-    </div>
-
-
-    <!-- PREMIUM -->
-    <div class="course-card premium-card">
-      <div class="course-icon">👑</div>
-
-      <h3>My Education Premium</h3>
-
-      <p>
-        Unlock advanced challenges, certificates, study tools,
-        XP levels and exclusive learning features.
-      </p>
-
-      <div class="premium-price">
-        $0.50 <small>one-time</small>
-      </div>
-
-      <div class="premium-features">
-        <div class="premium-feature">🏆 Certificates</div>
-        <div class="premium-feature">⚡ XP & Levels</div>
-        <div class="premium-feature">🧠 Exam Mode</div>
-        <div class="premium-feature">📊 Progress Stats</div>
-        <div class="premium-feature">📝 Study Notes</div>
-        <div class="premium-feature">🚀 Premium Challenges</div>
-      </div>
-
-      <button class="btn gold" onclick="openPremium()">
-        👑 Unlock Premium
-      </button>
-    </div>
-
-  </div>
-</section>
-
-</main>
-
-
-<!-- ABOUT -->
-<section id="aboutPage" class="page">
-
-  <div class="section">
-
-    <div class="section-title">
-      <h2>About My Education</h2>
-      <p>Learn. Build. Grow.</p>
-    </div>
-
-    <div class="about-box">
-
-      <h2>Education should be accessible.</h2>
-
-      <br>
-
-      <p>
-        My Education is a learning platform focused on making useful
-        technology and business concepts easier to understand.
-      </p>
-
-      <br>
-
-      <p>
-        Students can learn at their own pace, complete lessons,
-        answer quizzes and track their progress.
-      </p>
-
-      <br>
-
-      <p>
-        The Premium version adds additional tools designed to make
-        studying more interactive.
-      </p>
+        </div>
 
     </div>
 
-  </div>
+
+    <div class="container">
+
+        <div class="features">
+
+            <div class="feature">
+                <div class="feature-icon">🧠</div>
+                <h3>Understand</h3>
+                <p>Learn concepts with clear explanations instead of memorizing random facts.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">💻</div>
+                <h3>Practice</h3>
+                <p>See real examples and interactive code demonstrations.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <h3>Challenge Yourself</h3>
+                <p>Complete quizzes and test what you have learned.</p>
+            </div>
+
+        </div>
+
+
+        <div id="coursesSection">
+
+            <div class="section-title">
+
+                <h2>Choose Your Course</h2>
+
+                <p>
+                    Pick a subject and start learning.
+                </p>
+
+            </div>
+
+
+            <div class="courses">
+
+
+                <!-- WEB DEVELOPMENT -->
+
+                <div class="course-card">
+
+                    <div class="course-icon">💻</div>
+
+                    <h3>Web Development</h3>
+
+                    <p>
+                        Learn how websites are built using HTML,
+                        CSS and JavaScript.
+                    </p>
+
+                    <div class="course-meta">
+                        <span class="badge">3 Lessons</span>
+                        <span class="badge">Beginner</span>
+                        <span class="badge">Quizzes</span>
+                    </div>
+
+                    <button class="btn" onclick="openCourse('web')">
+                        Start Course →
+                    </button>
+
+                </div>
+
+
+                <!-- AI -->
+
+                <div class="course-card">
+
+                    <div class="course-icon">🤖</div>
+
+                    <h3>Artificial Intelligence</h3>
+
+                    <p>
+                        Understand AI, machine learning,
+                        data and modern AI tools.
+                    </p>
+
+                    <div class="course-meta">
+                        <span class="badge">3 Lessons</span>
+                        <span class="badge">Beginner</span>
+                        <span class="badge">Quizzes</span>
+                    </div>
+
+                    <button class="btn" onclick="openCourse('ai')">
+                        Start Course →
+                    </button>
+
+                </div>
+
+
+                <!-- DIGITAL SKILLS -->
+
+                <div class="course-card">
+
+                    <div class="course-icon">📱</div>
+
+                    <h3>Digital Skills</h3>
+
+                    <p>
+                        Learn useful internet, safety and
+                        productivity skills.
+                    </p>
+
+                    <div class="course-meta">
+                        <span class="badge">3 Lessons</span>
+                        <span class="badge">Beginner</span>
+                        <span class="badge">Quizzes</span>
+                    </div>
+
+                    <button class="btn" onclick="openCourse('digital')">
+                        Start Course →
+                    </button>
+
+                </div>
+
+
+                <!-- BUSINESS -->
+
+                <div class="course-card">
+
+                    <div class="course-icon">📈</div>
+
+                    <h3>Business Basics</h3>
+
+                    <p>
+                        Learn how businesses solve problems,
+                        create value and grow.
+                    </p>
+
+                    <div class="course-meta">
+                        <span class="badge">3 Lessons</span>
+                        <span class="badge">Beginner</span>
+                        <span class="badge">Quizzes</span>
+                    </div>
+
+                    <button class="btn" onclick="openCourse('business')">
+                        Start Course →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </section>
 
 
 <!-- COURSE PAGE -->
+
 <section id="coursePage" class="page">
 
-  <div class="course-header">
-    <div class="course-header-inner">
+    <div class="container">
 
-      <button class="btn secondary" onclick="showHome()">
-        ← Back
-      </button>
+        <div class="course-header">
 
-      <h1 id="courseTitle"></h1>
-      <p id="courseDescription"></p>
+            <button class="back-btn" onclick="showHome()">
+                ← Back to Courses
+            </button>
 
-      <div class="progress-box">
-        <strong id="progressText">0% Complete</strong>
+            <h1 id="courseTitle"></h1>
 
-        <div class="progress-bar">
-          <div id="progressFill" class="progress-fill"></div>
+            <p id="courseDescription"></p>
+
         </div>
-      </div>
+
+
+        <div class="progress-box">
+
+            <div class="progress-top">
+
+                <span>Course Progress</span>
+
+                <span id="progressText">0%</span>
+
+            </div>
+
+            <div class="progress">
+
+                <div id="progressBar" class="progress-bar"></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="lesson-layout">
+
+            <aside class="lesson-list" id="lessonList"></aside>
+
+            <main class="lesson-content" id="lessonContent"></main>
+
+        </div>
 
     </div>
-  </div>
-
-
-  <div class="course-layout">
-
-    <aside class="lesson-sidebar">
-      <h3>📚 Lessons</h3>
-      <div id="lessonList"></div>
-    </aside>
-
-    <article class="lesson-content">
-
-      <div id="lessonContent"></div>
-
-      <div class="lesson-actions">
-        <button class="btn secondary" onclick="previousLesson()">
-          ← Previous
-        </button>
-
-        <button class="btn green" onclick="completeLesson()">
-          ✓ Complete Lesson
-        </button>
-
-        <button class="btn" onclick="nextLesson()">
-          Next →
-        </button>
-      </div>
-
-    </article>
-
-  </div>
 
 </section>
 
 
-<!-- PREMIUM DASHBOARD -->
-<section id="premiumDashboard" class="premium-dashboard" style="display:none;">
+<!-- ABOUT -->
 
-  <div class="section">
+<section id="aboutPage" class="page">
 
-    <div class="premium-banner">
+    <div class="container">
 
-      <h2>👑 My Education Premium</h2>
+        <div class="about">
 
-      <p>
-        You have Premium access. Keep learning and build your XP.
-      </p>
+            <h2>About My Education</h2>
 
-      <span class="premium-status">
-        ✓ PREMIUM ACTIVE
-      </span>
+            <p>
+                My Education is a free learning project designed
+                to make digital education easier to understand.
+            </p>
 
-    </div>
+            <p>
+                Instead of only reading long textbook paragraphs,
+                students can learn through explanations, examples,
+                visual diagrams and interactive quizzes.
+            </p>
 
+            <p>
+                The goal is simple:
+                <strong>Learn something useful every day.</strong>
+            </p>
 
-    <div class="xp-box">
+            <button class="btn" onclick="showHome()">
+                ← Back Home
+            </button>
 
-      <div class="xp-stat">
-        <strong id="xpValue">0</strong>
-        XP
-      </div>
-
-      <div class="xp-stat">
-        <strong id="levelValue">1</strong>
-        Level
-      </div>
-
-      <div class="xp-stat">
-        <strong id="premiumLessonsValue">0</strong>
-        Lessons
-      </div>
+        </div>
 
     </div>
-
-
-    <div class="premium-tools">
-
-      <div class="premium-tool">
-
-        <h3>🧠 Exam Mode</h3>
-
-        <p>
-          Take a mixed exam using questions from your courses.
-        </p>
-
-        <button class="btn gold" onclick="startExamMode()">
-          Start Exam
-        </button>
-
-      </div>
-
-
-      <div class="premium-tool">
-
-        <h3>🏆 Certificate</h3>
-
-        <p>
-          Generate a printable My Education completion certificate.
-        </p>
-
-        <button class="btn gold" onclick="generateCertificate()">
-          Generate Certificate
-        </button>
-
-      </div>
-
-
-      <div class="premium-tool">
-
-        <h3>📝 Study Notes</h3>
-
-        <p>
-          Save personal study notes directly in your browser.
-        </p>
-
-        <textarea
-          id="studyNotes"
-          class="notes"
-          placeholder="Write your study notes here..."
-        ></textarea>
-
-        <br><br>
-
-        <button class="btn" onclick="saveNotes()">
-          Save Notes
-        </button>
-
-      </div>
-
-
-      <div class="premium-tool">
-
-        <h3>🚀 Premium Challenge</h3>
-
-        <p>
-          Complete lessons, earn XP and reach higher levels.
-        </p>
-
-        <button class="btn gold" onclick="premiumChallenge()">
-          Take Challenge
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </section>
-
-
-<!-- PREMIUM MODAL -->
-<div id="premiumModal" class="premium-modal">
-
-  <div class="premium-modal-box">
-
-    <h2>👑 Unlock Premium</h2>
-
-    <p>
-      Get additional tools for only <strong>$0.50 one-time</strong>.
-    </p>
-
-    <ul class="premium-list">
-
-      <li>🏆 Generate learning certificates</li>
-      <li>⚡ Earn XP and level up</li>
-      <li>🧠 Premium Exam Mode</li>
-      <li>📊 Learning statistics</li>
-      <li>📝 Personal study notes</li>
-      <li>🚀 Premium challenges</li>
-
-    </ul>
-
-    <div class="premium-actions">
-
-      <button class="btn gold" onclick="activatePremiumDemo()">
-        🧪 Try Premium Demo
-      </button>
-
-      <button class="btn secondary" onclick="closePremium()">
-        Maybe Later
-      </button>
-
-    </div>
-
-    <br>
-
-    <small style="color:#64748b;">
-      Demo mode unlocks Premium locally on this device.
-      A real payment system must be connected before charging customers.
-    </small>
-
-  </div>
-
-</div>
 
 
 <footer>
-  <strong>📚 My Education</strong>
-  <br>
-  Learn. Build. Grow.
-  <br><br>
-  © 2026 My Education
+
+    <p>📚 My Education</p>
+
+    <p>Learn. Build. Grow.</p>
+
 </footer>
 
 
@@ -1065,1645 +1003,1887 @@ footer strong{
 
 <script>
 
-/* =========================
+/* =========================================================
    COURSE DATA
-========================= */
+========================================================= */
 
 const courses = {
 
-  web: {
-    title:"Web Development",
-    description:"Learn how websites are structured, styled and made interactive.",
+web:{
+    title:"💻 Web Development",
+    description:"Learn the foundations of websites using HTML, CSS and JavaScript.",
+
     lessons:[
 
-      {
+    {
         title:"HTML — The Structure of a Website",
 
-        definition:"HTML stands for HyperText Markup Language. It is used to structure content on a webpage.",
+        definition:`
+            HTML stands for HyperText Markup Language.
+            It is the standard language used to describe the
+            structure and meaning of content on a web page.
 
-        explanation:
-        "HTML tells the browser what different pieces of content are. For example, headings, paragraphs, buttons, images and links can all be represented using HTML elements.",
+            HTML does not mainly control how beautiful a website
+            looks or how complicated its behaviour is. Instead,
+            HTML tells the browser what the different pieces of
+            content are.
 
-        visual:
-`┌─────────────────────────┐
-│        Website          │
-├─────────────────────────┤
-│ Heading                 │
-│ Paragraph               │
-│ Image                   │
-│ Button                  │
-└─────────────────────────┘`,
+            For example, a heading can be represented as a heading,
+            a paragraph as a paragraph, an image as an image and
+            a link as a link.
 
-        code:
-`<!DOCTYPE html>
+            Think of HTML as the skeleton or framework of a website.
+            Without structure, a browser would not know how the
+            different pieces of content are intended to relate
+            to one another.
+        `,
+
+        explanation:`
+            HTML documents are made from elements. An element can
+            contain text, other elements or attributes that provide
+            additional information.
+
+            A basic page normally contains a document structure,
+            a head section containing information about the page,
+            and a body containing the content visitors see.
+
+            Learning HTML is one of the first steps toward
+            understanding web development because CSS and JavaScript
+            can build on top of the structure HTML provides.
+        `,
+
+        visual:`
+            <div class="visual-title">🧩 Think of a Website Like a Building</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">
+                    🦴<br>
+                    <strong>HTML</strong><br>
+                    Structure
+                </div>
+
+                <div class="arrow">+</div>
+
+                <div class="visual-box">
+                    🎨<br>
+                    <strong>CSS</strong><br>
+                    Appearance
+                </div>
+
+                <div class="arrow">+</div>
+
+                <div class="visual-box">
+                    ⚡<br>
+                    <strong>JavaScript</strong><br>
+                    Behaviour
+                </div>
+
+            </div>
+        `,
+
+        code:`
+<!DOCTYPE html>
 <html>
 <head>
-  <title>My Website</title>
+    <title>My First Page</title>
 </head>
 
 <body>
-  <h1>Hello World</h1>
-  <p>Welcome to my website.</p>
+
+    <h1>Welcome!</h1>
+
+    <p>I am learning web development.</p>
+
+    <button>Click Me</button>
+
 </body>
-</html>`,
+</html>
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What does HTML mainly do?",
-            options:[
-              "Structure webpage content",
-              "Create internet connections",
-              "Edit videos",
-              "Store electricity"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"HTML stands for ______ Markup Language.",
-            answer:"hypertext"
-          }
+            {
+                type:"mcq",
+                question:"What does HTML mainly provide?",
+                options:[
+                    "Website structure",
+                    "Internet speed",
+                    "Computer storage",
+                    "A Wi-Fi signal"
+                ],
+                answer:"Website structure"
+            },
+
+            {
+                type:"fill",
+                question:"HTML stands for HyperText ______ Language.",
+                answer:["Markup"],
+                hint:"The missing word begins with M."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"CSS — Make Websites Beautiful",
 
-        definition:"CSS stands for Cascading Style Sheets. It controls how HTML content looks.",
+        definition:`
+            CSS stands for Cascading Style Sheets.
+            CSS is used to control the presentation and appearance
+            of HTML content.
 
-        explanation:
-        "CSS can change colors, spacing, fonts, layouts, borders and many other visual properties of a website.",
+            With CSS you can control things such as colours,
+            fonts, spacing, borders, backgrounds, layouts,
+            animations and responsive behaviour.
 
-        visual:
-`HTML
- ↓
-CSS
- ↓
-Colors + Layout + Fonts
- ↓
-Beautiful Website`,
+            If HTML is the structure of a website, CSS can be
+            thought of as the design system that determines how
+            that structure looks.
+        `,
 
-        code:
-`body {
-  background: #f5f7fb;
-  font-family: Arial;
+        explanation:`
+            CSS can be written directly inside an HTML document,
+            but larger projects commonly place CSS in separate
+            files.
+
+            CSS uses selectors to choose elements and declarations
+            to describe the styles that should be applied.
+
+            One of the most important ideas in modern CSS is
+            responsive design. A responsive website can adapt its
+            layout to different screen sizes such as phones,
+            tablets and computers.
+        `,
+
+        visual:`
+            <div class="visual-title">🎨 HTML + CSS</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">
+                    HTML<br>
+                    <strong>Button</strong>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">
+                    CSS<br>
+                    <strong>Colour</strong><br>
+                    <strong>Size</strong><br>
+                    <strong>Spacing</strong>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">
+                    ✨<br>
+                    Finished Design
+                </div>
+
+            </div>
+        `,
+
+        code:`
+button {
+    background: blue;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
 }
 
-h1 {
-  color: blue;
-}`,
+button:hover {
+    transform: translateY(-2px);
+}
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What is CSS mainly used for?",
-            options:[
-              "Styling webpages",
-              "Charging a phone",
-              "Sending SMS",
-              "Creating electricity"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"CSS stands for Cascading Style ______.",
-            answer:"sheets"
-          }
+            {
+                type:"mcq",
+                question:"What is CSS mainly used for?",
+                options:[
+                    "Styling and layout",
+                    "Creating a SIM card",
+                    "Increasing RAM",
+                    "Sending emails"
+                ],
+                answer:"Styling and layout"
+            },
+
+            {
+                type:"fill",
+                question:"CSS stands for Cascading Style ______.",
+                answer:["Sheets"],
+                hint:"The missing word starts with S."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"JavaScript — Make Websites Interactive",
 
-        definition:"JavaScript is a programming language commonly used to make webpages interactive.",
+        definition:`
+            JavaScript is a programming language commonly used
+            to add behaviour and interactivity to websites.
 
-        explanation:
-        "JavaScript can respond to button clicks, change content, calculate values, create interactive applications and much more.",
+            While HTML describes structure and CSS controls
+            presentation, JavaScript can respond to events,
+            calculate values, change content, modify styles,
+            communicate with web services and control more
+            complicated application behaviour.
 
-        visual:
-`User
- ↓
-Clicks Button
- ↓
-JavaScript
- ↓
-Website Changes`,
+            For example, when you press a button and something
+            changes without the entire page being reloaded,
+            JavaScript may be responsible for that behaviour.
 
-        code:
-`function sayHello() {
-  alert("Hello!");
-}`,
+            JavaScript can work with information stored in
+            variables, make decisions using conditions, repeat
+            operations with loops, organize reusable behaviour
+            with functions and interact with the browser through
+            web APIs.
+
+            This makes JavaScript one of the most important
+            technologies for creating interactive web experiences.
+        `,
+
+        explanation:`
+            Imagine a website as a person.
+
+            HTML gives the person a structure.
+            CSS gives the person an appearance.
+            JavaScript gives the person the ability to react.
+
+            JavaScript can listen for an event such as a click.
+            When the event happens, your program can execute a
+            function.
+
+            A variable can store information. A condition can
+            allow the program to choose between different paths.
+            A function can package instructions so they can be
+            reused.
+
+            JavaScript is also not limited to websites. It is
+            used in many other environments, including server-side
+            programming and development tools.
+        `,
+
+        visual:`
+            <div class="visual-title">⚡ How JavaScript Can React</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">
+                    👆<br>
+                    User clicks
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">
+                    ⚡<br>
+                    JavaScript
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">
+                    🖥️<br>
+                    Page changes
+                </div>
+
+            </div>
+        `,
+
+        code:`
+const button = document.querySelector("#hello");
+
+button.addEventListener("click", function(){
+
+    alert("Hello, learner!");
+
+});
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What can JavaScript do?",
-            options:[
-              "Make websites interactive",
-              "Only change paper",
-              "Only create images",
-              "Only play music"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"JavaScript is a programming ______.",
-            answer:"language"
-          }
+            {
+                type:"mcq",
+                question:"What is JavaScript commonly used for?",
+                options:[
+                    "Adding behaviour and interactivity",
+                    "Only changing Wi-Fi passwords",
+                    "Only writing documents",
+                    "Charging a phone"
+                ],
+                answer:"Adding behaviour and interactivity"
+            },
+
+            {
+                type:"fill",
+                question:"JavaScript can make a website more ______.",
+                answer:["interactive"],
+                hint:"Think about websites responding to clicks."
+            },
+
+            {
+                type:"mcq",
+                question:"Which word can declare a JavaScript variable?",
+                options:[
+                    "const",
+                    "style",
+                    "html",
+                    "paint"
+                ],
+                answer:"const"
+            }
         ]
-      }
+    }
 
     ]
-  },
+},
 
 
-  ai: {
-    title:"Artificial Intelligence",
-    description:"Understand AI, machine learning and responsible AI usage.",
+/* =========================================================
+   AI
+========================================================= */
+
+ai:{
+    title:"🤖 Artificial Intelligence",
+    description:"Understand AI, machine learning and how modern AI systems work.",
+
     lessons:[
 
-      {
+    {
         title:"What Is Artificial Intelligence?",
 
-        definition:"Artificial Intelligence is technology that enables computers to perform tasks that normally require human-like intelligence.",
+        definition:`
+            Artificial Intelligence, commonly called AI, is a field
+            of computing focused on creating systems that can perform
+            tasks that normally require aspects of human intelligence.
 
-        explanation:
-        "AI can be used for tasks such as recognizing patterns, understanding language, making predictions and generating content.",
+            These tasks can include recognizing patterns,
+            understanding language, making predictions, generating
+            content, solving problems and making decisions based
+            on available information.
 
-        visual:
-`Data
- ↓
-AI System
- ↓
-Pattern Recognition
- ↓
-Prediction / Output`,
+            AI is not one single program. It is a broad field
+            containing many different approaches and technologies.
+        `,
 
-        code:
-`Example:
+        explanation:`
+            Some AI systems are designed for a narrow purpose.
+            For example, a system might classify images, recommend
+            content or recognize speech.
 
-Input → AI → Output
+            Modern AI systems often depend on algorithms,
+            mathematical methods, data and computing resources.
 
-"Translate Hello"
-       ↓
-      AI
-       ↓
-"Bonjour"`,
+            It is important to remember that an AI system can make
+            mistakes. A confident-looking answer is not automatically
+            a correct answer, so important information should be
+            checked against trustworthy sources.
+        `,
+
+        visual:`
+            <div class="visual-title">🤖 A Simple AI Picture</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">
+                    📊<br>
+                    Data
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">
+                    🧠<br>
+                    AI System
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">
+                    💡<br>
+                    Output
+                </div>
+
+            </div>
+        `,
+
+        code:`
+const question = "What is AI?";
+
+console.log(
+    "AI systems can process information "
+    + "and produce useful outputs."
+);
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What is AI?",
-            options:[
-              "Technology that can perform intelligent tasks",
-              "A type of battery",
-              "A keyboard",
-              "A web browser"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"AI can recognize ______ in data.",
-            answer:"patterns"
-          }
+            {
+                type:"mcq",
+                question:"What is AI?",
+                options:[
+                    "A field of computing involving intelligent behaviour",
+                    "A type of battery",
+                    "A phone brand",
+                    "A programming keyboard"
+                ],
+                answer:"A field of computing involving intelligent behaviour"
+            },
+
+            {
+                type:"fill",
+                question:"AI stands for Artificial ______.",
+                answer:["Intelligence"],
+                hint:"The missing word begins with I."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"How Machine Learning Works",
 
-        definition:"Machine learning is a way for computers to learn patterns from data.",
+        definition:`
+            Machine learning is a branch of AI in which algorithms
+            learn patterns from data and use those patterns to make
+            predictions or decisions.
 
-        explanation:
-        "Instead of explicitly programming every possible answer, a machine-learning system can learn from examples and use those patterns to make predictions.",
+            Instead of manually writing every possible rule,
+            a machine-learning system can be trained using examples.
 
-        visual:
-`Training Data
-      ↓
-Machine Learning
-      ↓
-Learn Patterns
-      ↓
-New Data
-      ↓
-Prediction`,
+            The quality and suitability of the training data can
+            strongly affect the quality of the resulting system.
+        `,
 
-        code:
-`Examples:
+        explanation:`
+            A simplified machine-learning process might look like:
 
-Training:
-Cat → Cat
-Cat → Cat
-Dog → Dog
-Dog → Dog
+            Data → Training → Model → Prediction
 
-New image → Model → Prediction`,
+            During training, an algorithm processes examples and
+            adjusts internal parameters to better perform a task.
+
+            After training, the resulting model can receive new
+            information and produce an output.
+
+            Real machine learning is much more complicated than
+            this simplified picture, but the basic idea helps explain
+            why data is so important.
+        `,
+
+        visual:`
+            <div class="visual-title">🧠 Machine Learning Flow</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">📚<br>Examples</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">⚙️<br>Training</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🧠<br>Model</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🎯<br>Prediction</div>
+
+            </div>
+        `,
+
+        code:`
+const examples = [
+    "cat",
+    "cat",
+    "dog",
+    "dog"
+];
+
+console.log("Learning from examples...");
+console.log(examples);
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What does machine learning learn from?",
-            options:[
-              "Data",
-              "Water",
-              "Electricity only",
-              "Paper"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Machine learning learns ______ from data.",
-            answer:"patterns"
-          }
+            {
+                type:"mcq",
+                question:"What does machine learning learn from?",
+                options:[
+                    "Data and examples",
+                    "Only electricity",
+                    "Nothing",
+                    "Phone brightness"
+                ],
+                answer:"Data and examples"
+            },
+
+            {
+                type:"fill",
+                question:"Machine learning uses ______ to learn patterns.",
+                answer:["data"],
+                hint:"Computers need information to find patterns."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"Using AI Responsibly",
 
-        definition:"Responsible AI means using AI carefully, safely and ethically.",
+        definition:`
+            Responsible AI means designing and using AI systems
+            thoughtfully, with attention to accuracy, privacy,
+            fairness, safety and the effects an AI system can have
+            on people.
 
-        explanation:
-        "AI systems can make mistakes or reflect problems in their training data. Important information should therefore be checked instead of blindly trusting an AI output.",
+            AI tools can be extremely useful, but they should not
+            automatically be treated as perfect sources of truth.
+        `,
 
-        visual:
-`AI Output
-   ↓
-Check
-   ↓
-Think
-   ↓
-Verify
-   ↓
-Use Responsibly`,
+        explanation:`
+            When using an AI tool, ask questions such as:
 
-        code:
-`Good AI workflow:
+            Is the information correct?
+            Where did the information come from?
+            Could the answer contain a mistake?
+            Am I sharing private information?
+            Is this an appropriate use of AI?
 
-Ask
- ↓
-Review
- ↓
-Verify
- ↓
-Improve
- ↓
-Use`,
+            Learning to check AI output is an important digital skill.
+        `,
+
+        visual:`
+            <div class="visual-title">🛡️ Responsible AI Checklist</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">🔍<br>Check</div>
+
+                <div class="arrow">+</div>
+
+                <div class="visual-box">🔐<br>Protect Privacy</div>
+
+                <div class="arrow">+</div>
+
+                <div class="visual-box">🧠<br>Think</div>
+
+                <div class="arrow">=</div>
+
+                <div class="visual-box">✅<br>Responsible Use</div>
+
+            </div>
+        `,
+
+        code:`
+const aiAnswer = "An AI-generated answer";
+
+if (aiAnswer) {
+    console.log("Check important information!");
+}
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What should you do with important AI-generated information?",
-            options:[
-              "Verify it",
-              "Always assume it is correct",
-              "Ignore it",
-              "Delete the internet"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Responsible AI use includes checking information before ______ it.",
-            answer:"using"
-          }
+            {
+                type:"mcq",
+                question:"Should important AI-generated information always be trusted without checking?",
+                options:[
+                    "No",
+                    "Yes",
+                    "Only at night",
+                    "Only on phones"
+                ],
+                answer:"No"
+            },
+
+            {
+                type:"fill",
+                question:"Protecting personal information is part of AI ______.",
+                answer:["safety","responsibility","responsible use"],
+                hint:"Think about using technology carefully."
+            }
         ]
-      }
+    }
 
     ]
-  },
+},
 
 
-  digital: {
-    title:"Digital Skills",
-    description:"Learn about the internet, online safety and digital productivity.",
+/* =========================================================
+   DIGITAL SKILLS
+========================================================= */
+
+digital:{
+    title:"📱 Digital Skills",
+    description:"Build useful skills for using the internet, devices and digital tools.",
+
     lessons:[
 
-      {
+    {
         title:"Understanding the Internet",
 
-        definition:"The internet is a global network of connected computers and devices.",
+        definition:`
+            The internet is a global network of connected computer
+            networks that allows devices and systems to communicate.
 
-        explanation:
-        "Devices communicate using networking technologies and protocols. Websites are accessed through browsers that communicate with servers.",
+            When you visit a website, your device communicates
+            with other computers through networks using agreed
+            communication protocols.
+        `,
 
-        visual:
-`Your Phone
-    ↓
-Wi-Fi / Mobile Network
-    ↓
-Internet
-    ↓
-Server
-    ↓
-Website`,
+        explanation:`
+            A simplified example is:
 
-        code:
-`Browser
-   ↓
-Request
-   ↓
-Server
-   ↓
-Response
-   ↓
-Webpage`,
+            Your phone → Wi-Fi/router → internet service provider
+            → other networks → website server.
+
+            The real system is much more complex and may involve
+            many networks and computers.
+
+            Websites are commonly accessed through web browsers,
+            which request information from web servers and then
+            display the returned content.
+        `,
+
+        visual:`
+            <div class="visual-title">🌍 A Simplified Internet Journey</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">📱<br>Your Phone</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">📡<br>Router</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🌍<br>Internet</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🖥️<br>Website</div>
+
+            </div>
+        `,
+
+        code:`
+const website = "https://example.com";
+
+console.log("Opening:");
+console.log(website);
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What is the internet?",
-            options:[
-              "A global network of connected devices",
-              "A single computer",
-              "A keyboard",
-              "A battery"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Web browsers communicate with web ______.",
-            answer:"servers"
-          }
+            {
+                type:"mcq",
+                question:"What does the internet allow?",
+                options:[
+                    "Connected systems to communicate",
+                    "Phones to become batteries",
+                    "Screens to become larger",
+                    "Only games to work"
+                ],
+                answer:"Connected systems to communicate"
+            },
+
+            {
+                type:"fill",
+                question:"A web ______ is commonly used to visit websites.",
+                answer:["browser"],
+                hint:"Chrome and Safari are examples."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"Online Safety",
 
-        definition:"Online safety means protecting your accounts, information and devices while using the internet.",
+        definition:`
+            Online safety means using digital services in ways
+            that reduce risks to your privacy, accounts, devices
+            and personal information.
 
-        explanation:
-        "Strong passwords, careful sharing, software updates and recognizing suspicious messages are important parts of online safety.",
+            Good online safety includes using strong passwords,
+            protecting account recovery information, recognizing
+            suspicious messages and thinking carefully before
+            sharing information.
+        `,
 
-        visual:
-`Strong Password
-       +
-Privacy
-       +
-Updates
-       +
-Careful Clicking
-       ↓
-Better Online Safety`,
+        explanation:`
+            One important rule is to avoid sharing sensitive
+            information unnecessarily.
 
-        code:
-`Before clicking:
+            Be careful with unexpected messages asking you to
+            click links, send codes or provide account information.
 
-Is this expected?
-Is the sender trustworthy?
-Does the website look correct?
-Should I ask an adult or teacher?`,
+            Keeping software updated can also help because updates
+            can include security fixes.
+
+            Digital safety is not about being afraid of the
+            internet. It is about understanding how to use it
+            intelligently.
+        `,
+
+        visual:`
+            <div class="visual-title">🛡️ Your Digital Safety Shield</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">🔑<br>Strong Passwords</div>
+
+                <div class="visual-box">🔍<br>Check Links</div>
+
+                <div class="visual-box">🔐<br>Protect Accounts</div>
+
+                <div class="visual-box">📱<br>Update Devices</div>
+
+            </div>
+        `,
+
+        code:`
+const message = "Unexpected account message";
+
+console.log("Pause.");
+console.log("Check before clicking.");
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"Which is a good online safety habit?",
-            options:[
-              "Use strong passwords",
-              "Share passwords publicly",
-              "Click every link",
-              "Give strangers private information"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Keep your account ______ private.",
-            answer:"information"
-          }
+            {
+                type:"mcq",
+                question:"What should you do with a suspicious message?",
+                options:[
+                    "Stop and check it",
+                    "Immediately share your password",
+                    "Send personal information",
+                    "Give the sender your verification code"
+                ],
+                answer:"Stop and check it"
+            },
+
+            {
+                type:"fill",
+                question:"A strong ______ helps protect an account.",
+                answer:["password"],
+                hint:"It is something you use to sign in."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"Digital Productivity",
 
-        definition:"Digital productivity means using digital tools effectively to complete tasks.",
+        definition:`
+            Digital productivity is the effective use of digital
+            devices and software to complete tasks, organize
+            information and communicate.
 
-        explanation:
-        "Calendars, notes, documents, reminders and task-management tools can help organize work and learning.",
+            Productivity is not simply doing more work. It also
+            involves using tools intelligently so that your time
+            and attention are used effectively.
+        `,
 
-        visual:
-`Plan
- ↓
-Organize
- ↓
-Work
- ↓
-Review
- ↓
-Improve`,
+        explanation:`
+            Useful productivity habits include organizing files,
+            naming documents clearly, using calendars or task lists,
+            learning keyboard shortcuts and avoiding unnecessary
+            distractions.
 
-        code:
-`Simple study system:
+            A simple workflow is:
 
-1. Choose a goal
-2. Break it into tasks
-3. Work on one task
-4. Review your progress`,
+            Plan → Work → Review → Improve
+
+            The best tool is not always the most complicated one.
+            A simple tool that you understand and use consistently
+            can be extremely effective.
+        `,
+
+        visual:`
+            <div class="visual-title">⚡ A Simple Productivity Loop</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">📝<br>Plan</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">💻<br>Work</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🔎<br>Review</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🚀<br>Improve</div>
+
+            </div>
+        `,
+
+        code:`
+const tasks = [
+    "Study",
+    "Practice",
+    "Review"
+];
+
+tasks.forEach(function(task){
+    console.log(task);
+});
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What can improve digital productivity?",
-            options:[
-              "Planning tasks",
-              "Ignoring deadlines",
-              "Doing everything randomly",
-              "Deleting your notes"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"A good productivity system starts with a clear ______.",
-            answer:"goal"
-          }
+            {
+                type:"mcq",
+                question:"Which is a useful productivity habit?",
+                options:[
+                    "Organizing tasks",
+                    "Ignoring every deadline",
+                    "Deleting important files",
+                    "Never reviewing your work"
+                ],
+                answer:"Organizing tasks"
+            },
+
+            {
+                type:"fill",
+                question:"Plan → Work → ______ → Improve",
+                answer:["Review"],
+                hint:"The missing step means checking your work."
+            }
         ]
-      }
+    }
 
     ]
-  },
+},
 
 
-  business: {
-    title:"Business Basics",
-    description:"Understand businesses, problems, ideas and starting small.",
+/* =========================================================
+   BUSINESS
+========================================================= */
+
+business:{
+    title:"📈 Business Basics",
+    description:"Understand problems, value, customers and simple business thinking.",
+
     lessons:[
 
-      {
+    {
         title:"What Is a Business?",
 
-        definition:"A business provides products or services that solve problems or satisfy needs, usually in exchange for money.",
+        definition:`
+            A business is an organized activity that provides
+            products or services to customers in exchange for value,
+            commonly involving money.
 
-        explanation:
-        "Businesses can be large or small. A successful business generally creates something people find useful enough to pay for.",
+            Businesses exist in many forms and sizes, from one-person
+            projects to large organizations.
 
-        visual:
-`Problem
-   ↓
-Solution
-   ↓
-Customer
-   ↓
-Value
-   ↓
-Business`,
+            At a basic level, business thinking asks:
+            What problem are we solving?
+            Who needs the solution?
+            What value are we providing?
+            How can the activity continue sustainably?
+        `,
 
-        code:
-`Problem + Useful Solution
-          ↓
-       Customers
-          ↓
-        Revenue`,
+        explanation:`
+            A good business idea is not simply something that sounds
+            cool. It should connect a real problem or need with a
+            useful solution.
+
+            For example, if students struggle to understand a
+            difficult topic, an educational platform could provide
+            explanations and practice exercises.
+
+            The value comes from helping solve the problem.
+        `,
+
+        visual:`
+            <div class="visual-title">💡 Basic Business Idea</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">😕<br>Problem</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">💡<br>Solution</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">❤️<br>Value</div>
+
+            </div>
+        `,
+
+        code:`
+const problem = "Students need easier explanations";
+
+const solution = "Interactive lessons";
+
+console.log(problem);
+console.log(solution);
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What does a business generally provide?",
-            options:[
-              "Products or services",
-              "Only homework",
-              "Electricity only",
-              "Nothing useful"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"Businesses often solve customer ______.",
-            answer:"problems"
-          }
+            {
+                type:"mcq",
+                question:"What should a useful business idea usually address?",
+                options:[
+                    "A real problem or need",
+                    "Only a logo",
+                    "A random colour",
+                    "A phone wallpaper"
+                ],
+                answer:"A real problem or need"
+            },
+
+            {
+                type:"fill",
+                question:"Businesses often create ______ by solving problems.",
+                answer:["value"],
+                hint:"It is what makes a solution useful to someone."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"Finding Problems Worth Solving",
 
-        definition:"A business opportunity can begin with identifying a real problem that people want solved.",
+        definition:`
+            Problem discovery means identifying difficulties,
+            frustrations, needs or opportunities that people
+            actually experience.
 
-        explanation:
-        "Look for repeated frustrations, expensive processes, inconvenient services or unmet needs. Then investigate whether people actually want a solution.",
+            Strong ideas often begin with observation rather than
+            immediately trying to invent a product.
+        `,
 
-        visual:
-`Observe
- ↓
-Find Problem
- ↓
-Talk to People
- ↓
-Test Idea
- ↓
-Improve Solution`,
+        explanation:`
+            Pay attention to repeated complaints and tasks that
+            people find confusing, slow or inconvenient.
 
-        code:
-`Idea:
+            Ask:
 
-Problem:
-Students struggle to organize revision.
+            Who has this problem?
+            How often does it happen?
+            How are people solving it now?
+            Could the process be made easier?
 
-Possible solution:
-A simple study planner.`,
+            The goal is not to assume what people want. It is to
+            learn about the problem and then test whether your
+            proposed solution is actually useful.
+        `,
+
+        visual:`
+            <div class="visual-title">🔎 From Problem to Idea</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">👀<br>Observe</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">❓<br>Ask</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">💡<br>Idea</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🧪<br>Test</div>
+
+            </div>
+        `,
+
+        code:`
+const problem = {
+    users: "Students",
+    difficulty: "Hard topics",
+    opportunity: "Clear explanations"
+};
+
+console.log(problem);
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"What can be a good starting point for a business idea?",
-            options:[
-              "A real problem",
-              "Copying everything blindly",
-              "Ignoring customers",
-              "Making something nobody needs"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"A business idea can begin with finding a real ______.",
-            answer:"problem"
-          }
+            {
+                type:"mcq",
+                question:"What is a good first step when looking for a business idea?",
+                options:[
+                    "Observe real problems",
+                    "Spend money immediately",
+                    "Copy everything blindly",
+                    "Ignore customers"
+                ],
+                answer:"Observe real problems"
+            },
+
+            {
+                type:"fill",
+                question:"Before building a solution, you should ______ whether the idea is useful.",
+                answer:["test"],
+                hint:"You can try a small experiment."
+            }
         ]
-      },
+    },
 
 
-      {
+    {
         title:"Start Small and Improve",
 
-        definition:"Starting small means testing an idea with limited resources before trying to scale it.",
+        definition:`
+            Starting small means testing an idea on a manageable
+            scale before trying to make it large.
 
-        explanation:
-        "You can create a basic version, get feedback and improve it based on what users actually need.",
+            A small version of a product or service can help you
+            learn what users like, what does not work and what
+            should be improved.
+        `,
 
-        visual:
-`Idea
- ↓
-Small Version
- ↓
-Users
- ↓
-Feedback
- ↓
-Improve
- ↓
-Grow`,
+        explanation:`
+            You do not always need a huge product on day one.
 
-        code:
-`Build → Test → Learn → Improve
+            Build a simple version.
+            Let people try it.
+            Listen to useful feedback.
+            Improve the experience.
+            Repeat.
 
-Repeat.`,
+            This process helps reduce wasted effort because you
+            learn from real users rather than making every decision
+            based only on assumptions.
+        `,
+
+        visual:`
+            <div class="visual-title">🚀 Build → Learn → Improve</div>
+
+            <div class="visual-flow">
+
+                <div class="visual-box">🛠️<br>Build Small</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">👥<br>Test</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">💬<br>Feedback</div>
+
+                <div class="arrow">→</div>
+
+                <div class="visual-box">🔧<br>Improve</div>
+
+            </div>
+        `,
+
+        code:`
+let version = 1;
+
+console.log("Build version " + version);
+
+version++;
+
+console.log("Improve version " + version);
+        `,
 
         quiz:[
-          {
-            type:"mcq",
-            question:"Why can starting small be useful?",
-            options:[
-              "It allows you to test and improve an idea",
-              "It guarantees instant success",
-              "It removes the need for customers",
-              "It means never improving"
-            ],
-            answer:0
-          },
-          {
-            type:"fill",
-            question:"After testing, use customer ______ to improve.",
-            answer:"feedback"
-          }
+            {
+                type:"mcq",
+                question:"Why can starting small be useful?",
+                options:[
+                    "It lets you test and learn",
+                    "It guarantees success",
+                    "It removes all problems",
+                    "It means you never improve"
+                ],
+                answer:"It lets you test and learn"
+            },
+
+            {
+                type:"fill",
+                question:"Build → Test → Get feedback → ______",
+                answer:["improve"],
+                hint:"Use feedback to make the product better."
+            }
         ]
-      }
+    }
 
     ]
-  }
+}
 
 };
 
 
-/* =========================
-   COURSE STATE
-========================= */
+/* =========================================================
+   APP STATE
+========================================================= */
 
 let currentCourse = null;
 let currentLesson = 0;
 let selectedAnswers = {};
 
 const completedLessons =
-  JSON.parse(localStorage.getItem("myEducationProgress") || "{}");
+    JSON.parse(localStorage.getItem("myEducationProgress") || "{}");
 
 
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-function hideAllPages(){
-
-  document.getElementById("homePage").classList.remove("active");
-  document.getElementById("aboutPage").classList.remove("active");
-  document.getElementById("coursePage").classList.remove("active");
-
-}
-
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function showHome(){
 
-  hideAllPages();
+    document.querySelectorAll(".page")
+        .forEach(page => page.classList.remove("active"));
 
-  document.getElementById("homePage").classList.add("active");
+    document.getElementById("homePage")
+        .classList.add("active");
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
 function showAbout(){
 
-  hideAllPages();
+    document.querySelectorAll(".page")
+        .forEach(page => page.classList.remove("active"));
 
-  document.getElementById("aboutPage").classList.add("active");
+    document.getElementById("aboutPage")
+        .classList.add("active");
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 
 function scrollToCourses(){
 
-  showHome();
+    showHome();
 
-  setTimeout(()=>{
-    document.getElementById("coursesSection").scrollIntoView({
-      behavior:"smooth"
-    });
-  },50);
+    setTimeout(() => {
+
+        document.getElementById("coursesSection")
+            .scrollIntoView({
+                behavior:"smooth"
+            });
+
+    },100);
 
 }
 
 
-/* =========================
-   COURSE FUNCTIONS
-========================= */
+/* =========================================================
+   OPEN COURSE
+========================================================= */
 
 function openCourse(courseName){
 
-  if(!courses[courseName]) return;
+    currentCourse = courseName;
+    currentLesson = 0;
+    selectedAnswers = {};
 
-  currentCourse = courseName;
-  currentLesson = 0;
-  selectedAnswers = {};
+    document.querySelectorAll(".page")
+        .forEach(page => page.classList.remove("active"));
 
-  hideAllPages();
+    document.getElementById("coursePage")
+        .classList.add("active");
 
-  document.getElementById("coursePage").classList.add("active");
+    renderCourse();
 
-  renderCourse();
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
+
+/* =========================================================
+   RENDER COURSE
+========================================================= */
 
 function renderCourse(){
 
-  const course = courses[currentCourse];
+    const course = courses[currentCourse];
 
-  document.getElementById("courseTitle").textContent =
-    course.title;
+    document.getElementById("courseTitle")
+        .textContent = course.title;
 
-  document.getElementById("courseDescription").textContent =
-    course.description;
+    document.getElementById("courseDescription")
+        .textContent = course.description;
 
-  displayLessons();
-  displayLesson();
-  updateProgress();
+    displayLessons();
 
+    displayLesson();
+
+    updateProgress();
 }
 
+
+/* =========================================================
+   LESSON LIST
+========================================================= */
 
 function displayLessons(){
 
-  const course = courses[currentCourse];
+    const course = courses[currentCourse];
 
-  const list = document.getElementById("lessonList");
+    const list = document.getElementById("lessonList");
 
-  list.innerHTML = "";
+    list.innerHTML = "";
 
-  course.lessons.forEach((lesson,index)=>{
+    course.lessons.forEach((lesson,index) => {
 
-    const button = document.createElement("button");
+        const item = document.createElement("div");
 
-    button.className = "lesson-btn";
+        item.className = "lesson-item";
 
-    if(index === currentLesson){
-      button.classList.add("active");
-    }
+        if(index === currentLesson){
+            item.classList.add("active");
+        }
 
-    if(isLessonCompleted(currentCourse,index)){
-      button.classList.add("completed");
-    }
+        if(isLessonCompleted(currentCourse,index)){
+            item.classList.add("completed");
+        }
 
-    button.innerHTML =
-      `${isLessonCompleted(currentCourse,index) ? "✓ " : ""}${index+1}. ${escapeHtml(lesson.title)}`;
+        item.innerHTML = `
+            ${isLessonCompleted(currentCourse,index) ? "✅" : "📘"}
+            Lesson ${index+1}<br>
+            <small>${lesson.title}</small>
+        `;
 
-    button.onclick = ()=>{
-      currentLesson = index;
-      selectedAnswers = {};
-      displayLessons();
-      displayLesson();
-      window.scrollTo({top:0,behavior:"smooth"});
-    };
+        item.onclick = () => {
 
-    list.appendChild(button);
+            currentLesson = index;
 
-  });
+            selectedAnswers = {};
+
+            displayLessons();
+            displayLesson();
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        };
+
+        list.appendChild(item);
+
+    });
 
 }
 
+
+/* =========================================================
+   DISPLAY LESSON
+========================================================= */
 
 function displayLesson(){
 
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
+    const lesson =
+        courses[currentCourse].lessons[currentLesson];
 
-  const container =
-    document.getElementById("lessonContent");
+    const content =
+        document.getElementById("lessonContent");
 
-  container.innerHTML = `
+    let html = "";
 
-    <h2>${escapeHtml(lesson.title)}</h2>
+    html += `
+        <h2>${lesson.title}</h2>
 
-    <h3>📖 Definition</h3>
+        <div class="definition">
 
-    <div class="definition">
-      ${escapeHtml(lesson.definition)}
-    </div>
+            <strong>📖 Detailed Definition</strong>
 
-    <h3>💡 Explanation</h3>
+            <p>
+                ${lesson.definition}
+            </p>
 
-    <p>
-      ${escapeHtml(lesson.explanation)}
-    </p>
+        </div>
 
-    <h3>👀 Visual</h3>
+        <h3>🧠 Understand It</h3>
 
-    <div class="visual">
-${escapeHtml(lesson.visual)}
-    </div>
+        <p>
+            ${lesson.explanation}
+        </p>
 
-    <h3>💻 Example</h3>
+        <div class="visual">
 
-    <div class="code">
-${escapeHtml(lesson.code)}
-    </div>
+            ${lesson.visual}
 
-    <div id="quizContainer"></div>
-  `;
+        </div>
 
-  renderQuiz();
+        <h3>💻 Code Example</h3>
+
+        <div class="code-box">
+
+            <div class="code-header">
+
+                <span>example.js</span>
+
+                <span>JavaScript</span>
+
+            </div>
+
+            <pre><code>${escapeHtml(lesson.code)}</code></pre>
+
+        </div>
+
+        <div class="quiz">
+
+            <div class="quiz-title">
+
+                <h3>🎮 Knowledge Challenge</h3>
+
+                <span class="badge">
+                    ${lesson.quiz.length} Questions
+                </span>
+
+            </div>
+
+            <p>
+                Get the answer right and keep your learning streak alive! 🔥
+            </p>
+
+            <div id="quizArea"></div>
+
+        </div>
+    `;
+
+
+    html += `
+
+        <div class="complete-box">
+
+            <h3>🏆 Finished this lesson?</h3>
+
+            <p>
+                Complete the quiz, then mark this lesson as complete.
+            </p>
+
+            <button
+                class="btn success"
+                onclick="completeLesson()"
+            >
+                ✅ Mark Lesson Complete
+            </button>
+
+        </div>
+
+    `;
+
+
+    html += `
+
+        <div class="lesson-navigation">
+
+            <button
+                class="btn secondary"
+                onclick="previousLesson()"
+                ${currentLesson === 0 ? "disabled" : ""}
+            >
+                ← Previous
+            </button>
+
+            <button
+                class="btn"
+                onclick="nextLesson()"
+                ${currentLesson === courses[currentCourse].lessons.length-1 ? "disabled" : ""}
+            >
+                Next →
+            </button>
+
+        </div>
+
+    `;
+
+
+    content.innerHTML = html;
+
+    renderQuiz();
 
 }
 
+
+/* =========================================================
+   QUIZ
+========================================================= */
 
 function renderQuiz(){
 
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
+    const lesson =
+        courses[currentCourse].lessons[currentLesson];
 
-  const container =
-    document.getElementById("quizContainer");
+    const quizArea =
+        document.getElementById("quizArea");
 
-  let html = `
-    <div class="quiz">
-      <h3>🧠 Quick Quiz</h3>
-  `;
+    quizArea.innerHTML = "";
 
-  lesson.quiz.forEach((question,index)=>{
+    lesson.quiz.forEach((question,index) => {
 
-    html += `
-      <div class="quiz-question">
+        const questionBox =
+            document.createElement("div");
 
-        <strong>
-          ${index+1}. ${escapeHtml(question.question)}
-        </strong>
-    `;
+        questionBox.className = "question";
 
-    if(question.type === "mcq"){
-
-      question.options.forEach((option,optionIndex)=>{
-
-        const selected =
-          selectedAnswers[index] === optionIndex;
-
-        html += `
-          <button
-            class="option ${selected ? "selected" : ""}"
-            onclick="chooseOption(${index},${optionIndex})"
-          >
-            ${escapeHtml(option)}
-          </button>
+        let html = `
+            <strong>
+                ${index+1}. ${question.question}
+            </strong>
         `;
 
-      });
 
-      html += `
-        <button class="btn" onclick="checkMCQ(${index})">
-          Check Answer
-        </button>
-        <div id="result-${index}" class="quiz-result"></div>
-      `;
+        if(question.type === "mcq"){
 
-    }else{
+            html += `<div class="options">`;
 
-      html += `
-        <input
-          id="fill-${index}"
-          type="text"
-          placeholder="Type your answer"
-          style="
-            width:100%;
-            padding:12px;
-            border:1px solid #e2e8f0;
-            border-radius:9px;
-            margin:10px 0;
-          "
-        >
+            question.options.forEach((option,optionIndex) => {
 
-        <button class="btn" onclick="checkFill(${index})">
-          Check Answer
-        </button>
+                html += `
+                    <button
+                        class="option"
+                        id="option-${index}-${optionIndex}"
+                        onclick="chooseOption(
+                            ${index},
+                            ${optionIndex}
+                        )"
+                    >
+                        ${option}
+                    </button>
+                `;
 
-        <div id="result-${index}" class="quiz-result"></div>
-      `;
+            });
 
-    }
+            html += `</div>`;
 
-    html += `</div>`;
+            html += `
+                <button
+                    class="btn"
+                    style="margin-top:12px"
+                    onclick="checkMCQ(${index})"
+                >
+                    Check Answer
+                </button>
+            `;
 
-  });
+        }
 
-  html += `</div>`;
 
-  container.innerHTML = html;
+        if(question.type === "fill"){
+
+            html += `
+
+                <input
+                    class="fill-input"
+                    id="fill-${index}"
+                    placeholder="Type your answer..."
+                >
+
+                <button
+                    class="btn"
+                    onclick="checkFill(${index})"
+                >
+                    Check Answer ✨
+                </button>
+
+                <p style="font-size:14px;color:#64748b;margin-top:8px">
+                    💡 Hint: ${question.hint}
+                </p>
+
+            `;
+
+        }
+
+
+        html += `
+            <div
+                id="feedback-${index}"
+                class="feedback"
+            ></div>
+        `;
+
+
+        questionBox.innerHTML = html;
+
+        quizArea.appendChild(questionBox);
+
+    });
 
 }
 
 
+/* =========================================================
+   MCQ
+========================================================= */
+
 function chooseOption(questionIndex,optionIndex){
 
-  selectedAnswers[questionIndex] = optionIndex;
+    const lesson =
+        courses[currentCourse].lessons[currentLesson];
 
-  renderQuiz();
+    const question =
+        lesson.quiz[questionIndex];
+
+    question.options.forEach((_,i) => {
+
+        const button =
+            document.getElementById(
+                `option-${questionIndex}-${i}`
+            );
+
+        button.classList.remove("selected");
+
+    });
+
+    const selected =
+        document.getElementById(
+            `option-${questionIndex}-${optionIndex}`
+        );
+
+    selected.classList.add("selected");
+
+    selectedAnswers[questionIndex] =
+        question.options[optionIndex];
 
 }
 
 
 function checkMCQ(questionIndex){
 
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
+    const lesson =
+        courses[currentCourse].lessons[currentLesson];
 
-  const question = lesson.quiz[questionIndex];
+    const question =
+        lesson.quiz[questionIndex];
 
-  const result =
-    document.getElementById(`result-${questionIndex}`);
+    const feedback =
+        document.getElementById(
+            `feedback-${questionIndex}`
+        );
 
-  if(selectedAnswers[questionIndex] === undefined){
+    const selected =
+        selectedAnswers[questionIndex];
 
-    result.textContent = "Choose an answer first.";
-    result.style.color = "var(--red)";
-    return;
 
-  }
+    if(!selected){
 
-  if(selectedAnswers[questionIndex] === question.answer){
+        feedback.className =
+            "feedback show wrong";
 
-    result.textContent = "✓ Correct!";
-    result.style.color = "var(--green)";
+        feedback.textContent =
+            "👀 Choose an answer first!";
 
-    addXPIfPremium(10);
+        return;
 
-  }else{
+    }
 
-    result.textContent = "✗ Not quite. Try again.";
-    result.style.color = "var(--red)";
 
-  }
+    if(selected === question.answer){
+
+        feedback.className =
+            "feedback show correct";
+
+        feedback.textContent =
+            "🎉 Correct! You're on fire! 🔥";
+
+        question.options.forEach((option,i) => {
+
+            const button =
+                document.getElementById(
+                    `option-${questionIndex}-${i}`
+                );
+
+            if(option === question.answer){
+                button.classList.add("correct");
+            }
+
+        });
+
+        showToast("🎉 Correct answer!");
+
+    }else{
+
+        feedback.className =
+            "feedback show wrong";
+
+        feedback.textContent =
+            "❌ Not quite. Try again!";
+
+        question.options.forEach((option,i) => {
+
+            const button =
+                document.getElementById(
+                    `option-${questionIndex}-${i}`
+                );
+
+            if(option === selected){
+                button.classList.add("wrong");
+            }
+
+        });
+
+    }
 
 }
 
+
+/* =========================================================
+   FILL IN THE BLANK
+========================================================= */
 
 function checkFill(questionIndex){
 
-  const lesson =
-    courses[currentCourse].lessons[currentLesson];
+    const lesson =
+        courses[currentCourse].lessons[currentLesson];
 
-  const question = lesson.quiz[questionIndex];
+    const question =
+        lesson.quiz[questionIndex];
 
-  const input =
-    document.getElementById(`fill-${questionIndex}`);
+    const input =
+        document.getElementById(
+            `fill-${questionIndex}`
+        );
 
-  const result =
-    document.getElementById(`result-${questionIndex}`);
+    const feedback =
+        document.getElementById(
+            `feedback-${questionIndex}`
+        );
 
-  const answer =
-    input.value.trim().toLowerCase();
+    const answer =
+        input.value.trim().toLowerCase();
 
-  if(!answer){
 
-    result.textContent = "Enter an answer first.";
-    result.style.color = "var(--red)";
-    return;
+    if(!answer){
 
-  }
+        feedback.className =
+            "feedback show wrong";
 
-  if(answer === question.answer.toLowerCase()){
+        feedback.textContent =
+            "✍️ Type an answer first!";
 
-    result.textContent = "✓ Correct!";
-    result.style.color = "var(--green)";
+        return;
 
-    addXPIfPremium(10);
+    }
 
-  }else{
 
-    result.textContent = "✗ Not quite. Try again.";
-    result.style.color = "var(--red)";
+    const accepted =
+        question.answer.map(
+            value => value.toLowerCase()
+        );
 
-  }
+
+    if(accepted.includes(answer)){
+
+        feedback.className =
+            "feedback show correct";
+
+        feedback.textContent =
+            "🎉 Correct! Your brain just gained XP! 🧠⚡";
+
+        input.style.borderColor =
+            "#16a34a";
+
+        showToast("🧠 +10 XP!");
+
+    }else{
+
+        feedback.className =
+            "feedback show wrong";
+
+        feedback.textContent =
+            "❌ Almost! Read the hint and try again.";
+
+        input.style.borderColor =
+            "#dc2626";
+
+    }
 
 }
 
 
+/* =========================================================
+   COMPLETE LESSON
+========================================================= */
+
 function completeLesson(){
 
-  const key =
-    `${currentCourse}-${currentLesson}`;
-
-  if(!completedLessons[key]){
+    const key =
+        `${currentCourse}-${currentLesson}`;
 
     completedLessons[key] = true;
 
     localStorage.setItem(
-      "myEducationProgress",
-      JSON.stringify(completedLessons)
+        "myEducationProgress",
+        JSON.stringify(completedLessons)
     );
 
-    showToast("✓ Lesson completed!");
+    displayLessons();
 
-    if(isPremium()){
-      addXP(25);
-    }
+    updateProgress();
 
-  }else{
-
-    showToast("You already completed this lesson.");
-
-  }
-
-  displayLessons();
-  updateProgress();
+    showToast("🏆 Lesson completed!");
 
 }
 
+
+/* =========================================================
+   CHECK COMPLETION
+========================================================= */
 
 function isLessonCompleted(course,lesson){
 
-  return !!completedLessons[`${course}-${lesson}`];
+    return completedLessons[
+        `${course}-${lesson}`
+    ] === true;
 
 }
 
+
+/* =========================================================
+   PROGRESS
+========================================================= */
 
 function updateProgress(){
 
-  if(!currentCourse) return;
+    const course =
+        courses[currentCourse];
 
-  const lessons =
-    courses[currentCourse].lessons;
+    let completed = 0;
 
-  let completed = 0;
+    course.lessons.forEach((_,index) => {
 
-  lessons.forEach((_,index)=>{
+        if(isLessonCompleted(currentCourse,index)){
+            completed++;
+        }
 
-    if(isLessonCompleted(currentCourse,index)){
-      completed++;
+    });
+
+    const percentage =
+        Math.round(
+            (completed / course.lessons.length) * 100
+        );
+
+
+    document.getElementById("progressText")
+        .textContent = `${percentage}%`;
+
+    document.getElementById("progressBar")
+        .style.width = `${percentage}%`;
+
+
+    if(percentage === 100){
+
+        showToast("🏆 Course complete! Amazing!");
+
     }
-
-  });
-
-  const percentage =
-    Math.round((completed / lessons.length) * 100);
-
-  document.getElementById("progressText").textContent =
-    `${percentage}% Complete`;
-
-  document.getElementById("progressFill").style.width =
-    `${percentage}%`;
 
 }
 
 
+/* =========================================================
+   NEXT / PREVIOUS
+========================================================= */
+
 function nextLesson(){
 
-  if(currentLesson < courses[currentCourse].lessons.length - 1){
+    const total =
+        courses[currentCourse].lessons.length;
 
-    currentLesson++;
+    if(currentLesson < total - 1){
 
-    selectedAnswers = {};
+        currentLesson++;
 
-    displayLessons();
-    displayLesson();
+        selectedAnswers = {};
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
+        displayLessons();
+        displayLesson();
 
-  }else{
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
 
-    showToast("🎉 You reached the end of this course!");
+    }else{
 
-  }
+        showToast(
+            "🏆 You've reached the end of this course!"
+        );
+
+    }
 
 }
 
 
 function previousLesson(){
 
-  if(currentLesson > 0){
+    if(currentLesson > 0){
 
-    currentLesson--;
+        currentLesson--;
 
-    selectedAnswers = {};
+        selectedAnswers = {};
 
-    displayLessons();
-    displayLesson();
+        displayLessons();
+        displayLesson();
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
-    });
-
-  }else{
-
-    showToast("This is the first lesson.");
-
-  }
-
-}
-
-
-/* =========================
-   PREMIUM SYSTEM
-========================= */
-
-const PREMIUM_KEY =
-  "myEducationPremium";
-
-const XP_KEY =
-  "myEducationXP";
-
-const NOTES_KEY =
-  "myEducationNotes";
-
-
-function isPremium(){
-
-  return localStorage.getItem(PREMIUM_KEY) === "true";
-
-}
-
-
-function openPremium(){
-
-  if(isPremium()){
-
-    showPremiumDashboard();
-
-    return;
-
-  }
-
-  document
-    .getElementById("premiumModal")
-    .classList.add("show");
-
-}
-
-
-function closePremium(){
-
-  document
-    .getElementById("premiumModal")
-    .classList.remove("show");
-
-}
-
-
-function activatePremiumDemo(){
-
-  localStorage.setItem(
-    PREMIUM_KEY,
-    "true"
-  );
-
-  closePremium();
-
-  showPremiumDashboard();
-
-  updatePremiumStats();
-
-  loadNotes();
-
-  showToast("👑 Premium Demo activated!");
-
-}
-
-
-function showPremiumDashboard(){
-
-  document.getElementById("premiumDashboard").style.display =
-    "block";
-
-  document
-    .getElementById("premiumDashboard")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-  updatePremiumStats();
-
-  loadNotes();
-
-}
-
-
-function getXP(){
-
-  return parseInt(
-    localStorage.getItem(XP_KEY) || "0",
-    10
-  );
-
-}
-
-
-function addXP(amount){
-
-  if(!isPremium()) return;
-
-  const oldXP = getXP();
-
-  const newXP = oldXP + amount;
-
-  localStorage.setItem(
-    XP_KEY,
-    newXP
-  );
-
-  updatePremiumStats();
-
-}
-
-
-function addXPIfPremium(amount){
-
-  if(isPremium()){
-    addXP(amount);
-  }
-
-}
-
-
-function updatePremiumStats(){
-
-  if(!isPremium()) return;
-
-  const xp = getXP();
-
-  const level =
-    Math.floor(xp / 100) + 1;
-
-  let lessonCount = 0;
-
-  Object.keys(completedLessons).forEach(key=>{
-
-    if(completedLessons[key]){
-      lessonCount++;
-    }
-
-  });
-
-  document.getElementById("xpValue").textContent =
-    xp;
-
-  document.getElementById("levelValue").textContent =
-    level;
-
-  document.getElementById("premiumLessonsValue").textContent =
-    lessonCount;
-
-}
-
-
-/* =========================
-   NOTES
-========================= */
-
-function saveNotes(){
-
-  const notes =
-    document.getElementById("studyNotes").value;
-
-  localStorage.setItem(
-    NOTES_KEY,
-    notes
-  );
-
-  showToast("📝 Notes saved!");
-
-}
-
-
-function loadNotes(){
-
-  const notes =
-    localStorage.getItem(NOTES_KEY) || "";
-
-  const element =
-    document.getElementById("studyNotes");
-
-  if(element){
-    element.value = notes;
-  }
-
-}
-
-
-/* =========================
-   PREMIUM EXAM
-========================= */
-
-function startExamMode(){
-
-  if(!isPremium()){
-
-    openPremium();
-    return;
-
-  }
-
-  const allQuestions = [];
-
-  Object.values(courses).forEach(course=>{
-
-    course.lessons.forEach(lesson=>{
-
-      lesson.quiz.forEach(question=>{
-
-        if(question.type === "mcq"){
-
-          allQuestions.push({
-            question:question.question,
-            options:question.options,
-            answer:question.answer
-          });
-
-        }
-
-      });
-
-    });
-
-  });
-
-
-  const shuffled =
-    [...allQuestions].sort(
-      ()=>Math.random() - .5
-    );
-
-  const examQuestions =
-    shuffled.slice(0,10);
-
-  let score = 0;
-
-  examQuestions.forEach((question,index)=>{
-
-    const answer =
-      prompt(
-        `Question ${index+1}/${examQuestions.length}\n\n${question.question}\n\n` +
-        question.options
-          .map((option,i)=>`${i+1}. ${option}`)
-          .join("\n") +
-        "\n\nEnter the number of your answer:"
-      );
-
-    const selected =
-      parseInt(answer,10) - 1;
-
-    if(selected === question.answer){
-
-      score++;
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
 
     }
 
-  });
-
-
-  const earnedXP =
-    score * 10;
-
-  addXP(earnedXP);
-
-  alert(
-    `Exam complete!\n\nScore: ${score}/${examQuestions.length}\nXP earned: ${earnedXP}`
-  );
-
 }
 
 
-/* =========================
-   CERTIFICATE
-========================= */
-
-function generateCertificate(){
-
-  if(!isPremium()){
-
-    openPremium();
-    return;
-
-  }
-
-  const name =
-    prompt("Enter your name for the certificate:");
-
-  if(!name || !name.trim()){
-
-    showToast("Certificate cancelled.");
-    return;
-
-  }
-
-  const safeName =
-    escapeHtml(name.trim());
-
-  const certificateWindow =
-    window.open(
-      "",
-      "_blank",
-      "width=900,height=700"
-    );
-
-  if(!certificateWindow){
-
-    showToast("Please allow pop-ups to generate your certificate.");
-    return;
-
-  }
-
-
-  certificateWindow.document.write(`
-
-    <!DOCTYPE html>
-
-    <html>
-
-    <head>
-
-      <title>My Education Certificate</title>
-
-      <style>
-
-        body{
-          font-family:Arial,sans-serif;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          min-height:100vh;
-          background:#f8fafc;
-          margin:0;
-        }
-
-        .certificate{
-          width:800px;
-          min-height:550px;
-          background:white;
-          border:12px solid #f59e0b;
-          padding:50px;
-          text-align:center;
-          box-sizing:border-box;
-        }
-
-        h1{
-          font-size:48px;
-          margin:20px 0;
-        }
-
-        h2{
-          font-size:32px;
-          color:#2563eb;
-        }
-
-        .name{
-          font-size:38px;
-          font-weight:900;
-          margin:30px 0;
-        }
-
-        .small{
-          color:#64748b;
-        }
-
-        @media print{
-          body{
-            background:white;
-          }
-
-          .certificate{
-            border:12px solid #f59e0b;
-          }
-        }
-
-      </style>
-
-    </head>
-
-    <body>
-
-      <div class="certificate">
-
-        <h2>📚 MY EDUCATION</h2>
-
-        <h1>Certificate of Achievement</h1>
-
-        <p>This certificate is proudly presented to</p>
-
-        <div class="name">${safeName}</div>
-
-        <p>
-          for demonstrating commitment to learning
-          and completing learning activities on
-          My Education.
-        </p>
-
-        <br>
-
-        <p class="small">
-          Learn. Build. Grow.
-        </p>
-
-        <br>
-
-        <p class="small">
-          ${new Date().toLocaleDateString()}
-        </p>
-
-      </div>
-
-    </body>
-
-    </html>
-
-  `);
-
-  certificateWindow.document.close();
-
-  setTimeout(()=>{
-    certificateWindow.print();
-  },500);
-
-}
-
-
-/* =========================
-   PREMIUM CHALLENGE
-========================= */
-
-function premiumChallenge(){
-
-  if(!isPremium()){
-
-    openPremium();
-    return;
-
-  }
-
-  const challenges = [
-
-    "💻 Build a simple webpage using HTML.",
-    "🎨 Design a webpage using CSS.",
-    "🤖 Explain one real-world use of AI.",
-    "🌐 Explain how a browser reaches a website.",
-    "💼 Identify one problem that a business could solve."
-
-  ];
-
-  const challenge =
-    challenges[
-      Math.floor(Math.random()*challenges.length)
-    ];
-
-  alert(
-    "🚀 PREMIUM CHALLENGE\n\n" +
-    challenge +
-    "\n\nComplete it and keep improving!"
-  );
-
-  addXP(15);
-
-  showToast("⚡ Challenge XP added!");
-
-}
-
-
-/* =========================
-   UTILITIES
-========================= */
+/* =========================================================
+   HTML ESCAPING FOR CODE
+========================================================= */
 
 function escapeHtml(text){
 
-  return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
+
+/* =========================================================
+   TOAST
+========================================================= */
 
 function showToast(message){
 
-  const toast =
-    document.getElementById("toast");
+    const toast =
+        document.getElementById("toast");
 
-  toast.textContent = message;
+    toast.textContent = message;
 
-  toast.classList.add("show");
+    toast.classList.add("show");
 
-  clearTimeout(window.toastTimer);
+    setTimeout(() => {
 
-  window.toastTimer =
-    setTimeout(()=>{
-      toast.classList.remove("show");
-    },2500);
+        toast.classList.remove("show");
+
+    },2200);
 
 }
-
-
-/* =========================
-   PREMIUM MODAL EVENTS
-========================= */
-
-document
-  .getElementById("premiumModal")
-  .addEventListener("click",function(event){
-
-    if(event.target === this){
-      closePremium();
-    }
-
-  });
-
-
-/* =========================
-   STARTUP
-========================= */
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-  if(isPremium()){
-
-    document.getElementById("premiumDashboard").style.display =
-      "block";
-
-    updatePremiumStats();
-
-    loadNotes();
-
-  }
-
-});
 
 </script>
 
